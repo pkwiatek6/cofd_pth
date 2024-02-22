@@ -1,0 +1,39 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+  <header class="sheet-header flexrow">
+    <img class="profile" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+
+    <div class="header-details flexrow">
+      <h1 class="charname">
+        <input name="name" type="text" value="{{item.name}}" placeholder="Item Name" />
+      </h1>
+      <div class="item-subtitle">
+        <h4 class="item-type">{{localize "MTA.Coil"}}</h4>
+        <span class="item-status"></span>
+      </div>
+      <ul class="summary">
+        <li> 
+          <label>{{localize "MTA.Rating"}}</label> <input name="system.rating" type="number" data-dtype="Number" value="{{system.rating}}" />
+        </li>
+        <li> 
+          <label>{{localize "MTA.Mystery"}}</label> 
+          <input name="system.mystery" type="text" value="{{system.mystery}}" data-koptions="Ascendant/Wyrm/Voivode"/>
+        </li>
+      </ul>
+    </div>
+  </header>
+  <div class="gold-border"> </div>
+
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="sheet-tabs tabs">
+    <a class="item" data-tab="description">Description</a>
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+
+    {{!-- Description Tab --}}
+    <div class="tab" data-tab="description">
+      {{editor enrichedDescription target="system.description" button=true owner=owner editable=editable}}
+    </div>
+  </section>
+</form>

@@ -1,0 +1,111 @@
+<div class="kUltraBlock">
+
+  <div class="flexBlock">
+    <div>
+      <dl>
+        {{#if dicePool}}
+        <dt>Dice Pool:</dt>
+        <dd>
+          <div class="niceNumber" onmousedown="let v = event.target.textContent;let i= this.querySelectorAll('input')[1];if(v=='+'){i.value++}if(v=='−'){i.value--}if(i.value>0){i.value='+'+i.value};i.dispatchEvent(new Event('input'))">
+            <input name="dicePoolBase" type="number" value="{{dicePool}}" readonly>
+            <div class="theNumber"><input name="dicePoolBonus" type="text" value="{{penalty}}" 
+              onchange="
+              {
+                let val=this.value.replace(/[^-\d]/g, '');
+                let neg = val.charAt(0) === '-';
+                val=val.replace(/[-]/g, '');
+                val=Math.clamped(+val,-99,99);
+                val = neg ? -val : val;
+                val=((val==''||val<0)?'':'+')+val;
+                this.value=val;
+              }"></div>
+            <div class="numBtns">
+              <div class="plusBtn">+</div>
+              <div class="minusBtn">−</div>
+            </div>
+          </div>
+        </dd>
+        {{else}}
+        <dt>Dice Pool:</dt>
+        <dd>
+          <div class="niceNumber" onmousedown="{let v = event.target.textContent;let i= this.querySelectorAll('input')[0];if(v=='+'){i.value++}if(v=='−'){i.value--};i.dispatchEvent(new Event('input'))}">
+            <div class="theNumber first"><input name="dicePoolBonus" type="number" value="0" onchange="this.value=Math.clamped(this.value,-99,99);"></div>
+            <div class="numBtns">
+              <div class="plusBtn">+</div>
+              <div class="minusBtn">−</div>
+            </div>
+          </div>
+        </dd>
+        {{/if}}
+        {{#if enableDifficulty}}
+        <dt>Difficulty:</dt>
+        <dd>
+          <p>
+            <div class="niceNumber" onmousedown="{let v = event.target.textContent;let i= this.querySelectorAll('input')[0];if(v=='+'){i.value++}if(v=='−'){i.value--};i.dispatchEvent(new Event('input'))}">
+              <div class="theNumber first"><input name="dicePoolDifficulty" type="number" value="8" onchange="this.value=Math.clamped(this.value,1,10);"></div>
+              <div class="numBtns">
+                <div class="plusBtn">+</div>
+                <div class="minusBtn">−</div>
+              </div>
+            </div>
+          </p>
+        </dd>
+        {{/if}}
+        <dt>Modifiers:</dt>
+        <dd>
+          <div>
+            <div>
+              <div class="buttonset">
+                <label><input type="radio" name="explodeThreshold" value="8"><span>8+ again</span></label>
+                <label><input type="radio" name="explodeThreshold" value="9"><span>9+ again</span></label>
+                <label><input type="radio" name="explodeThreshold" value="10" checked><span>10 again</span></label>
+                <label><input type="radio" name="explodeThreshold" value="11"><span>None</span></label>
+              </div>
+            </div>
+            <p>
+              <label class="checkBox marginR">
+                <input data-dtype="Boolean" name="rote_action" type="checkbox" {{checked data.isMagical}}>
+                <span>Rote Action</span>
+              </label>
+            </p>
+            <p>
+              <label class="checkBox marginR">
+                <input data-dtype="Boolean" name="advancedAction" type="checkbox" {{checked data.advancedAction}}>
+                <span>Advanced Action</span>
+              </label>
+            </p>
+            <p>
+              <label class="checkBox marginR">
+                <input data-dtype="Boolean" name="extended" type="checkbox" {{checked extended}}>
+                <span>Extended</span>
+              </label>
+            </p>
+          </div>
+        </dd>
+        {{#if spendAmmo}}
+        <dt>Ammo per shot:</dt>
+        <dd>
+          <p>
+            <div class="niceNumber" onmousedown="{let v = event.target.textContent;let i= this.querySelectorAll('input')[0];if(v=='+'){i.value++}if(v=='−'){i.value--};i.dispatchEvent(new Event('input'))}">
+              <div class="theNumber first"><input name="ammoPerShot" type="number" value="1" onchange="this.value=Math.clamped(this.value,-99,99);"></div>
+              <div class="numBtns">
+                <div class="plusBtn">+</div>
+                <div class="minusBtn">−</div>
+              </div>
+            </div>
+          </p>
+        </dd>
+        {{/if}}
+
+
+      </dl>
+    </div>
+    <div>
+      <div class="megaBtn">
+        <button type="button" class="button roll-execute stoneButton">Execute</button>
+      </div>
+    </div>
+
+  </div>
+
+</div>

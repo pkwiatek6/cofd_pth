@@ -1,0 +1,45 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+    <header class="sheet-header flexrow">
+      <div class="flexcol merit-img">
+        <img class="profile" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+      </div>
+        <div class="header-details flexrow">
+          <h1 class="charname">
+            <input name="name" type="text" value="{{item.name}}" placeholder="Item Name" />
+          </h1>
+          <div class="item-subtitle">
+            <h4 class="item-type">{{localize "MTA.DreadPower"}}</h4>
+            <span class="item-status"></span>
+          </div>
+          <ul class="summary">
+            <li> 
+               <label> Rating </label> <input name="system.rating" type="number" data-dtype="Number" value="{{system.rating}}" />
+            </li>
+          </ul>
+        </div>
+    </header>
+  <div class="gold-border"> </div>
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="sheet-tabs tabs">    
+      <a class="item" data-tab="description">Description</a>
+      <a class="item" data-tab="effects">Effects</a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+      
+        {{!-- Description Tab --}}
+        <div class="tab" data-tab="description">
+            {{editor enrichedDescription target="system.description" button=true owner=owner editable=editable}}
+        </div>
+      
+        {{!-- Effects Tab --}}
+        <div class="tab" data-tab="effects">
+          <div class="item-stat-block">
+            {{{effectList this}}}
+            {{{dicePoolList this}}}
+          </div>
+        </div>
+    </section>
+</form>

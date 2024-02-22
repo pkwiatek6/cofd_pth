@@ -1,0 +1,81 @@
+<form class="{{cssClass}}" autocomplete="off">
+  <div class="dialoguePane">
+    <div class="flex-column">
+      <div class="expBox">
+      <div>
+        <div>
+          <div style="height:21.8px;"></div>
+          <div class="exp-header"> Total Beats: </div>
+        </div>
+        <div>
+          <div class="exp-header"> Beats </div>
+          <input class="attribute-value borderInput disabled" type="number" name="beats_total" value="{{beats_total}}" data-dtype="Number" min="0" disabled/>
+        </div>
+          {{#if showExtraBeats}}
+        <div>
+          <div class="exp-header">{{#if isMage}}{{localize "MTA.ArcBeats"}}{{else}}{{localize "MTA.GroupBeats"}}{{/if}}</div>
+          <input class="attribute-value borderInput disabled" type="number" name="arcaneBeats_total" value="{{arcaneBeats_total}}" data-dtype="Number" min="0" disabled/>
+        </div>
+          {{/if}}
+      </div>
+      <div>
+          <div>
+            <div></div>
+            <div class="exp-header"> Current Beats: </div>
+          </div>
+          <div>
+            <input class="attribute-value borderInput disabled" type="number" name="beats" value="{{beats}}" data-dtype="Number" min="0" disabled/>
+          </div>
+          {{#if showExtraBeats}}
+          <div>
+            <input class="attribute-value borderInput disabled" type="number" name="arcaneBeats" value="{{arcaneBeats}}" data-dtype="Number" min="0" disabled/>
+          </div>
+          {{/if}}
+        </div>
+      </div>
+    
+    
+    <h3> Progress </h3>
+      <div class="items-block">
+        <div class="items-table progress-list">
+          <table class="item-table">
+            <tr class="item-row header">
+              <th class="cell header first"> Reason </th>
+                <th class="cell header"> Beats </th>
+                {{#if showExtraBeats}} <th class="cell header">{{#if isMage}}{{localize "MTA.ArcBeats"}}{{else}}{{localize "MTA.GroupBeats"}}{{/if}}</th> {{/if}}
+                <th class="cell header"> </th>
+            </tr>
+            {{#each progress as |item iid|}}
+              <tr class="item-row {{posnegTwoVal item.beats item.arcaneBeats 0}}">
+                <td class="cell first {{#if @last}} lastRow {{/if}}"> {{item.name}}</td>
+                <td class="cell {{#if @last}} lastRow {{/if}}"> {{#if item.name}} {{item.beats}} {{/if}}</td>
+                {{#if ../showExtraBeats}} <td class="cell {{#if @last}} lastRow {{/if}}"> {{#if item.name}} {{item.arcaneBeats}} {{/if}}</td> {{/if}}
+                <td class="cell edit-delete {{#if @last}} lastRow {{/if}}" data-index="{{@index}}">
+                  {{#if item.name}} {{#unless (isInitial @index)}} <span class="button stoneButton item-delete" data-index="{{@index}}" title="{{ localize 'MTA.DeleteItem' }}"><i class="fas fa-times-circle"></i></span> {{/unless}} {{/if}}
+                </td>
+              </tr>
+            {{/each}}
+            <tr>
+              <td class="">
+                <input class="attribute-value" type="text" name="input.name" value="{{input.name}}" placeholder="No Reason"/>
+              </td>
+              <td>
+                <input class="attribute-value" type="number" name="input.beats" value="{{input.beats}}" data-dtype="Number" min="0" placeholder="0"/>
+              </td>
+                {{#if showExtraBeats}}
+              <td>
+                <input class="attribute-value" type="number" name="input.arcaneBeats" value="{{input.arcaneBeats}}" data-dtype="Number" min="0" placeholder="0"/>
+              </td>
+                {{/if}}
+              <td>
+                <span class="button stoneButton addButton">{{ localize "MTA.ButtonAdd" }}</span>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="button stoneButton showAll"> Show All </div>
+    </div>
+  </div>
+</form>
+

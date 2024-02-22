@@ -1,0 +1,97 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+    <header class="sheet-header flexrow">
+       <img class="profile" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+      
+        <div class="header-details flexrow">
+          <h1 class="charname">
+            <input name="name" type="text" value="{{item.name}}" placeholder="Item Name" />
+          </h1>
+          <div class="item-subtitle">
+            <h4 class="item-type">{{localize "MTA.Vehicle"}}</h4>
+            <span class="item-status"></span>
+          </div>
+          <ul class="summary">
+            <li> 
+              <label>{{localize "MTA.Magical"}}</label> 
+              <label class="checkBox">
+                <input data-dtype="Boolean" name="system.isMagical" type="checkbox" {{checked system.isMagical}}>
+                <span></span>
+              </label>
+            </li>
+            {{#if system.isMagical}}
+              <li>
+                <label>{{localize "MTA.MagicType"}}</label>
+                <input name="system.magicType" type="text" value="{{system.magicType}}" data-koptions="Awakened/Gadget" />
+              </li>
+              <li>
+                <label>{{localize "MTA.MagicClass"}}</label> 
+                <input name="system.magicClass" type="text" value="{{system.magicClass}}" {{#if (eq system.magicType "Awakened")}}data-koptions="Imbued/Enhanced/Artifact"{{/if}}{{#if (eq system.magicType "Gadget")}}data-koptions="Embedded/Exploited"{{/if}} />
+              </li>
+            {{/if}}
+          </ul>
+        </div>
+    </header>
+  <div class="gold-border"> </div>
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="sheet-tabs tabs">    
+      <a class="item" data-tab="traits">Traits</a>
+      <a class="item" data-tab="description">Description</a>
+      <a class="item" data-tab="effects">Effects</a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+
+        {{!-- Attributes Tab --}}
+        <div class="tab traits" data-tab="traits">
+          <div class="item-stat-block">
+            <div class="form-line">
+              <label>Availability</label> <input name="system.availability" type="number" data-dtype="Number" value="{{system.availability}}"/>
+            </div>
+            <div class="form-line">
+              <label> Dice bonus </label> <input name="system.diceBonus" type="number" data-dtype="Number" value="{{system.diceBonus}}" />
+            </div>
+            <div class="form-line">
+               <label> Size </label> <input name="system.size" type="number" data-dtype="Number" value="{{system.size}}" />
+            </div>
+            <div class="form-line">
+              <label> Durability </label> <input name="system.durability" type="number" data-dtype="Number" value="{{system.durability}}" />
+            </div>
+            <div class="form-line">
+              <label> Structure </label> <input name="system.structure" type="number" data-dtype="Number" value="{{system.structure}}" />
+            </div>  
+            <div class="form-line">
+              <label> Speed </label> <input name="system.speed" type="number" data-dtype="Number" value="{{system.speed}}" />
+            </div>  
+            {{#if system.isMagical}}
+            <div class="form-line">
+              {{#if (eq system.magicType "Awakened")}}
+                <label>Mana</label>
+              {{else if (eq system.magicType "Gadget")}}
+                <label>Aether</label>
+              {{else}}
+                <label>Essence</label>
+              {{/if}}
+              <span>
+                <input class="range-input" name="system.mana.value" type="number" data-dtype="Number" value="{{system.mana.value}}" /> / <input class="range-input" name="system.mana.max" type="number" data-dtype="Number" value="{{system.mana.max}}" /> 
+              </span>
+            </div> 
+            {{/if}}
+          </div>
+        </div>
+      
+        {{!-- Description Tab --}}
+        <div class="tab" data-tab="description">
+            {{editor enrichedDescription target="system.description" button=true owner=owner editable=editable}}
+        </div>
+
+        {{!-- Effects Tab --}}
+        <div class="tab" data-tab="effects">
+          <div class="item-stat-block">
+            {{{effectList this}}}
+            {{{dicePoolList this}}}
+          </div>
+        </div>
+    </section>
+</form>

@@ -1,0 +1,52 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+    <header class="sheet-header flexrow">
+       <img class="profile" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+      
+        <div class="header-details flexrow">
+          <h1 class="charname">
+            <input name="name" type="text" value="{{item.name}}" placeholder="Item Name" />
+          </h1>
+          <div class="item-subtitle">
+            <h4 class="item-type">{{localize "MTA.Relationship"}}</h4>
+            <span class="item-status"></span>
+          </div>
+        </div>
+    </header>
+  <div class="gold-border"> </div>
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="sheet-tabs tabs">    
+      <a class="item" data-tab="description">Description</a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+      
+        {{!-- Description Tab --}}
+        <div class="tab" data-tab="description">
+          <div class="item-stat-block padded">
+            <div class="form-line">
+              <label> Impression </label> 
+              <select name="system.impression">
+                {{#select system.impression}}
+                {{#each config.impressions}}
+                <option value="{{this}}">{{this}}</option>
+                {{/each}}
+                {{/select}}
+              </select>
+            </div>
+            <div class="form-line">
+              <label> Doors </label> 
+              <span>
+                <input class="range-input" name="system.doors.value" type="number" data-dtype="Number" value="{{system.doors.value}}" /> / <input class="range-input" name="system.doors.max" type="number" data-dtype="Number" value="{{system.doors.max}}" />
+              </span>
+              
+            </div> 
+            <div class="form-line">
+              <label> Penalty </label> <input name="system.penalty" type="number" data-dtype="Number" value="{{system.penalty}}" />
+            </div>
+          </div>
+            {{editor enrichedDescription target="system.description" button=true owner=owner editable=editable}}
+        </div>
+    </section>
+</form>

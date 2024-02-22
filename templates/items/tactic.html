@@ -1,0 +1,84 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+  <header class="sheet-header flexrow">
+    <img class="profile" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+
+    <div class="header-details flexrow">
+      <h1 class="charname">
+        <input name="name" type="text" value="{{item.name}}" placeholder="Item Name" />
+      </h1>
+      <div class="item-subtitle">
+        <h4 class="item-type">{{localize "MTA.Tactic"}}</h4>
+        <span class="item-status"></span>
+      </div>
+      <ul class="summary">
+        <li>
+          <label>Favored</label>
+          <label class="checkBox">
+            <input data-dtype="Boolean" name="system.favored" type="checkbox" {{checked system.favored}}>
+            <span></span>
+          </label>
+        </li>
+      </ul>
+    </div>
+  </header>
+  <div class="gold-border"> </div>
+
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="sheet-tabs tabs">
+    <a class="item" data-tab="effects">Effects</a>
+    <a class="item" data-tab="description">Description</a>
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+
+    {{!-- Description Tab --}}
+    <div class="tab" data-tab="description">
+      {{editor enrichedDescription target="system.description" button=true owner=owner editable=editable}}
+    </div>
+
+    {{!-- Effects Tab --}}
+    <div class="tab" data-tab="effects">
+      <div class="item-stat-block">
+        <div class="form-line attributeList">
+          <label>Dice Pools</label> 
+          <span class="stoneButton green multipleDicePoolsAdd">Add</span>
+          {{#each system.dicepools_primary}}
+            <div class=" form-line attributeList dicePoolBox wide">
+              <textarea name="system.dicepools_primary.{{@index}}.description" placeholder="Description">{{description}}</textarea>
+              <span class="stoneButton dicePoolAdd" data-index={{@index}}>+</span>
+              {{#each attributes}} 
+                <select name="system.dicepools_primary.{{@../index}}.attributes.{{@index}}">
+                {{#select this}}
+                  {{#each ../../all_traits}}
+                    <optgroup label="{{localize name}}">
+                      {{#each list as |cvalue ckey|}}
+                        <option value="{{ckey}}">{{cvalue}}</option>
+                      {{/each}}
+                    </optgroup>
+                  {{/each}}
+                {{/select}}
+                </select>
+                <span class="stoneButton dicePoolRemove" data-index="{{@../index}}" data-dpindex="{{@index}}">-</span>
+              {{/each}}
+              <span class="wide">
+                + <input name="system.dicepools_primary.{{@index}}.value" type="number" data-dtype="Number" placeholder=0 value="{{value}}" />
+              </span>
+              <label>Primary</label> 
+              <label class="checkBox">
+                <input data-dtype="Boolean" name="system.dicepools_primary.{{@index}}.primary" type="checkbox" {{checked primary}}>
+                <span></span>
+              </label>
+              <label>No dice</label> 
+              <label class="checkBox">
+                <input data-dtype="Boolean" name="system.dicepools_primary.{{@index}}.noDice" type="checkbox" {{checked noDice}}>
+                <span></span>
+              </label>
+              <span class="stoneButton wide red multipleDicePoolsRemove" data-index={{@index}}>Remove</span>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+  </section>
+</form>

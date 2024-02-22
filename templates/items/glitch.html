@@ -1,0 +1,50 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+    <header class="sheet-header flexrow">
+       <img class="profile" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+      
+        <div class="header-details flexrow">
+          <h1 class="charname">
+            <input name="name" type="text" value="{{item.name}}" placeholder="Item Name" />
+          </h1>
+          <div class="item-subtitle">
+            <h4 class="item-type">{{localize "MTA.Glitch"}}</h4>
+            <span class="item-status"></span>
+          </div>
+          <ul class="summary">
+            <li> 
+              <label>{{localize "MTA.Category"}}</label> 
+              <input name="system.category" type="text" value="{{system.category}}" data-koptions="Transient/Permanent"/>
+            </li>
+            <li> 
+              <label>{{localize "MTA.Class"}}</label> 
+              <input name="system.class" type="text" value="{{system.class}}" data-koptions="Brand/Tell/Emanation"/>
+            </li>
+            <li> 
+              <label>{{localize "MTA.Variation"}}</label> 
+              <input name="system.variation" type="text" value="{{system.variation}}" data-koptions="Minor/Major/Catastrophic"/>
+            </li>
+          </ul>
+        </div>
+    </header>
+  <div class="gold-border"> </div>
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="sheet-tabs tabs">    
+      <a class="item" data-tab="traits">Traits</a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+      
+        {{!-- Traits Tab --}}
+        <div class="tab" data-tab="traits">
+          <div class="item-stat-block">
+            <div class="form-line">
+              <label>{{localize "MTA.TransientDuration"}}</label> 
+              <input name="system.duration" type="text" value="{{system.duration}}" data-koptions="One Scene|Hour/Two Scenes|Hours/Three Scenes|Hours/One Chapter|Day/Two Chapters|Days/One Story|Week/Two Stories|Weeks/Three Stories|Weeks/One Chronicles|Month"/>
+            </div>
+          </div>
+          {{editor enrichedDescription target="system.description" button=true owner=owner editable=editable}}
+        </div>
+    </section>
+</form>

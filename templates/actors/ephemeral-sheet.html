@@ -1,0 +1,438 @@
+<form class="{{cssClass}}" autocomplete="off">
+
+  <div class="characterSheet">
+
+    {{!-- Sheet Header --}}
+    <!-- Column #1 -->
+    <div class="sheet-header stats">
+
+      <!-- Column #1-->
+      <div class="portrait">
+        <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}">
+      </div>
+
+      <!-- Column #2 -->
+      <div>
+        <!-- Row #1 -->
+        <h1 class="character-name"><input type="text" name="name" value="{{actor.name}}" placeholder="Name"> </h1>
+
+        <!-- Row #2 -->
+        <div class="bottomCharaBlock">
+          <div class="kInput statBox big health">
+            <h4 class="{{#if system.isDreaming}}dreaming{{/if}}">
+              <div class="button charMacroButton calculate health tooltip">
+                <span class="tooltip-text">{{ localize "MTA.TooltipCalcMaxHealth" }}</span>
+                <img src="systems/mta/icons/gui/calculate.svg" alt="Calculate max. health.">
+              </div>
+              {{localize "MTA.Corpus"}}
+            </h4>
+            <div class="gold-border"> </div>
+            <div class="kMageTracker" data-type="health" data-name="system.health" data-states="max/value/lethal/aggravated" data-marked="{{system.health.marked}}" data-max="{{system.health.max}}" data-aggravated="{{system.health.aggravated}}" data-lethal="{{system.health.lethal}}" data-value="{{system.health.value}}"></div>
+          </div>
+
+          <div class="kInput statBox big">
+            <h4>
+              <input class="attribute-check" id="Essence{{actor.id}}" data-trait="essence" data-attributeValue={{system.essence.max}} data-attributeLabel="Essence" type="checkbox" data-dtype="Boolean">
+              <label class="button attribute-button" for="Essence{{actor.id}}">{{localize "MTA.Essence"}}</label>
+            </h4>
+            <div class="gold-border"> </div>
+            <div class="split">
+              <div class="niceNumber buttonsLeft">
+                <input name="system.essence.value" type="number" value="{{system.essence.value}}" data-dtype="Number">
+                <div class="numBtns">
+                  <div class="plusBtn">+</div>
+                  <div class="minusBtn">−</div>
+                </div>
+              </div>
+              <span class="delimiter"> / </span>
+              <div class="niceNumber">
+                <input name="system.essence.max" type="number" value="{{system.essence.max}}" data-dtype="Number">
+                <div class="numBtns">
+                  <div class="plusBtn">+</div>
+                  <div class="minusBtn">−</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="kInput statBox big">
+            <h4>
+              <input class="attribute-check" id="Willpower{{actor.id}}" data-trait="willpower" type="checkbox" data-dtype="Boolean">
+              <label class="button attribute-button" for="Willpower{{actor.id}}">Willpower</label>
+            </h4>
+            <div class="gold-border"> </div>
+            <div class="split">
+              <div class="niceNumber buttonsLeft">
+                <input name="system.willpower.value" type="number" value="{{system.willpower.value}}" data-dtype="Number">
+                <div class="numBtns">
+                  <div class="plusBtn">+</div>
+                  <div class="minusBtn">−</div>
+                </div>
+              </div>
+              <span class="delimiter"> / </span>
+              <div class="niceNumber">
+                <input name="system.willpower.max" type="number" value="{{system.willpower.max}}" data-dtype="Number">
+                <div class="numBtns">
+                  <div class="plusBtn">+</div>
+                  <div class="minusBtn">−</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    {{!-- Sheet Side --}}
+    <div class="conditions">
+      <div class="character-type">
+        <span class="tooltip left">
+          <span class="tooltip-text">{{ localize "MTA.TooltipTypeVisible" }}</span>
+          <label class="checkBox">
+            <input data-dtype="Boolean" name="system.isTypeKnown" type="checkbox" {{checked system.isTypeKnown}}>
+            <span></span>
+          </label>
+        </span>
+        <select name="system.ephemeralType">
+          {{#select system.ephemeralType}}
+            {{#each config.ephemeralTypes}}
+              <option value="{{this}}">{{this}}</option>
+            {{/each}}
+          {{/select}}
+        </select>
+        <div class="ephemeral-rank">
+          <h4>
+            <input class="attribute-check" id="Rank{{actor.id}}" data-trait="rank" data-attributeValue={{system.rank}} data-attributeLabel="{{localize 'MTA.Rank'}}" type="checkbox" data-dtype="Boolean">
+            <label class="button attribute-button" for="Rank{{actor.id}}">{{localize "MTA.Rank"}}</label>
+            <input type="number" name="system.rank" value={{system.rank}} data-dtype="Number" min="0" max="10" />
+          </h4>
+          <h4> {{ephemeralEntityName}}</h4>
+        </div>
+      </div>
+      
+      <!-- Block #1 -->
+
+      <div class="kInput statBox">
+        <h4> {{ localize "MTA.DerivedTraits" }}</h4>
+        <div class="gold-border"> </div>
+        <div class="armourGrid">
+          {{#each config.derivedTraits as |cvalue ckey|}}
+          {{#with (lookup ../system.derivedTraits [ckey])}}
+            <span>
+              <input class="attribute-check" id="{{cvalue}}{{../../actor.id}}" data-attribute="{{ckey}}" data-trait="derivedTraits.{{ckey}}" data-attributeValue={{chooseNum final value}} data-attributeLabel="{{cvalue}}" type="checkbox" data-dtype="Boolean">
+              <label class="button attribute-button" for="{{cvalue}}{{../../actor.id}}">{{cvalue}}</label>
+            </span>
+            <input class="{{#if isModified}}{{posneg final value}}{{/if}}" value={{chooseNum final value}} disabled>
+            <div class="niceNumber digits2">
+              <input name="system.derivedTraits.{{ckey}}.mod" type="text" placeholder="0" data-dtype="Number" value="{{numberFormat mod decimals=0 sign=true}}" min=-99 max=99>
+              <div class="numBtns">
+                <div class="plusBtn">+</div>
+                <div class="minusBtn">−</div>
+              </div>
+            </div>
+          {{/with}}
+          {{/each}}
+        </div>
+      </div>
+      <div class="items-block">
+        <div class="items-table">
+          {{!-- Numina --}}
+          <table class="item-table">
+            <thead>
+              <tr class="item-row header">
+                <th class="cell header first"> 
+                  <span class="collapsible button fas fa-minus-square"> </span>
+                  <span class="sortable button" data-type="numen">{{localize "MTA.Numina"}}<i class="fas fa-sort"></i> </span>
+                </th>
+                {{#each inventory.numen.dataset}}
+                  <th class="cell header"> {{this}} </th>
+                {{/each}}
+                <th class="cell header"> </th>
+                <th class="cell header button item-create" data-type="numen">{{ localize "MTA.ButtonAdd" }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each inventory.numen.items as |item iid|}}
+                <tr class="item-row item" data-item-id="{{item.id}}">
+                  <td class="cell item-name first {{#if @last}} lastRow {{/if}}" data-item-id="{{item.id}}">
+                    <div class="item-name-wrapper">
+                      <div class="item-image" style="background-image: url({{item.img}})"></div>
+                      <span> {{item.name}} </span>
+                    </div>
+                  </td>
+                  <td class="cell {{#if @last}} lastRow {{/if}}">{{convertBool system.reaching}}</td>
+                  <td class="cell {{#if @last}} lastRow {{/if}}"> 
+                    {{#if system.effects }}<i class="activeIcon {{#if system.effectsActive}} fas {{else}} far {{/if}} fa-dot-circle" title="Effects active" data-item-id="{{item._id}}"></i>{{/if}}
+                    <i class="favicon {{#if system.isFavorite}} fas {{else}} far {{/if}} fa-star" title="Favorite" data-item-id="{{item.id}}"></i>
+                  </td>
+                  <td class="cell edit-delete {{#if @last}} lastRow {{/if}}">
+                    <span class="button stoneButton item-edit" data-item-id="{{item.id}}" title="{{ localize 'MTA.EditItem' }}"><i class="fas fa-edit"></i></span>
+                    <span class="button stoneButton item-delete" data-item-id="{{item.id}}" title="{{ localize 'MTA.DeleteItem' }}"><i class="fas fa-times-circle"></i></span>
+                  </td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="items-block">
+        <div class="items-table">
+          {{!-- Manifestations --}}
+          <table class="item-table">
+            <tr class="item-row header">
+              <th class="cell header first"> 
+                <span class="collapsible button fas fa-minus-square"> </span>
+                <span class="sortable button" data-type="manifestation">{{localize "MTA.Manifestations"}}<i class="fas fa-sort"></i> </span>
+              </th>
+              {{#each inventory.manifestation.dataset}}
+                <th class="cell header"> {{this}} </th>
+              {{/each}}
+              <th class="cell header"> </th>
+              <th class="cell header button item-create" data-type="manifestation">{{ localize "MTA.ButtonAdd" }}</th>
+            </tr>
+            {{#each inventory.manifestation.items as |item iid|}}
+              <tr class="item-row" data-item-id="{{item.id}}">
+                <td class="cell item-name first {{#if @last}} lastRow {{/if}}" data-item-id="{{item.id}}">
+                  <div class="item-name-wrapper"> 
+                    <div class="item-image" style="background-image: url({{item.img}})"></div>
+                    <span> {{item.name}} </span>
+                  </div>
+                </td>
+                <td class="cell {{#if @last}} lastRow {{/if}}"> 
+                  <i class="favicon {{#if system.isFavorite}} fas {{else}} far {{/if}} fa-star" title="Favorite" data-item-id="{{item.id}}"></i>
+                </td>
+                <td class="cell edit-delete {{#if @last}} lastRow {{/if}}">
+                  <span class="button stoneButton item-edit" data-item-id="{{item.id}}" title="{{ localize 'MTA.EditItem' }}"><i class="fas fa-edit"></i></span>
+                  <span class="button stoneButton item-delete" data-item-id="{{item.id}}" title="{{ localize 'MTA.DeleteItem' }}"><i class="fas fa-times-circle"></i></span>
+                </td>
+              </tr>
+            {{/each}}
+          </table>
+        </div>
+      </div>
+      <div class="items-block">
+        <div class="items-table">
+          {{!-- Conditions --}}
+          <table class="item-table">
+            <thead>
+              <tr class="item-row header">
+                <th class="cell header first"> 
+                  <span class="collapsible button fas fa-minus-square"> </span>
+                  <span class="sortable button" data-type="condition">{{localize "MTA.Conditions"}}<i class="fas fa-sort"></i> </span>
+                </th>
+                {{#each inventory.condition.dataset}}
+                  <th class="cell header"> {{this}} </th>
+                {{/each}}
+                <th class="cell header"> </th>
+                <th class="cell header button item-create" data-type="condition">{{ localize "MTA.ButtonAdd" }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each inventory.condition.items as |item iid|}}
+                <tr class="item-row item" data-item-id="{{item.id}}">
+                  <td class="cell item-name first {{#if @last}} lastRow {{/if}}" data-item-id="{{item.id}}">
+                    <div class="item-name-wrapper">
+                      <div class="item-image" style="background-image: url({{item.img}})"></div>
+                      <span> {{item.name}} </span>
+                    </div>
+                  </td>
+                  <td class="cell {{#if @last}} lastRow {{/if}}"> {{convertBool system.isPersistent}}</td>
+                  <td class="cell {{#if @last}} lastRow {{/if}}">
+                    {{#if system.effects }}<i class="activeIcon {{#if system.effectsActive}} fas {{else}} far {{/if}} fa-dot-circle" title="Effects active" data-item-id="{{item._id}}"></i>{{/if}}
+                  </td>
+                  <td class="cell edit-delete {{#if @last}} lastRow {{/if}}">
+                    <span class="button stoneButton item-edit" data-item-id="{{item.id}}" title="{{ localize 'MTA.EditItem' }}"><i class="fas fa-edit"></i></span>
+                    <span class="button stoneButton item-delete" data-item-id="{{item.id}}" title="{{ localize 'MTA.DeleteItem' }}"><i class="fas fa-times-circle"></i></span>
+                  </td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="items-block">
+        <div class="items-table">
+          {{!-- Tilts --}}
+          <table class="item-table">
+            <thead>
+              <tr class="item-row header">
+                <th class="cell header first"> 
+                  <span class="collapsible button fas fa-minus-square"> </span>
+                  <span class="sortable button" data-type="tilt">{{localize "MTA.Tilts"}}<i class="fas fa-sort"></i> </span>
+                </th>
+                {{#each inventory.tilt.dataset}}
+                  <th class="cell header"> {{this}} </th>
+                {{/each}}
+                <th class="cell header"> </th>
+                <th class="cell header button item-create" data-type="tilt">{{ localize "MTA.ButtonAdd" }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each inventory.tilt.items as |item iid|}}
+                <tr class="item-row item" data-item-id="{{item.id}}">
+                  <td class="cell item-name first {{#if @last}} lastRow {{/if}}" data-item-id="{{item.id}}">
+                    <div class="item-name-wrapper">
+                      <div class="item-image" style="background-image: url({{item.img}})"></div>
+                      <span> {{item.name}} </span>
+                    </div>
+                  </td>
+                  <td class="cell {{#if @last}} lastRow {{/if}}"> {{convertBool system.isEnvironmental}}</td>
+                  <td class="cell {{#if @last}} lastRow {{/if}}">
+                    {{#if system.effects }}<i class="activeIcon {{#if system.effectsActive}} fas {{else}} far {{/if}} fa-dot-circle" title="Effects active" data-item-id="{{item._id}}"></i>{{/if}}
+                  </td>
+                  <td class="cell edit-delete {{#if @last}} lastRow {{/if}}">
+                    <span class="button stoneButton item-edit" data-item-id="{{item.id}}" title="{{ localize 'MTA.EditItem' }}"><i class="fas fa-edit"></i></span>
+                    <span class="button stoneButton item-delete" data-item-id="{{item.id}}" title="{{ localize 'MTA.DeleteItem' }}"><i class="fas fa-times-circle"></i></span>
+                  </td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="characterMacroPanel">
+      <div>
+        <div class="button charMacroButton rollButton tooltip">
+          <span class="tooltip-text">{{ localize "MTA.TooltipSkillTest" }}</span>
+          <img src="systems/mta/icons/gui/d10.svg" alt="Skill check.">
+        </div>
+      </div>
+    </div>
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="sheet-tabs tabs">
+      <a class="item" data-tab="attributes">{{ localize "MTA.TabAttributes" }}</a>
+      <a class="item" data-tab="inventory">{{ localize "MTA.TabItems" }}</a>
+      <a class="item" data-tab="description">{{ localize "MTA.TabTraits" }}</a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+
+      <div class="tab attributes" data-tab="attributes">
+
+        <div class="attributes" data-tab="attributes">
+          <div class="tab-block">
+            <div class="attributes-flexrow">
+              <ol class="attributes-list">
+                {{#each config.eph_physical as |cvalue ckey|}}
+                    {{{rollableInput ../actor "eph_physical" ckey}}}
+                {{/each}}
+              </ol>
+              <ol class="attributes-list">
+                {{#each config.eph_social as |cvalue ckey|}}
+                    {{{rollableInput ../actor "eph_social" ckey}}}
+                {{/each}}
+              </ol>
+              <ol class="attributes-list">
+                {{#each config.eph_mental as |cvalue ckey|}}
+                    {{{rollableInput ../actor "eph_mental" ckey}}}
+                {{/each}}
+              </ol>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="items-block">
+          <div class="items-table">
+            {{!-- Influences --}}
+            <table class="item-table">
+              <thead>
+                <tr class="item-row header">
+                  <th class="cell header first"> 
+                    <span class="collapsible button fas fa-minus-square"> </span>
+                    <span class="sortable button" data-type="influence">{{localize "MTA.SpheresOfInfluence"}}<i class="fas fa-sort"></i> </span>
+                  </th>
+                  {{#each inventory.influence.dataset}}
+                    <th class="cell header"> {{this}} </th>
+                  {{/each}}
+                  <th class="cell header"> </th>
+                  <th class="cell header button item-create" data-type="influence">{{ localize "MTA.ButtonAdd" }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each inventory.influence.items as |item iid|}}
+                  <tr class="item-row item" data-item-id="{{item.id}}">
+                    <td class="cell item-name first {{#if @last}} lastRow {{/if}} {{#if system.isMagical}} magic-item {{/if}}" data-item-id="{{item.id}}">
+                      <div class="item-image" style="background-image: url({{item.img}})"></div>
+                      <span> {{item.name}} </span>
+                    </td>
+                    <td class="cell {{#if @last}} lastRow {{/if}}"> {{system.rating}}</td>
+                    <td class="cell {{#if @last}} lastRow {{/if}}"> 
+                      <i class="favicon {{#if system.isFavorite}} fas {{else}} far {{/if}} fa-star" title="Favorite" data-item-id="{{item.id}}"></i>
+                    </td>
+                    <td class="cell edit-delete {{#if @last}} lastRow {{/if}}">
+                      <span class="button stoneButton item-edit" data-item-id="{{item.id}}" title="{{ localize 'MTA.EditItem' }}"><i class="fas fa-edit"></i></span>
+                      <span class="button stoneButton item-delete" data-item-id="{{item.id}}" title="{{ localize 'MTA.DeleteItem' }}"><i class="fas fa-times-circle"></i></span>
+                    </td>
+                  </tr>
+                {{/each}}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="item-stat-block">
+          {{#if (eqAny system.ephemeralType "Ghost" "Angel")}}
+          <div class="form-line">
+            <label>{{localize "MTA.Virtue"}}</label> <input name="system.virtue" type="text" value="{{system.virtue}}" />
+          </div>
+          <div class="form-line">
+            <label>{{localize "MTA.Vice"}}</label> <input name="system.vice" type="text" value="{{system.vice}}" />
+          </div>
+          {{/if}}
+          {{#if (eq system.ephemeralType "Ghost")}}
+          <div class="form-line">
+              <label>{{localize "MTA.Integrity"}}</label> <input name="system.integrity" type="number" data-dtype="Number" value="{{system.integrity}}" />
+            </div>
+          {{/if}}
+          <div class="form-line">
+            <label>{{localize "MTA.Aspirations"}}</label>
+            <textarea name="system.aspirations" placeholder="Aspirations">{{system.aspirations}}</textarea>
+          </div>
+          <div class="form-line">
+            <label>{{localize "MTA.Bans"}}</label>
+            <textarea name="system.bans" placeholder="Bans">{{system.bans}}</textarea>
+          </div>
+          <div class="form-line">
+            <label>{{localize "MTA.Banes"}}</label>
+            <textarea name="system.banes" placeholder="Banes">{{system.banes}}</textarea>
+          </div>
+        </div>
+      </div>
+
+      {{!-- Item Tab --}}
+      <div class="tab inventory" data-tab="inventory">
+        {{~> "systems/mta/templates/actors/parts/base-inventory.hbs"}}
+      </div>
+
+      <div class="tab description" data-tab="description">
+        <div class="item-stat-block">
+          <div class="form-line">
+            <label>{{localize "MTA.EssenceSource"}}</label>
+            <textarea name="system.essenceSource" placeholder="Essence Source">{{system.essenceSource}}</textarea>
+          </div>
+          <div class="form-line">
+            <label>{{localize "MTA.Aliases"}}</label>
+            <textarea name="system.aliases" placeholder="Aliases">{{system.aliases}}</textarea>
+          </div>
+          <div class="form-line">
+            <label>{{localize "MTA.Notes"}}</label>
+            <textarea name="system.notes" placeholder="Notes">{{system.notes}}</textarea>
+          </div>
+          <div class="form-line">
+            <label class="wide"> {{localize "MTA.Description"}} </label>
+            <div class="wide editor-container">
+              {{editor (enrichHTML system.description actor) target="system.description" button=true owner=owner editable=editable}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </div>
+</form>

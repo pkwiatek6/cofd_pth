@@ -1,0 +1,161 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+    <header class="sheet-header flexrow">
+       <img class="profile" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+      
+        <div class="header-details flexrow">
+          <h1 class="charname">
+            <input name="name" type="text" value="{{item.name}}" placeholder="Item Name" />
+          </h1>
+          <div class="item-subtitle">
+            <h4 class="item-type">{{localize "MTA.Cover"}}</h4>
+            <span class="item-status"></span>
+          </div>
+          <ul class="summary">
+            <li> 
+              <label>Rating</label> <input name="system.rating" type="number" data-dtype="Number" value="{{system.rating}}"/>
+            </li>
+            <li>
+              <label>Beats</label> <input name="system.beats" type="number" data-dtype="Number" value="{{system.beats}}" />
+            </li>
+          </ul>
+        </div>
+    </header>
+  
+  <div class="gold-border"> </div>
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="sheet-tabs tabs">    
+      <a class="item" data-tab="traits">Traits</a>
+      <a class="item" data-tab="description">Description</a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+      <div class="tab traits" data-tab="traits">
+        {{!-- Traits Tab --}}
+        <div class="item-stat-block">
+          <div class="form-line">
+             <label>Age</label> <input name="system.age" type="number" data-dtype="Number" value="{{system.age}}" />
+          </div>
+          <div class="form-line">
+            <label> {{localize "MTA.Notes"}} </label>
+            <textarea name="system.notes" placeholder="Notes">{{system.notes}}</textarea>
+          </div>
+        </div>
+        <div class="items-block">
+          <div class="items-table">
+            {{!-- Merits --}}
+            <table class="item-table">
+              <thead>
+                <tr class="item-row header">
+                  <th class="cell header first"> 
+                    <span class="collapsible button fas fa-minus-square"> </span>
+                    <span class="sortable button" data-type="merit">{{ localize "MTA.Merits" }}<i class="fas fa-sort"></i> </span>
+                  </th>
+                  {{#each inventory.merit.dataset}}
+                    <th class="cell header"> {{localize this}} </th>
+                  {{/each}}
+                  <th class="cell header"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each inventory.merit.items as |item iid|}}
+                  <tr class="item-row item" data-type="merit" data-index="{{@index}}">
+                    <td class="cell item-name first {{#if @last}} lastRow {{/if}}" data-index="{{@index}}">
+                      <div class="item-name-wrapper">
+                        <div class="item-image" style="background-image: url({{item.img}})"></div>
+                        <span>{{item.name}}</span>
+                      </div>
+                    </td>
+                    <td class="cell {{#if @last}} lastRow {{/if}}">{{item.system.rating}}</td>
+                    <td class="cell edit-delete {{#if @last}} lastRow {{/if}}">
+                      <span class="button stoneButton item-delete" data-type="merit" data-index="{{@index}}" title="{{ localize 'MTA.DeleteItem' }}"><i class="fas fa-times-circle"></i></span>
+                    </td>
+                  </tr>
+                {{/each}}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="items-block">
+          <div class="items-table">
+            {{!-- Conditions --}}
+            <table class="item-table">
+              <thead>
+                <tr class="item-row header">
+                  <th class="cell header first"> 
+                    <span class="collapsible button fas fa-minus-square"> </span>
+                    <span class="sortable button" data-type="condition">{{ localize "MTA.Conditions" }}<i class="fas fa-sort"></i> </span>
+                  </th>
+                  {{#each inventory.condition.dataset}}
+                    <th class="cell header"> {{localize this}} </th>
+                  {{/each}}
+                  <th class="cell header"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each inventory.condition.items as |item iid|}}
+                  <tr class="item-row item" data-type="condition" data-index="{{@index}}">
+                    <td class="cell item-name first {{#if @last}} lastRow {{/if}}" data-item-id="{{item._id}}">
+                      <div class="item-name-wrapper">
+                        <div class="item-image {{#if item.system.effectsActive}} effectActive {{/if}}" style="background-image: url({{item.img}})"></div>
+                        <span> {{item.name}} </span>
+                      </div>
+                    </td>
+                    <td class="cell {{#if @last}} lastRow {{/if}}">{{convertBool item.system.isPersistent}}</td>
+                    {{#if (eq ../data.characterType "Changeling")}}
+                      <td class="cell {{#if @last}} lastRow {{/if}}">{{convertBool item.isClarity}}</td>
+                    {{/if}}
+                    <td class="cell edit-delete {{#if @last}} lastRow {{/if}}">
+                      <span class="button stoneButton item-delete" data-type="condition" data-index="{{@index}}" title="{{ localize 'MTA.DeleteItem' }}"><i class="fas fa-times-circle"></i></span>
+                    </td>
+                  </tr>
+                {{/each}}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="items-block">
+          <div class="items-table">
+            {{!-- Tilts --}}
+            <table class="item-table">
+              <thead>
+                <tr class="item-row header">
+                  <th class="cell header first"> 
+                    <span class="collapsible button fas fa-minus-square"> </span>
+                    <span class="sortable button" data-type="tilt">{{ localize "MTA.Tilts" }}<i class="fas fa-sort"></i> </span>
+                  </th>
+                  {{#each inventory.tilt.dataset}}
+                    <th class="cell header"> {{localize this}} </th>
+                  {{/each}}
+                  <th class="cell header"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each inventory.tilt.items as |item iid|}}
+                  <tr class="item-row item" data-type="tilt" data-index="{{@index}}">
+                    <td class="cell item-name first {{#if @last}} lastRow {{/if}}" data-item-id="{{item._id}}">
+                      <div class="item-name-wrapper">
+                        <div class="item-image {{#if system.effectsActive}} effectActive {{/if}}" style="background-image: url({{item.img}})"></div>
+                        <span> {{item.name}} </span>
+                      </div>
+                    </td>
+                    <td class="cell {{#if @last}} lastRow {{/if}}"> {{convertBool data.isEnvironmental}}</td>
+                    <td class="cell edit-delete {{#if @last}} lastRow {{/if}}">
+                      <span class="button stoneButton item-delete" data-type="tilt" data-index="{{@index}}" title="{{ localize 'MTA.DeleteItem' }}"><i class="fas fa-times-circle"></i></span>
+                    </td>
+                  </tr>
+                {{/each}}
+              </tbody>
+            </table>
+          </div>
+        </div>
+          
+      </div>
+      
+        {{!-- Description Tab --}}
+        <div class="tab" data-tab="description">
+          {{editor enrichedDescription target="system.description" button=true owner=owner editable=editable}}
+        </div>
+    </section>
+</form>

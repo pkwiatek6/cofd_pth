@@ -1,0 +1,49 @@
+<div id="tokenHotBar" class="tokenHotBar">
+  <div class="tokenMacroBar">
+    <h4> 
+      {{characterName}}
+      <i class="fas fa-cog settings"></i>
+      <div class="settings-menu">
+        <ul class="fa-ul">
+          <li class="showNonWielded">
+              <span class="fa-li fa">
+                <i class="{{#if showNonWielded}}fas fa-check-square {{else}}far fa-square{{/if}}"></i> 
+              </span>
+              Show unwielded
+          </li>
+          <li class="showEquipment">
+            <span class="fa-li fa">
+              <i class="{{#if showEquipment}}fas fa-check-square {{else}}far fa-square{{/if}}"></i>
+            </span>
+            Show equipment
+        </li>
+        </ul>
+      </div>
+    </h4>
+    <ol class="flexrow macro-list">
+      {{#each macros}}
+      <li class="macro {{#if sheetMacro}} sheetMacro {{/if}} {{#if notEquipped}} unequipped {{/if}} tooltip fast {{#if description}}expand{{/if}}" data-index={{@index}}>
+        <img src="{{img}}" alt="{{name}}">
+        <span class="tooltip-text">
+          {{name}}
+          {{#if description}}<div class="tooltip-expand">{{{description}}}</div>{{/if}}
+        </span>
+      </li>
+      {{/each}}
+    </ol>
+  </div>
+  <div class="buttonArray">
+    <div class="damage-increase">
+      <i class="fas fa-minus"></i>
+      <input class="damage-number" type="number" value="1" data-dtype="Number">
+      <i class="fas fa-plus"></i>
+    </div>
+    
+    <div class="button modernButton damage-type" data-type="bashing">
+      <i class="fas fa-chevron-left"></i>
+      <i class="button-content">Bashing</i>
+      <i class="fas fa-chevron-right"></i>
+    </div>
+    <div class="button modernButton red damage-apply">Damage</div>
+  </div>
+</div>

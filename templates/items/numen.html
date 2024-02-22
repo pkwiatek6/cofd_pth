@@ -1,0 +1,65 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+    <header class="sheet-header flexrow">
+       <img class="profile" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+      
+        <div class="header-details flexrow">
+          <h1 class="charname">
+            <input name="name" type="text" value="{{item.name}}" placeholder="Item Name" />
+          </h1>
+          <div class="item-subtitle">
+            <h4 class="item-type">{{localize "MTA.Numen"}}</h4>
+            <span class="item-status"></span>
+          </div>
+          <ul class="summary">
+            <li> 
+              <label> Reaching </label> 
+              <label class="checkBox">
+                <input data-dtype="Boolean" name="system.reaching" type="checkbox" {{checked system.reaching}}>
+                <span></span>
+              </label>
+            </li>
+           <li>
+            <label>Weapon</label>
+            <label class="checkBox">
+              <input data-dtype="Boolean" name="system.isWeapon" type="checkbox" {{checked system.isWeapon}}>
+              <span></span>
+            </label>
+          </li>
+          </ul>
+        </div>
+    </header>
+  <div class="gold-border"> </div>
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="sheet-tabs tabs">    
+      <a class="item" data-tab="description">Description</a>
+      <a class="item" data-tab="effects">Effects</a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+      
+        {{!-- Description Tab --}}
+        <div class="tab" data-tab="description">
+          <div class="item-stat-block">
+            {{#if system.isWeapon}}
+              <div class="form-line">
+                <label>Damage</label> <input name="system.damage" type="number" data-dtype="Number" value="{{system.damage}}" />
+              </div>
+              <div class="form-line">
+                <label>Penetration</label> <input name="system.penetration" type="number" data-dtype="Number" value="{{system.penetration}}" />
+              </div>
+            {{/if}}
+          </div>
+          {{editor enrichedDescription target="system.description" button=true owner=owner editable=editable}}
+        </div>
+      
+        {{!-- Effects Tab --}}
+        <div class="tab" data-tab="effects">
+          <div class="item-stat-block">
+            {{{effectList this}}}
+            {{{dicePoolList this}}}
+          </div>
+        </div>
+    </section>
+</form>

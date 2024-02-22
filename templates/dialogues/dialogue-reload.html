@@ -1,0 +1,18 @@
+<form class="{{cssClass}}" autocomplete="off">
+  <div class="dialoguePane">
+    
+    
+    
+    <ul class="ammoList">
+      {{#each ammoList as |item iid|}}
+        <li class="button selectAmmo" data-item-id="{{item.id}}"> 
+          <span class="item-image" style="background-image: url({{item.img}})"></span>
+          <span> {{item.name}} </span>
+        </li>
+      {{/each}}
+    </ul>
+    
+
+  </div>
+</form>
+

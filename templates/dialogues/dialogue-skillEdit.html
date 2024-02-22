@@ -1,0 +1,29 @@
+<div class="{{cssClass}}" autocomplete="off">
+  <div class="dialoguePane">
+    
+    
+    
+    <ul class="specialtyList">
+      {{#each specialties}}
+        <li> 
+          <input class="attribute-specialty" data-index="{{@index}}" type="text" value="{{this}}">
+          <span class="stoneButton button remove-specialty" data-index="{{@index}}" title="Remove Specialty"><i class="fas fa-times-circle"></i></span>
+        </li>
+      {{/each}}
+      <li class="no-list">
+        <div class="stoneButton button add-specialty"> + Add Specialty </div>
+      </li>
+      <li class="no-list">
+        <label> Asset Skill </label> 
+        <label class="checkBox">
+          <input class="toggle-asset" type="checkbox" {{checked isAssetSkill}}>
+          <span></span>
+        </label>
+      </li>
+      
+    </ul>
+    
+
+  </div>
+</div>
+
