@@ -1,0 +1,404 @@
+<form class="{{cssClass}} flexrow nowrap" autocomplete="off">
+
+  <div>
+    <!-- Left Side -->
+
+    <div class="item-stat-block">
+
+      <div class="stat-group">
+        <div class="sheet-header">
+          <h3> Spell Details </h3>
+        </div>
+        <div class="gold-border"> </div>
+
+        <div class="form-line">
+          <label> Arcanum </label>
+          <select name="object.arcanum">
+            {{#select object.arcanum}}
+              {{#each config.arcana as |cvalue ckey|}}
+                <option value="{{ckey}}">{{cvalue}}</option>
+              {{/each}}
+            {{/select}}
+          </select>
+        </div>
+
+        <div class="form-line">
+          <label> Level </label> <input name="object.level" type="number" data-dtype="Number" value="{{object.level}}" />
+        </div>
+        <div class="form-line">
+          <label> Primary factor </label>
+          <select name="object.primaryFactor">
+            {{#select object.primaryFactor}}
+              {{#each config.primaryFactors}}
+                <option value="{{this}}">{{this}}</option>
+              {{/each}}
+            {{/select}}
+          </select>
+          <label class="wide small"> Changing the primary factor costs 1 Reach. </label>
+        </div>
+
+        <div class="form-line">
+          <label> Yantra Dice </label> <input name="object.yantraBonus" type="number" data-dtype="Number" value="{{object.yantraBonus}}" />
+          <label class="wide small"> After penalties: {{yantraBonusFinal}} </label>
+        </div>
+
+        <div class="form-line">
+          <label> Dice Mod. </label> <input name="object.bonusDice" type="number" data-dtype="Number" value="{{object.bonusDice}}" />
+        </div>
+
+        <div class="form-line">
+          <label> Withstand rating </label> <input name="object.withstandRating" type="number" data-dtype="Number" value="{{object.withstandRating}}" />
+          <label class="wide small"> Potency has to be higher than this value. </label>
+        </div>
+        <div class="form-line">
+          <div class="wide">
+            <label class="checkBox checkButton">
+              <input data-dtype="Boolean" name="object.castPraxis" type="checkbox" {{checked object.castPraxis}}>
+              <span> Praxis </span>
+            </label>
+            <label class="checkBox checkButton">
+              <input data-dtype="Boolean" name="object.isInured" type="checkbox" {{checked object.isInured}}>
+              <span> Inured </span>
+            </label>
+            {{#if scelestiRank}}
+            <label class="checkBox checkButton">
+              <input data-dtype="Boolean" name="object.isBefouled" type="checkbox" {{checked object.isBefouled}}>
+              <span> Befouled </span>
+            </label>
+            {{/if}}
+          </div>
+          <div class="wide">
+            <label class="checkBox checkButton">
+              <input data-dtype="Boolean" name="object.castRote" type="checkbox" {{checked object.castRote}}>
+              <span> Rote </span>
+            </label>
+            <label class="checkBox checkButton">
+              <input data-dtype="Boolean" name="object.castRoteOwn" type="checkbox" {{checked object.castRoteOwn}}>
+              <span> Self-designed </span>
+            </label>
+            <label class="checkBox checkButton">
+              <input data-dtype="Boolean" name="object.castGrimoire" type="checkbox" {{checked object.castGrimoire}}>
+              <span> Grimoire </span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="stat-group">
+        <div class="sheet-header">
+          <h3> Paradox </h3>
+        </div>
+        <div class="gold-border"> </div>
+
+        <div class="form-line">
+          <label> Paradox rolls (scene) </label> <input name="object.paradox.previous_rolls" type="number" data-dtype="Number" value="{{object.paradox.previous_rolls}}" min="0" />
+        </div>
+        <div class="form-line">
+          <label> Sleeper Witnesses </label>
+          <select name="object.paradox.sleeper_witnesses">
+            {{#select object.paradox.sleeper_witnesses}}
+              {{#each config.spell_casting.sleeper_witnesses}}
+                <option value="{{this}}">{{this}}</option>
+              {{/each}}
+            {{/select}}
+          </select>
+        </div>
+
+        <div class="form-line">
+          <label> Mana spent </label> <input name="object.paradox.mana_spent" type="number" data-dtype="Number" value="{{object.paradox.mana_spent}}" min="0" />
+        </div>
+        <div class="form-line">
+          <label> Ded. magical tool </label>
+          <label class="checkBox">
+            <input object.data-dtype="Boolean" name="object.paradox.magical_tool_used" type="checkbox" {{checked object.paradox.magical_tool_used}}>
+            <span></span>
+          </label>
+        </div>
+        <div class="form-line">
+          <label> Paradox Mod. </label> <input name="object.paradox.bonus" type="number" data-dtype="Number" value="{{object.paradox.bonus}}" />
+        </div>
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+
+  <div>
+    <!-- Right Side -->
+    <div class="item-stat-block">
+
+      <div class="stat-group">
+        <div class="sheet-header">
+          <h3> Spell factors </h3>
+        </div>
+        <div class="gold-border"> </div>
+
+        <div class="form-line {{#if valueChange.potency}} fadeRed {{/if}}">
+          <label> Potency </label>
+          <span>
+            <select name="object.potency.value">
+              {{#select object.potency.value}}
+                {{#if object.potency.isAdvanced}}
+                  {{#each config.spell_casting.potency.advanced}}
+                    <option value="{{this}}">{{this}}</option>
+                  {{/each}}
+                {{else}}
+                  {{#each config.spell_casting.potency.standard}}
+                    <option value="{{this}}">{{this}}</option>
+                  {{/each}}
+                {{/if}}
+              {{/select}}
+            </select>
+          </span>
+          <span><label class="small"> Advanced </label>
+            <label class="checkBox">
+              <input object.data-dtype="Boolean" name="object.potency.isAdvanced" type="checkbox" {{checked object.potency.isAdvanced}}>
+              <span></span>
+            </label>
+          </span>
+          <label class="small freeFactor"> {{#if object.potency.freeFactor}} Free Potency: {{object.potency.freeFactor}} {{/if}} </label>
+          <label class="wide small"> {{#if object.potency.isAdvanced}} +2 Withstand against dispell {{/if}} </label>
+        </div>
+        <div class="form-line">
+          <label> Duration </label>
+          <span>
+            <select name="object.duration.value">
+              {{#select object.duration.value}}
+                {{#if object.duration.isAdvanced}}
+                  {{#each config.spell_casting.duration.advanced}}
+                    <option value="{{this}}">{{this}}</option>
+                  {{/each}}
+                {{else}}
+                  {{#each config.spell_casting.duration.standard}}
+                    <option value="{{this}}">{{this}}</option>
+                  {{/each}}
+                {{/if}}
+              {{/select}}
+            </select>
+          </span>
+          <span><label class="small"> Advanced </label>
+            <label class="checkBox">
+              <input object.data-dtype="Boolean" name="object.duration.isAdvanced" type="checkbox" {{checked object.duration.isAdvanced}}>
+              <span></span>
+            </label>
+          </span>
+          <label class="small freeFactor"> {{#if object.duration.freeFactor}} Free Duration: {{object.duration.freeFactor}} {{/if}} </label>
+          <label class="wide small"> Spell with instaneous effects recur every {{ritualCastingTime}}. </label>
+          <span class="wide">
+            {{#if attainment_permanence}}
+            <label class="checkBox checkButton">
+              <input data-dtype="Boolean" name="object.attainment_permanence" type="checkbox" {{checked object.attainment_permanence}}>
+              <span> Permanence </span>
+            </label>
+            {{/if}}
+            {{#if attainment_conditionalDuration}}
+            <select name="object.condition">
+              {{#select object.condition}}
+                  {{#each config.spell_casting.condition}}
+                    <option value="{{this}}">{{this}}</option>
+                  {{/each}}
+              {{/select}}
+            </select>
+            {{/if}}
+          </span>
+        </div>
+        <div class="form-line">
+          <label> Scale </label>
+          <span>
+            <select name="object.scale.value">
+              {{#select object.scale.value}}
+                {{#if object.scale.isAdvanced}}
+                  {{#each config.spell_casting.scale.advanced}}
+                    <option value="{{this}}">{{this}}</option>
+                  {{/each}}
+                {{else}}
+                  {{#each config.spell_casting.scale.standard}}
+                    <option value="{{this}}">{{this}}</option>
+                  {{/each}}
+                {{/if}}
+              {{/select}}
+            </select>
+          </span>
+          <span><label class="small"> Advanced </label>
+            <label class="checkBox">
+              <input object.data-dtype="Boolean" name="object.scale.isAdvanced" type="checkbox" {{checked object.scale.isAdvanced}}>
+              <span></span>
+            </label>
+          </span>
+          {{#if attainment_everywhere}}
+          <span class="wide">
+            <label class="checkBox checkButton">
+              <input data-dtype="Boolean" name="object.attainment_everywhere" type="checkbox" {{checked object.attainment_everywhere}}>
+              <span> Everywhere </span>
+            </label>
+          </span>
+          {{/if}}
+        </div>
+        <div class="form-line">
+          <label> Casting Time </label>
+          <span>
+            <select name="object.casting_time.value">
+              {{#select object.casting_time.value}}
+                {{#if object.casting_time.isAdvanced}}
+                  {{#each config.spell_casting.casting_time.advanced}}
+                    <option value="{{this}}">{{this}}</option>
+                  {{/each}}
+                {{else}}
+                  {{#each casting_time}}
+                    <option value="{{this}}">{{this}}</option>
+                  {{/each}}
+                {{/if}}
+              {{/select}}
+            </select>
+          </span>
+          <span><label class="small"> Advanced </label>
+            <label class="checkBox">
+              <input object.data-dtype="Boolean" name="object.casting_time.isAdvanced" type="checkbox" {{checked object.casting_time.isAdvanced}}>
+              <span></span>
+            </label>
+          </span>
+          {{#if attainment_timeInABottle}}
+          <span class="wide">
+            <label class="checkBox checkButton">
+              <input data-dtype="Boolean" name="object.attainment_timeInABottle" type="checkbox" {{checked object.attainment_timeInABottle}}>
+              <span> Time in a Bottle </span>
+            </label>
+          </span>
+          {{/if}}
+        </div>
+        <div class="form-line">
+          <label> Range </label>
+          <span>
+            <select name="object.range.value">
+              {{#select object.range.value}}
+                {{#if object.range.isAdvanced}}
+                  {{#each config.spell_casting.range.advanced}}
+                    <option value="{{this}}">{{this}}</option>
+                  {{/each}}
+                {{else}}
+                  {{#each config.spell_casting.range.standard}}
+                    <option value="{{this}}">{{this}}</option>
+                  {{/each}}
+                {{/if}}
+              {{/select}}
+            </select>
+          </span>
+          <span><label class="small"> Advanced </label>
+            <label class="checkBox">
+              <input object.data-dtype="Boolean" name="object.range.isAdvanced" type="checkbox" {{checked object.range.isAdvanced}}>
+              <span></span>
+            </label>
+          </span>
+          <span class="wide">
+            {{#if attainment_sympatheticRange}}
+            <label class="checkBox checkButton">
+              <input data-dtype="Boolean" name="object.attainment_sympatheticRange" type="checkbox" {{checked object.attainment_sympatheticRange}}>
+              <span> Sympathetic Range </span>
+            </label>
+            {{/if}}
+            {{#if attainment_temporalSympathy}}
+            <label class="checkBox checkButton">
+              <input data-dtype="Boolean" name="object.attainment_temporalSympathy" type="checkbox" {{checked object.attainment_temporalSympathy}}>
+              <span> Temporal Sympathy </span>
+            </label>
+            {{/if}}
+          </span>
+          
+        </div>
+        <div class="form-line">
+          <label> Reach Mod. </label> <input name="object.additionalReach" type="number" data-dtype="Number" value="{{object.additionalReach}}" />
+        </div>
+        <div class="form-line">
+          <label> Mana Mod. </label> <input name="object.manaMod" type="number" data-dtype="Number" value="{{object.manaMod}}" />
+        </div>
+
+      </div>
+
+      <div class="stat-group">
+        <div class="form-line {{#if valueChange.dicePool}} fadeRed {{/if}}">
+          <label> Dice pool </label>
+          <label> 
+            <label> {{object.spellcastingDice}} </label>
+            <span class="dicePoolMods">
+              <label class="checkBox checkButton">
+              <input data-dtype="Boolean" name="object.spell_tenAgain" type="checkbox" {{checked object.spell_tenAgain}}>
+              <span> 10-again </span>
+            </label>
+              <label class="checkBox checkButton">
+              <input data-dtype="Boolean" name="object.spell_nineAgain" type="checkbox" {{checked object.spell_nineAgain}}>
+              <span> 9-again </span>
+            </label>
+              <label class="checkBox checkButton">
+              <input data-dtype="Boolean" name="object.spell_eightAgain" type="checkbox" {{checked object.spell_eightAgain}}>
+              <span> 8-again </span>
+            </label>
+              <label class="checkBox checkButton">
+              <input data-dtype="Boolean" name="object.spell_roteQuality" type="checkbox" {{checked object.spell_roteQuality}}>
+              <span> Rote </span>
+            </label>
+            </span>
+          </label>
+          <label class="wide small">{{#if object.woundPenalty}}(-{{object.woundPenalty}} dice wound penalty){{/if}}</label>
+          <label class="wide small"> {{#if spellImpossible}} Spell fails {{else}} {{#if object.chance_die}} Chance die {{/if}} {{/if}}</label>
+        </div>
+        <div class="form-line {{#if valueChange.reach}} fadeRed {{else}} {{#if valueChange.reachFree}} fadeRed {{/if}} {{/if}}">
+          <label> Reach </label>
+          <label> {{object.reach}} / {{object.reachFree}}</label>
+          {{#if activeSpellReach}}  <label> </label> <label class="small extraReach">(+{{activeSpellReach}} Reach from active spells.)</label> {{/if}}
+        </div>
+        <div class="form-line {{#if valueChange.manaCost}} fadeRed {{/if}}">
+          <label> Mana </label>
+          <label> {{object.manaCost}} </label>
+        </div>
+        <div class="form-line {{#if valueChange.paradox}} fadeRed {{/if}}">
+          <label> Paradox </label>
+          <label> 
+            <label> {{object.paradox.value}} </label>
+            <span class="dicePoolMods">
+              <label class="checkBox checkButton">
+              <input data-dtype="Boolean" name="object.paradox_tenAgain" type="checkbox" {{checked object.paradox_tenAgain}}>
+              <span> 10-again </span>
+            </label>
+              <label class="checkBox checkButton">
+              <input data-dtype="Boolean" name="object.paradox_nineAgain" type="checkbox" {{checked object.paradox_nineAgain}}>
+              <span> 9-again </span>
+            </label>
+              <label class="checkBox checkButton">
+              <input data-dtype="Boolean" name="object.paradox_eightAgain" type="checkbox" {{checked object.paradox_eightAgain}}>
+              <span> 8-again </span>
+            </label>
+              <label class="checkBox checkButton">
+              <input data-dtype="Boolean" name="object.paradox_roteQuality" type="checkbox" {{checked object.paradox_roteQuality}}>
+              <span> Rote </span>
+            </label>
+            </span>
+          </label>
+          <label class="wide small"> {{#if object.paradox.chance_die}} Chance die {{/if}} </label>
+        </div>
+        <div>
+          <button class="button stoneButton imprSpell rollParadox">
+            Roll Paradox
+          </button>
+
+          <button class="button stoneButton imprSpell castSpell">
+            Cast Spell
+          </button>
+        
+        </div>
+        
+
+      </div>
+
+    </div>
+
+
+
+  </div>
+
+
+
+
+</form>

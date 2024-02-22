@@ -1,0 +1,102 @@
+<div class="tab-block">
+
+{{!-- Dream Form Attributes --}}
+{{#if system.isDreaming}}
+    <div class="attributes-flexrow">
+    <ol class="attributes-list dreamAttributes">
+        {{#each config.attributes_physical_dream as |cvalue ckey|}}
+            {{{rollableInput ../actor "attributes_physical_dream" ckey}}}
+        {{/each}}
+    </ol>
+
+    <ol class="attributes-list dreamAttributes">
+        {{#each config.attributes_social_dream as |cvalue ckey|}}
+            {{{rollableInput ../actor "attributes_social_dream" ckey}}}
+        {{/each}}
+    </ol>
+
+    <ol class="attributes-list dreamAttributes">
+        {{#each config.attributes_mental_dream as |cvalue ckey|}}
+            {{{rollableInput ../actor "attributes_mental_dream" ckey}}}
+        {{/each}}
+    </ol>
+    </div>
+{{else}}
+    {{!-- Attributes --}}
+    <div class="attributes-flexrow">
+        <ol class="attributes-list">
+            <li class="attributes-header major flexrow">
+            <span class="attribute-header">{{ localize "MTA.Physical" }}</span>
+            </li>
+            <li class="attributes-header flexrow">
+            <span class="attribute-key">{{ localize "MTA.Attribute" }}</span>
+            <span class="attribute-valueHeader">{{ localize "MTA.Value" }}</span>
+            </li>
+            {{#each config.attributes_physical as |cvalue ckey|}}
+                {{{rollableInput ../actor "attributes_physical" ckey}}}
+            {{/each}}
+        </ol>
+
+    <ol class="attributes-list">
+        <li class="attributes-header major flexrow">
+        <span class="attribute-header">{{ localize "MTA.Social" }}</span>
+        </li>
+        <li class="attributes-header flexrow">
+        <span class="attribute-key">{{ localize "MTA.Attribute" }}</span>
+        <span class="attribute-valueHeader">{{ localize "MTA.Value" }}</span>
+        </li>
+        {{#each config.attributes_social as |cvalue ckey|}}
+            {{{rollableInput ../actor "attributes_social" ckey}}}
+        {{/each}}
+    </ol>
+
+    <ol class="attributes-list">
+        <li class="attributes-header major flexrow">
+        <span class="attribute-header">{{ localize "MTA.Mental" }}</span>
+        </li>
+        <li class="attributes-header flexrow">
+        <span class="attribute-key">{{ localize "MTA.Attribute" }}</span>
+        <span class="attribute-valueHeader">{{ localize "MTA.Value" }}</span>
+        </li>
+        {{#each config.attributes_mental as |cvalue ckey|}}
+            {{{rollableInput ../actor "attributes_mental" ckey}}}
+        {{/each}}
+    </ol>
+    </div>
+{{/if}}
+{{!-- Skills --}}
+    <div class="attributes-flexrow">
+    <ol class="attributes-list">
+        <li class="attributes-header flexrow">
+        {{#if (eq system.characterType "Mage")}}<span class="attribute-key">{{ localize "MTA.Rote" }}</span>{{/if}}
+        <span class="attribute-key">{{ localize "MTA.Skill" }}</span>
+        <span class="attribute-valueHeader">{{ localize "MTA.Value" }}</span>
+        </li>
+        {{#each config.skills_physical as |cvalue ckey|}}
+            {{{rollableInput ../actor "skills_physical" ckey}}}
+        {{/each}}
+    </ol>
+
+    <ol class="attributes-list">
+        <li class="attributes-header flexrow">
+        {{#if (eq system.characterType "Mage")}}<span class="attribute-key">{{ localize "MTA.Rote" }}</span>{{/if}}
+        <span class="attribute-key">{{ localize "MTA.Skill" }}</span>
+        <span class="attribute-valueHeader">{{ localize "MTA.Value" }}</span>
+        </li>
+        {{#each config.skills_social as |cvalue ckey|}}
+            {{{rollableInput ../actor "skills_social" ckey}}}
+        {{/each}}
+    </ol>
+
+    <ol class="attributes-list">
+        <li class="attributes-header flexrow">
+        {{#if (eq system.characterType "Mage")}}<span class="attribute-key">{{ localize "MTA.Rote" }}</span>{{/if}}
+        <span class="attribute-key">{{ localize "MTA.Skill" }}</span>
+        <span class="attribute-valueHeader">{{ localize "MTA.Value" }}</span>
+        </li>
+        {{#each config.skills_mental as |cvalue ckey|}}
+            {{{rollableInput ../actor "skills_mental" ckey}}}
+        {{/each}}
+    </ol>
+    </div>
+</div>

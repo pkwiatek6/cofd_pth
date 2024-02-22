@@ -1,0 +1,76 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+    <header class="sheet-header flexrow">
+       <img class="profile" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+      
+        <div class="header-details flexrow">
+          <h1 class="charname">
+            <input name="name" type="text" value="{{item.name}}" placeholder="Item Name" />
+          </h1>
+          <div class="item-subtitle">
+            <h4 class="item-type">{{localize "MTA.Facet"}}</h4>
+            <span class="item-status"></span>
+          </div>
+          <ul class="summary">
+            <li> 
+              <label> Type </label> 
+              <select name="system.giftType">
+                {{#select system.giftType}}
+                {{#each config.giftTypes}}
+                <option value="{{@key}}">{{this}}</option>
+                {{/each}}
+                {{/select}}
+              </select>
+            </li>
+            {{#if (eq system.giftType "moon")}}
+            <li>
+              <label>Level</label> 
+              <input name="system.level" type="number" data-dtype="Number" value="{{system.level}}" />
+            </li>
+            {{/if}}
+          </ul>
+        </div>
+    </header>
+  <div class="gold-border"> </div>
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="sheet-tabs tabs" data-group="primary">    
+      <a class="item" data-tab="traits">Traits</a>
+      <a class="item" data-tab="description">Description</a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+
+        {{!-- Attributes Tab --}}
+        <div class="tab traits" data-group="primary" data-tab="traits">
+          <div class="item-stat-block">
+            <div class="form-line">
+              <label> Gift </label> 
+              <input name="system.gift" type="text" value="{{system.gift}}" data-koptions="--Moon Gifts--/Crescent Moon's Gift/Full Moon's Gift/Gibbous Moon's Gift/Half Moon's Gift/New Moon's Gift/--Shadow Gifts--/Gift of Death/Gift of Dominance/Gift of the Elemental/Gift of Evasion/Gift of Insight/Gift of Inspiration/Gift of Knowledge/Nature's Gift/Gift of Rage/Gift of Shaping/Gift of Stealth/Gift of Strength/Gift of Technology/Gift of Warding/Gift of Weather/--Wolf Gifts--/Gift of Change/Gift of Hunting/Gift of Pack"/>
+            </div>
+            {{{effectList this}}}
+            {{{dicePoolList this}}}
+            <div class="form-line">
+              <label>Cost (Essence)</label> 
+              <span>
+                <input name="system.cost.value" type="number" data-dtype="Number" value="{{system.cost.value}}" />
+                <input name="system.cost.misc" type="text" value="{{system.cost.misc}}" data-koptions="per turn/per prey/per packmate"/>
+              </span>
+            </div>
+            <div class="form-line">
+              <label> Action </label> 
+              <input name="system.action" type="text" value="{{system.action}}" data-koptions="{{#each config.actionTypes}}{{this}}/{{/each}}"/>
+            </div>
+            <div class="form-line">
+              <label> Duration </label> 
+              <input name="system.duration" type="text" value="{{system.duration}}"/>
+            </div>
+          </div>
+        </div>
+      
+        {{!-- Description Tab --}}
+        <div class="tab" data-tab="description">
+            {{editor enrichedDescription target="system.description" button=true owner=owner editable=editable}}
+        </div>
+    </section>
+</form>

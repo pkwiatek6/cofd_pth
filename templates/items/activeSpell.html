@@ -1,0 +1,145 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+    <header class="sheet-header flexrow">
+       <img class="profile" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+      
+        <div class="header-details flexrow">
+          <h1 class="charname">
+            <input name="name" type="text" value="{{item.name}}" placeholder="Item Name" />
+          </h1>
+          <div class="item-subtitle">
+            <h4 class="item-type">{{localize "MTA.ActiveSpell"}}</h4>
+            <span class="item-status"></span>
+          </div>
+          <ul class="summary">
+            <li> 
+              <label> Arcanum </label> 
+              <select name="system.arcanum">
+                {{#select system.arcanum}}
+                {{#each config.arcana as |cvalue ckey|}}
+                <option value="{{ckey}}">{{cvalue}}</option>
+                {{/each}}
+                {{/select}}
+              </select>
+            </li>
+            <li> 
+              <label> Level </label> <input name="system.level" type="number" data-dtype="Number" value="{{system.level}}" />
+            </li>
+            <li> 
+              <label> Practice </label> 
+              <input name="system.practice" type="text" value="{{system.practice}}" data-koptions="{{#each config.practices}}{{this}}/{{/each}}"/>
+            </li>
+          </ul>
+        </div>
+    </header>
+  
+  <div class="gold-border"> </div>
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="sheet-tabs tabs">    
+      <a class="item" data-tab="traits">Traits</a>
+      <a class="item" data-tab="description">Description</a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+
+        {{!-- Attributes Tab --}}
+        <div class="tab traits" data-tab="traits">
+          <div class="item-stat-block">
+            <div class="form-line">
+              <label> Primary factor </label> 
+              <select name="system.primaryFactor">
+                {{#select system.primaryFactor}}
+                {{#each config.primaryFactors}}
+                <option value="{{this}}">{{this}}</option>
+                {{/each}}
+                {{/select}}
+              </select>
+            </div>
+            <div class="form-line">
+              <label> Potency </label>
+              <span>
+                <select name="system.potency.value">
+                  {{#select system.potency.value}}
+                    {{#if system.potency.isAdvanced}}
+                      {{#each config.spell_casting.potency.advanced}}
+                        <option value="{{this}}">{{this}}</option>
+                      {{/each}}
+                    {{else}}
+                      {{#each config.spell_casting.potency.standard}}
+                        <option value="{{this}}">{{this}}</option>
+                      {{/each}}
+                    {{/if}}
+                  {{/select}}
+                </select>
+              </span>
+              <span><label class="small"> Advanced </label>
+                <label class="checkBox">
+                  <input data-dtype="Boolean" name="system.potency.isAdvanced" type="checkbox" {{checked system.potency.isAdvanced}}>
+                  <span></span>
+                </label>
+              </span>
+              <label class="wide small"> {{#if system.potency.isAdvanced}} +2 Withstand against dispell {{/if}} </label>
+            </div>
+            <div class="form-line">
+              <label> Duration </label>
+              <span>
+                <select name="system.duration.value">
+                  {{#select system.duration.value}}
+                    {{#if system.duration.isAdvanced}}
+                      {{#each config.spell_casting.duration.advanced}}
+                        <option value="{{this}}">{{this}}</option>
+                      {{/each}}
+                    {{else}}
+                      {{#each config.spell_casting.duration.standard}}
+                        <option value="{{this}}">{{this}}</option>
+                      {{/each}}
+                    {{/if}}
+                  {{/select}}
+                </select>
+              </span>
+              <span><label class="small"> Advanced </label> 
+                <label class="checkBox">
+                  <input data-dtype="Boolean" name="system.duration.isAdvanced" type="checkbox" {{checked system.duration.isAdvanced}} >
+                  <span></span>
+                </label> 
+              </span>
+              <label class="wide small"> Spell with instaneous effects recur every {{ritualCastingTime}}. </label>
+            </div>
+            <div class="form-line">
+            <label> Scale </label>
+              <span>
+                <select name="system.scale.value">
+                  {{#select system.scale.value}}
+                    {{#if system.scale.isAdvanced}}
+                      {{#each config.spell_casting.scale.advanced}}
+                        <option value="{{this}}">{{this}}</option>
+                      {{/each}}
+                    {{else}}
+                      {{#each config.spell_casting.scale.standard}}
+                        <option value="{{this}}">{{this}}</option>
+                      {{/each}}
+                    {{/if}}
+                  {{/select}}
+                </select>
+              </span>
+              <span><label class="small"> Advanced </label> 
+                <label class="checkBox">
+                  <input data-dtype="Boolean" name="system.scale.isAdvanced" type="checkbox" {{checked system.scale.isAdvanced}} >
+                  <span></span>
+                </label> 
+              </span>
+            </div>
+            <div class="form-line">
+              <label> Withstand </label> <input name="system.withstand" type="text" value="{{system.withstand}}" />
+            </div>
+            {{{effectList this}}}
+            
+          </div>
+        </div>
+      
+        {{!-- Description Tab --}}
+        <div class="tab" data-tab="description">
+            {{editor enrichedDescription target="system.description" button=true owner=owner editable=editable}}
+        </div>
+    </section>
+</form>

@@ -1,0 +1,51 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <div class="tactic-dicePoolList">
+        {{#each dicepools_primary}}
+            <div class="dicePoolBox"> 
+                <div class="dicePoolHeader">
+                    <span class="rollIcon" data-index="{{@index}}" data-primary="true">
+                        <img src="systems/mta/icons/gui/d10.svg" alt="Roll tactic.">
+                    </span>
+                    
+                    <span class="dicePoolTitle">{{description}}</span>
+                </div>
+                <div class="dicePoolFooter">
+                    <div class="dicePoolType">Primary</div>
+                    <div>
+                        {{#if noDice}}
+                            No dice
+                        {{else}}
+                            {{#each attributes}}
+                                {{translateTrait this}} + 
+                            {{/each}}
+                            {{value}}
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+        {{#each dicepools_secondary}}
+        <div class="dicePoolBox"> 
+            <div class="dicePoolHeader">
+                <span class="rollIcon" data-index="{{@index}}">
+                    <img src="systems/mta/icons/gui/d10.svg" alt="Roll tactic.">
+                </span>
+                
+                <span class="dicePoolTitle">{{description}}</span>
+            </div>
+            <div class="dicePoolFooter">
+                <div>
+                    {{#if noDice}}
+                        No dice
+                    {{else}}
+                        {{#each attributes}}
+                            {{translateTrait this}} + 
+                        {{/each}}
+                        {{value}}
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</form>

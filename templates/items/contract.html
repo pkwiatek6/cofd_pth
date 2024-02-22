@@ -1,0 +1,109 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+    <header class="sheet-header flexrow">
+       <img class="profile" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+      
+        <div class="header-details flexrow">
+          <h1 class="charname">
+            <input name="name" type="text" value="{{item.name}}" placeholder="Item Name" />
+          </h1>
+          <div class="item-subtitle">
+            <h4 class="item-type">{{localize "MTA.Contract"}}</h4>
+            <span class="item-status"></span>
+          </div>
+          <ul class="summary">
+            <li>
+              <label> Type </label> 
+              <select name="system.majorType">
+                {{#select system.majorType}}
+                {{#each config.contract_majorTypes}}
+                <option value="{{this}}">{{this}}</option>
+                {{/each}}
+                {{/select}}
+              </select>
+              {{#if (isArcadian system.majorType)}}
+              <select name="system.subType">
+                {{#select system.subType}}
+                {{#each config.contract_ArcadianTypes}}
+                <option value="{{this}}">{{this}}</option>
+                {{/each}}
+                {{/select}}
+              </select>
+              {{/if}}
+              {{#if (isCourt system.majorType)}}
+              <select name="system.subType">
+                {{#select system.subType}}
+                {{#each config.contract_CourtTypes}}
+                <option value="{{this}}">{{this}}</option>
+                {{/each}}
+                {{/select}}
+              </select>
+              {{/if}}
+            </li>
+            {{#unless (isGoblin system.majorType)}}
+            <li>
+              <label> Regalia </label> 
+              <select name="system.regalia">
+                {{#select system.regalia}}
+                {{#each config.contract_regalia}}
+                <option value="{{this}}">{{this}}</option>
+                {{/each}}
+                {{/select}}
+              </select>
+            </li>
+            {{/unless}}
+          </ul>
+        </div>
+    </header>
+  <div class="gold-border"> </div>
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="sheet-tabs tabs" data-group="primary">    
+      <a class="item" data-tab="traits">Traits</a>
+      <a class="item" data-tab="description">Description</a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+
+        {{!-- Attributes Tab --}}
+        <div class="tab traits" data-group="primary" data-tab="traits">
+          <div class="item-stat-block">
+            {{{effectList this}}}
+            {{{dicePoolList this}}}
+            <div class="form-line">
+              <label> Glamour Cost </label> 
+              <input name="system.costGlamour.value" type="number" value="{{system.costGlamour.value}}" />
+              <span><label class="small"> Per Turn </label> 
+                <label class="checkBox">
+                  <input data-dtype="Boolean" name="system.costGlamour.perTurn" type="checkbox" {{checked system.costGlamour.perTurn}} >
+                  <span></span>
+                </label> 
+              </span>
+            </div>
+            <div class="form-line">
+              <label> Willpower Cost </label> 
+              <input name="system.costWillpower.value" type="number" value="{{system.costWillpower.value}}" />
+              <span><label class="small"> Per Turn </label> 
+                <label class="checkBox">
+                  <input data-dtype="Boolean" name="system.costWillpower.perTurn" type="checkbox" {{checked system.costWillpower.perTurn}} >
+                  <span></span>
+                </label> 
+              </span>
+            </div>
+            <div class="form-line">
+              <label> Action </label> 
+              <input name="system.action" type="text" value="{{system.action}}" data-koptions="{{#each config.actionTypes}}{{this}}/{{/each}}"/>
+            </div>
+            <div class="form-line">
+              <label> Duration </label> 
+              <input name="system.duration" type="text" value="{{system.duration}}" />
+            </div>
+          </div>
+        </div>
+      
+        {{!-- Description Tab --}}
+        <div class="tab" data-tab="description">
+            {{editor enrichedDescription target="system.description" button=true owner=owner editable=editable}}
+        </div>
+    </section>
+</form>

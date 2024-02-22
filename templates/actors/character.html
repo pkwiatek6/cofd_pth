@@ -1,0 +1,879 @@
+<form class="{{cssClass}}" autocomplete="off">
+
+  <div class="characterSheet">
+
+    {{!-- Sheet Header --}}
+    <!-- Column #1 -->
+    <div class="sheet-header stats">
+
+      <!-- Column #1-->
+      <div class="portrait">
+        <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}">
+      </div>
+
+      <!-- Column #2 -->
+      <div>
+        <!-- Row #1 -->
+        <h1 class="character-name"><input type="text" name="name" value="{{actor.name}}" placeholder="Name"> </h1>
+
+        <!-- Row #2 -->
+        <div class="bottomCharaBlock">
+          <div class="kInput statBox big health">
+            <h4 class="{{#if system.isDreaming}}dreaming{{/if}}">
+              <div class="button charMacroButton calculate health tooltip">
+                <span class="tooltip-text">{{ localize "MTA.TooltipCalcMaxHealth" }}</span>
+                <img src="systems/mta/icons/gui/calculate.svg" alt="Calculate max. health.">
+              </div>
+              {{ localize "MTA.Health" }}
+            </h4>
+            <div class="gold-border"> </div>
+            <div class="kMageTracker" data-type="health" data-name="system.health" data-states="max/value/lethal/aggravated" data-marked="{{system.health.marked}}" data-max="{{system.health.max}}" data-aggravated="{{system.health.aggravated}}" data-lethal="{{system.health.lethal}}" data-value="{{system.health.value}}"></div>
+          </div>
+
+          <div class="kInput statBox big">
+            <h4>
+              <input class="attribute-check" id="Willpower{{actor.id}}" data-attribute="willpower" data-trait="willpower" data-attributeValue={{system.willpower.max}} data-attributeLabel="Willpower" type="checkbox" data-dtype="Boolean">
+              <label class="button attribute-button" for="Willpower{{actor.id}}">{{ localize "MTA.Willpower" }}</label>
+            </h4>
+            <div class="gold-border"> </div>
+            <div class="split">
+              <div class="niceNumber buttonsLeft">
+                <input name="system.willpower.value" type="number" value="{{system.willpower.value}}" data-dtype="Number" onchange="this.value=Math.clamped(this.value,0,99);">
+                <div class="numBtns">
+                  <div class="plusBtn">+</div>
+                  <div class="minusBtn">−</div>
+                </div>
+              </div>
+              <span class="delimiter"> / </span>
+              <div class="niceNumber">
+                <input name="system.willpower.max" type="number" value="{{system.willpower.max}}" data-dtype="Number" onchange="this.value=Math.clamped(this.value,0,99);">
+                <div class="numBtns">
+                  <div class="plusBtn">+</div>
+                  <div class="minusBtn">−</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {{#if (eqAny system.characterType "Mage" "Scelesti")}}
+            {{#if (usesJoining system.characterType system.scelestiRank)}}
+              {{{bigStatBox actor false "mage_traits.joining"}}}
+            {{else}} 
+              {{{bigStatBox actor false "mage_traits.wisdom"}}}
+            {{/if}}
+          {{else if (eq system.characterType "Vampire")}}
+            {{{bigStatBox actor false "vampire_traits.humanity"}}}
+          {{else if (eq system.characterType "Changeling")}}
+            <div class="kInput statBox big health">
+              <h4>
+                <div class="button charMacroButton calculate clarity tooltip">
+                  <span class="tooltip-text">{{ localize "MTA.TooltipCalcMaxClarity" }}</span>
+                  <img src="systems/mta/icons/gui/calculate.svg" alt="Calculate max. clarity.">
+                </div>
+                <input class="attribute-check" id="Clarity{{actor.id}}" data-attribute="clarity" data-trait="clarity.value" type="checkbox" data-dtype="Boolean">
+                <label class="button attribute-button" for="Clarity{{actor.id}}">{{ localize "MTA.ChangelingClarity" }}</label>
+              </h4>
+              <div class="gold-border"> </div>
+              <div class="kMageTracker clarity" data-type="clarity" data-name="system.clarity" data-states="max/value/severe" data-max="{{system.clarity.max}}" data-severe="{{system.clarity.severe}}" data-value="{{system.clarity.value}}"></div>
+            </div>
+          {{else if (eq system.characterType "Werewolf")}}
+            {{{bigStatBox actor false "werewolf_traits.harmony"}}}
+          {{else if (eq system.characterType "Princess")}}
+            {{{bigStatBox actor false "princess_traits.belief"}}}
+          {{else if (eq system.characterType "Demon")}}
+            <div class="kInput statBox big">
+              <h4>
+                <input class="attribute-check" id="CurrentCover{{actor.id}}" data-attribute="currentCover" data-trait="currentCover" type="checkbox" data-dtype="Boolean">
+                <label class="button attribute-button" for="CurrentCover{{actor.id}}">{{ localize "MTA.Cover" }}</label>
+              </h4>
+              <div class="gold-border"> </div>
+              <div class="split">
+                <div class="niceNumber">
+                  <input name="currentCover" type="number" value="{{currentCover}}" data-dtype="Number" readonly>
+                </div>
+              </div>
+              <div class="currentCoverName">{{currentCoverName}}</div>
+            </div>
+          {{else}}
+            {{#if system.usesDreadPowers}}
+              {{{bigStatBox actor false "potency"}}}
+            {{else}}
+              {{{bigStatBox actor false "integrity"}}}
+            {{/if}}
+          {{/if}}
+        </div>
+      </div>
+    </div>
+
+    {{!-- Sheet Side --}}
+    <div class="conditions">
+      <div class="character-type">
+        <span class="tooltip left">
+          <span class="tooltip-text">{{ localize "MTA.TooltipTypeVisible" }}</span>
+          <label class="checkBox">
+            <input data-dtype="Boolean" name="system.isTypeKnown" type="checkbox" {{checked system.isTypeKnown}}>
+            <span></span>
+          </label>
+        </span>
+        <select name="system.characterType">
+          {{#select system.characterType}}
+            {{#each config.characterTypes}}
+              <option value="{{this}}">{{this}}</option>
+            {{/each}}
+          {{/select}}
+        </select>
+        {{#if (eq system.characterType "Scelesti")}}
+          <select name="system.scelestiRank">
+            {{#select system.scelestiRank}}
+              {{#each config.scelestiRanks}}
+                <option value="{{this}}">{{this}}</option>
+              {{/each}}
+            {{/select}}
+          </select>
+        {{/if}}
+      </div>
+      {{#if system.usesDreadPowers}}
+      <div class="horrorHeader">Horror</div>
+      {{/if}}
+      <!-- Block #1 -->
+      <div class="expBox">
+        <div>
+          <div class="button charMacroButton progress tooltip">
+            <span class="tooltip-text">{{ localize "MTA.TooltipProgressMenu" }}</span>
+            <img src="systems/mta/icons/gui/progress-menu.svg" alt="Open progress menu.">
+          </div>
+          <div>
+            <div class="exp-header">{{localize "MTA.Beats" }}</div>
+            <input class="attribute-value borderInput disabled" type="number" name="beats_computed" value={{beats_computed}} disabled/>
+          </div>
+          <div>
+            <div class="exp-header">{{localize "MTA.Exp" }}</div>
+            <input class="attribute-value borderInput disabled" type="number" name="experience_computed" value={{experience_computed}} disabled/>
+          </div>
+        </div>
+        {{#if (eqAny system.characterType "Mage" "Scelesti" "Hunter")}}
+          <div>
+            <div style="width:32px;min-width:32px"></div>
+            <div>
+              <div class="exp-header">{{#if (eqAny system.characterType "Mage" "Scelesti")}}{{localize "MTA.ArcBeats"}}{{else}}{{localize "MTA.GroupBeats"}}{{/if}}</div>
+              <input class="attribute-value borderInput disabled" type="number" name="arcaneBeats_computed" value={{arcaneBeats_computed}} disabled/>
+            </div>
+            <div>
+              <div class="exp-header">{{#if (eqAny system.characterType "Mage" "Scelesti")}}{{localize "MTA.ArcExp"}}{{else}}{{localize "MTA.GroupExp"}}{{/if}}</div>
+              <input class="attribute-value borderInput disabled" type="number" name="arcaneExperience_computed" value={{arcaneExperience_computed}} disabled/>
+            </div>
+          </div>
+        {{/if}}
+      </div>
+
+
+      <!-- Block #2 -->
+      <div class="kInput statBox">
+        <h4> {{ localize "MTA.DerivedTraits" }}</h4>
+        <div class="gold-border"> </div>
+        <div class="armourGrid">
+          {{#each config.derivedTraits as |cvalue ckey|}}
+          {{#with (lookup ../system.derivedTraits [ckey])}}
+            <span>
+              <input class="attribute-check" id="{{cvalue}}{{../../actor.id}}" data-attribute="{{ckey}}" data-trait="derivedTraits.{{ckey}}" data-attributeValue={{chooseNum final value}} data-attributeLabel="{{cvalue}}" type="checkbox" data-dtype="Boolean">
+              <label class="button attribute-button" for="{{cvalue}}{{../../actor.id}}">{{cvalue}}</label>
+            </span>
+            <input class="{{#if isModified}}{{posneg final value}}{{/if}}" value={{chooseNum final value}} disabled>
+            <div class="niceNumber digits2" >
+              <input name="system.derivedTraits.{{ckey}}.mod" type="text" placeholder="0" data-dtype="Number" onchange="this.value=Math.clamped(this.value,-99,99);" value="{{numberFormat mod decimals=0 sign=true}}">
+              <div class="numBtns">
+                <div class="plusBtn">+</div>
+                <div class="minusBtn">−</div>
+              </div>
+            </div>
+          {{/with}}
+          {{/each}}
+        </div>
+      </div>
+      <div class="items-block">
+        <div class="items-table">
+          {{!-- Merits --}}
+          <table class="item-table">
+            <thead>
+              <tr class="item-row header">
+                <th class="cell header first"> 
+                  <span class="collapsible button fas fa-minus-square"> </span>
+                  <span class="sortable button" data-type="merit">{{ localize "MTA.Merits" }}<i class="fas fa-sort"></i> </span>
+                </th>
+                {{#each inventory.merit.dataset}}
+                  <th class="cell header"> {{this}} </th>
+                {{/each}}
+                <th class="cell header"> </th>
+                <th class="cell header button item-create" data-type="merit">{{ localize "MTA.ButtonAdd" }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each inventory.merit.items as |item iid|}}
+                <tr class="item-row item" data-item-id="{{item.id}}">
+                  <td class="cell item-name first {{#if @last}} lastRow {{/if}}" data-item-id="{{item.id}}">
+                    <div class="item-name-wrapper">
+                      <div class="item-image {{#if system.effectsActive}} effectActive {{/if}}" style="background-image: url({{item.img}})"></div>
+                      <span> {{item.name}} </span>
+                    </div>
+                  </td>
+                  <td class="cell {{#if @last}} lastRow {{/if}}"> {{system.rating}}</td>
+                  <td class="cell {{#if @last}} lastRow {{/if}}">
+                    {{#if system.effects }}<i class="activeIcon {{#if system.effectsActive}} fas {{else}} far {{/if}} fa-dot-circle" title="Effects active" data-item-id="{{item._id}}"></i>{{/if}}
+                  </td>
+                  <td class="cell edit-delete {{#if @last}} lastRow {{/if}}">
+                    <span class="button stoneButton item-edit" data-item-id="{{item.id}}" title="{{ localize 'MTA.EditItem' }}"><i class="fas fa-edit"></i></span>
+                    <span class="button stoneButton item-delete" data-item-id="{{item.id}}" title="{{ localize 'MTA.DeleteItem' }}"><i class="fas fa-times-circle"></i></span>
+                  </td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {{#if system.usesDreadPowers}}
+      <div class="items-block">
+        <div class="items-table">
+          {{!-- Dread Powers --}}
+          <table class="item-table">
+            <thead>
+              <tr class="item-row header">
+                <th class="cell header first"> 
+                  <span class="collapsible button fas fa-minus-square"> </span>
+                  <span class="sortable button" data-type="dreadPower">{{ localize "MTA.DreadPowers" }}<i class="fas fa-sort"></i> </span>
+                </th>
+                {{#each inventory.dreadPower.dataset}}
+                  <th class="cell header"> {{this}} </th>
+                {{/each}}
+                <th class="cell header"> </th>
+                <th class="cell header button item-create" data-type="dreadPower">{{ localize "MTA.ButtonAdd" }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each inventory.dreadPower.items as |item iid|}}
+                <tr class="item-row item" data-item-id="{{item.id}}">
+                  <td class="cell item-name first {{#if @last}} lastRow {{/if}}" data-item-id="{{item.id}}">
+                    <div class="item-name-wrapper">
+                      <div class="item-image {{#if system.effectsActive}} effectActive {{/if}}" style="background-image: url({{item.img}})"></div>
+                      <span> {{item.name}} </span>
+                    </div>
+                  </td>
+                  <td class="cell {{#if @last}} lastRow {{/if}}"> {{system.rating}}</td>
+                  <td class="cell {{#if @last}} lastRow {{/if}}"> 
+                    {{#if system.effects }}<i class="activeIcon {{#if system.effectsActive}} fas {{else}} far {{/if}} fa-dot-circle" title="Effects active" data-item-id="{{item._id}}"></i>{{/if}}
+                    <i class="favicon {{#if system.isFavorite}} fas {{else}} far {{/if}} fa-star" title="Favorite" data-item-id="{{item.id}}"></i>
+                  </td>
+                  <td class="cell edit-delete {{#if @last}} lastRow {{/if}}">
+                    <span class="button stoneButton item-edit" data-item-id="{{item.id}}" title="{{ localize 'MTA.EditItem' }}"><i class="fas fa-edit"></i></span>
+                    <span class="button stoneButton item-delete" data-item-id="{{item.id}}" title="{{ localize 'MTA.DeleteItem' }}"><i class="fas fa-times-circle"></i></span>
+                  </td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {{/if}}
+      <div class="items-block">
+        <div class="items-table">
+          {{!-- Conditions --}}
+          <table class="item-table">
+            <thead>
+              <tr class="item-row header">
+                <th class="cell header first"> 
+                  <span class="collapsible button fas fa-minus-square"> </span>
+                  <span class="sortable button" data-type="condition">{{ localize "MTA.Conditions" }}<i class="fas fa-sort"></i> </span>
+                </th>
+                {{#each inventory.condition.dataset}}
+                  <th class="cell header"> {{this}} </th>
+                {{/each}}
+                <th class="cell header"> </th>
+                <th class="cell header button item-create" data-type="condition">{{ localize "MTA.ButtonAdd" }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each inventory.condition.items as |item iid|}}
+                <tr class="item-row item" data-item-id="{{item.id}}">
+                  <td class="cell item-name first {{#if @last}} lastRow {{/if}}" data-item-id="{{item.id}}">
+                    <div class="item-name-wrapper">
+                      <div class="item-image {{#if system.effectsActive}} effectActive {{/if}}" style="background-image: url({{item.img}})"></div>
+                      <span> {{item.name}} </span>
+                    </div>
+                  </td>
+                  <td class="cell {{#if @last}} lastRow {{/if}}">{{convertBool system.isPersistent}}</td>
+                  {{#if (eq ../system.characterType "Changeling")}}
+                    <td class="cell {{#if @last}} lastRow {{/if}}">{{convertBool system.isClarity}}</td>
+                  {{/if}}
+                  <td class="cell {{#if @last}} lastRow {{/if}}">
+                    {{#if system.effects }}<i class="activeIcon {{#if system.effectsActive}} fas {{else}} far {{/if}} fa-dot-circle" title="Effects active" data-item-id="{{item._id}}"></i>{{/if}}
+                  </td>
+                  <td class="cell edit-delete {{#if @last}} lastRow {{/if}}">
+                    <span class="button stoneButton item-edit" data-item-id="{{item.id}}" title="{{ localize 'MTA.EditItem' }}"><i class="fas fa-edit"></i></span>
+                    <span class="button stoneButton item-delete" data-item-id="{{item.id}}" title="{{ localize 'MTA.DeleteItem' }}"><i class="fas fa-times-circle"></i></span>
+                  </td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="items-block">
+        <div class="items-table">
+          {{!-- Tilts --}}
+          <table class="item-table">
+            <thead>
+              <tr class="item-row header">
+                <th class="cell header first"> 
+                  <span class="collapsible button fas fa-minus-square"> </span>
+                  <span class="sortable button" data-type="tilt">{{ localize "MTA.Tilts" }}<i class="fas fa-sort"></i> </span>
+                </th>
+                {{#each inventory.tilt.dataset}}
+                  <th class="cell header"> {{this}} </th>
+                {{/each}}
+                <th class="cell header"> </th>
+                <th class="cell header button item-create" data-type="tilt">{{ localize "MTA.ButtonAdd" }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each inventory.tilt.items as |item iid|}}
+                <tr class="item-row item" data-item-id="{{item.id}}">
+                  <td class="cell item-name first {{#if @last}} lastRow {{/if}}" data-item-id="{{item.id}}">
+                    <div class="item-name-wrapper">
+                      <div class="item-image {{#if system.effectsActive}} effectActive {{/if}}" style="background-image: url({{item.img}})"></div>
+                      <span> {{item.name}} </span>
+                    </div>
+                  </td>
+                  <td class="cell {{#if @last}} lastRow {{/if}}"> {{convertBool system.isEnvironmental}}</td>
+                  <td class="cell {{#if @last}} lastRow {{/if}}">
+                    {{#if system.effects }}<i class="activeIcon {{#if system.effectsActive}} fas {{else}} far {{/if}} fa-dot-circle" title="Effects active" data-item-id="{{item._id}}"></i>{{/if}}
+                  </td>
+                  <td class="cell edit-delete {{#if @last}} lastRow {{/if}}">
+                    <span class="button stoneButton item-edit" data-item-id="{{item.id}}" title="{{ localize 'MTA.EditItem' }}"><i class="fas fa-edit"></i></span>
+                    <span class="button stoneButton item-delete" data-item-id="{{item.id}}" title="{{ localize 'MTA.DeleteItem' }}"><i class="fas fa-times-circle"></i></span>
+                  </td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="characterMacroPanel">
+      <div>
+        <div class="button charMacroButton rollButton tooltip">
+          <span class="tooltip-text">{{ localize "MTA.TooltipSkillTest" }}</span>
+          <img src="systems/mta/icons/gui/d10.svg" alt="Skill check.">
+        </div>
+        <div class="button charMacroButton perceptionButton tooltip">
+          <span class="tooltip-text">{{ localize "MTA.TooltipPerceptionCheck" }}</span>
+          <img src="systems/mta/icons/gui/perception.svg" alt="Perception check.">
+        </div>
+        {{#if (eqAny system.characterType "Mage" "Scelesti" "Proximi")}}
+          <div class="button charMacroButton improvisedSpellButton tooltip">
+            <span class="tooltip-text">{{ localize "MTA.TooltipSpellCast" }}</span>
+            <img src="systems/mta/icons/gui/macro-improvisedSpell.svg" alt="Improvised spell cast.">
+          </div>
+        {{/if}}
+        {{#if (eqAny system.characterType "Mortal" "Sleepwalker" "Proximi")}}
+          <div class="button charMacroButton breakingPointButton tooltip">
+            <span class="tooltip-text">{{ localize "MTA.TooltipBreakingPoint" }}</span>
+            <img src="systems/mta/icons/gui/macro-breaking-point.svg" alt="Breaking point.">
+          </div>
+        {{/if}}
+        {{#if (eq system.characterType "Mortal")}}
+          <div class="button charMacroButton dissonanceButton tooltip">
+            <span class="tooltip-text">{{ localize "MTA.TooltipDissonance" }}</span>
+            <img src="systems/mta/icons/gui/macro-dissonance.svg" alt="Dissonance.">
+          </div>
+        {{/if}}
+        {{#if (eq system.characterType "Demon")}}
+          <div class="button charMacroButton compromiseButton tooltip">
+            <span class="tooltip-text">{{ localize "MTA.TooltipCoverCompromise" }}</span>
+            <img src="systems/mta/icons/gui/macro-compromise.svg" alt="Compromise.">
+          </div>
+        {{/if}}
+        <div class="button charMacroButton dreamingButton tooltip {{#if system.isDreaming}}dreaming{{/if}}">
+          <span class="tooltip-text">{{ localize "MTA.TooltipDreaming" }}</span>
+          <img src="systems/mta/icons/gui/macro-dreaming.svg" alt="Dream.">
+        </div>
+        {{#if (eqAny system.characterType "Mage" "Scelesti")}}
+          {{#if system.isDreaming}}
+            <div class="button charMacroButton amnionButton tooltip dreaming">
+              <span class="tooltip-text">{{ localize "MTA.TooltipAmnion" }}</span>
+              <img src="systems/mta/icons/gui/macro-amnion.svg" alt="Amnion.">
+            </div>
+          {{/if}}
+        {{/if}}
+      </div>
+    </div>
+
+
+
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="sheet-tabs tabs">
+      <a class="item" data-tab="attributes">{{ localize "MTA.TabAttributes" }}</a>
+      {{#if (eqAny system.characterType "Mage" "Scelesti" "Proximi")}} <a class="item" data-tab="magic">{{ localize "MTA.TabMagic" }}</a> {{/if}}
+      {{#if (eq system.characterType "Vampire")}} <a class="item" data-tab="disciplines">{{ localize "MTA.TabDisciplines" }}</a> {{/if}}
+      {{#if (eq system.characterType "Changeling")}} <a class="item" data-tab="contracts">{{ localize "MTA.TabContracts" }}</a> {{/if}}
+      {{#if (eq system.characterType "Werewolf")}} <a class="item" data-tab="gifts">{{ localize "MTA.TabGifts" }}</a> {{/if}}
+      {{#if (eq system.characterType "Demon")}} <a class="item" data-tab="embeds">{{ localize "MTA.TabDemonEmbeds" }}</a> {{/if}}
+      {{#if (eq system.characterType "Hunter")}} <a class="item" data-tab="endowments">{{ localize "MTA.TabHunterEndowments" }}</a> {{/if}}
+      {{#if (eq system.characterType "Princess")}} <a class="item" data-tab="charms">{{ localize "MTA.TabPrincesCharms" }}</a> {{/if}}
+      <a class="item" data-tab="inventory">{{ localize "MTA.TabItems" }}</a>
+      <a class="item" data-tab="description">{{ localize "MTA.TabTraits" }}</a>
+      {{#if (eqAny system.characterType "Mage" "Scelesti")}} <a class="item" data-tab="magePersona">{{ localize "MTA.TabMageTraits" }}</a> {{/if}}
+      {{#if (eq system.characterType "Vampire")}} <a class="item" data-tab="vampirePersona">{{ localize "MTA.TabVampireTraits" }}</a> {{/if}}
+      {{#if (eq system.characterType "Changeling")}} <a class="item" data-tab="changelingPersona">{{ localize "MTA.TabChangelingTraits" }}</a> {{/if}}
+      {{#if (eq system.characterType "Werewolf")}} <a class="item" data-tab="werewolfPersona">{{ localize "MTA.TabWerewolfraits" }}</a> {{/if}}
+      {{#if (eq system.characterType "Demon")}} <a class="item" data-tab="demonPersona">{{ localize "MTA.TabDemonTraits" }}</a> {{/if}}
+      {{#if (eq system.characterType "Hunter")}} <a class="item" data-tab="hunterPersona">{{ localize "MTA.TabHunterTraits" }}</a> {{/if}}
+      {{#if (eq system.characterType "Princess")}} <a class="item" data-tab="princessPersona">{{ localize "MTA.TabPrincessTraits" }}</a> {{/if}}
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+
+      {{!-- Attributes Tab --}}
+      <div class="tab attributes" data-tab="attributes">
+        {{~> "systems/mta/templates/actors/parts/base-attributes.hbs"}}
+      </div>
+
+      {{!-- Magic Tab --}}
+      <div class="tab magic" data-tab="magic">
+        {{~> "systems/mta/templates/actors/parts/mage-magic.hbs"}}
+      </div>
+
+      {{!-- Disciplines Tab --}}
+      <div class="tab disciplines" data-tab="disciplines">
+        {{~> "systems/mta/templates/actors/parts/vamp-disciplines.hbs"}}
+      </div>
+      
+      {{!-- Contracts Tab --}}
+      <div class="tab contracts" data-tab="contracts">
+        {{~> "systems/mta/templates/actors/parts/changeling-powers.hbs"}}
+      </div>
+      
+      {{!-- Werewolf Gifts Tab --}}
+      <div class="tab gifts" data-tab="gifts">
+        {{~> "systems/mta/templates/actors/parts/werewolf-gifts.hbs"}}
+      </div>
+
+      {{!-- Demon Embeds Tab --}}
+      <div class="tab embeds" data-tab="embeds">
+        {{~> "systems/mta/templates/actors/parts/demon-embeds.hbs"}}
+      </div>
+
+      {{!-- Hunter Endowments Tab --}}
+      <div class="tab endowments" data-tab="endowments">
+        {{~> "systems/mta/templates/actors/parts/hunter-endowments.hbs"}}
+      </div>
+      
+      {{!-- Princess Charms Tab --}}
+      <div class="tab charms" data-tab="charms">
+        {{~> "systems/mta/templates/actors/parts/princess-charms.hbs"}}
+      </div>
+
+      {{!-- Item Tab --}}
+      <div class="tab inventory" data-tab="inventory">
+        {{~> "systems/mta/templates/actors/parts/base-inventory.hbs"}}
+      </div>
+
+      {{!-- Traits Tab --}}
+      <div class="tab description" data-tab="description">
+        <div class="item-stat-block">
+          <div class="form-line">
+            <label> {{#if (eq system.characterType "Vampire")}} {{localize "MTA.Mask"}} {{else if (eq system.characterType "Changeling")}} {{localize "MTA.Needle"}} {{else if (eq system.characterType "Werewolf")}} {{localize "MTA.Blood"}} {{else}} {{localize "MTA.Virtue"}} {{/if}} </label> <input name="system.virtue" type="text" value="{{system.virtue}}" />
+          </div>
+          <div class="form-line">
+            <label> {{#if (eq system.characterType "Vampire")}} {{localize "MTA.Dirge"}} {{else if (eq system.characterType "Changeling")}} {{localize "MTA.Thread"}} {{else if (eq system.characterType "Werewolf")}} {{localize "MTA.Bone"}} {{else}} {{localize "MTA.Vice"}} {{/if}} </label> <input name="system.vice" type="text" value="{{system.vice}}" />
+          </div>
+          <div class="form-line">
+            <label> {{localize "MTA.Age"}} </label> <input name="system.age" type="number" data-dtype="Number" value="{{system.age}}" />
+          </div>
+          <div class="form-line">
+            <label> {{localize "MTA.Sex"}} </label> <input name="system.sex" type="text" value="{{system.sex}}" data-koptions="Female/Male"/>
+          </div>
+          <div class="form-line">
+            <label> {{localize "MTA.Faction"}} </label> <input name="system.faction" type="text" value="{{system.faction}}" />
+          </div>
+          <div class="form-line">
+            <label> {{localize "MTA.Aspirations"}} </label>
+            <textarea name="system.aspirations" placeholder="Aspirations">{{system.aspirations}}</textarea>
+          </div>
+        </div>
+        {{!-- Relationships --}}
+        <table class="item-table">
+          <thead>
+            <tr class="item-row header">
+              <th class="cell header first"> 
+                <span class="collapsible button fas fa-minus-square"> </span>
+                <span class="sortable button" data-type="relationship">{{localize "MTA.Relationships"}}<i class="fas fa-sort"></i> </span>
+              </th>
+              {{#each inventory.relationship.dataset}}
+                <th class="cell header"> {{this}} </th>
+              {{/each}}
+              <th class="cell header button item-create" data-type="relationship">{{ localize "MTA.ButtonAdd" }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each inventory.relationship.items as |item iid|}}
+              <tr class="item-row item" data-item-id="{{item.id}}">
+                <td class="cell item-name first {{#if @last}} lastRow {{/if}}" data-item-id="{{item.id}}">
+                  <div class="item-name-wrapper">
+                    <div class="item-image" style="background-image: url({{item.img}})"></div>
+                    <span> {{item.name}} </span>
+                  </div>
+                </td>
+                <td class="cell {{#if @last}} lastRow {{/if}}"> {{system.impression}}</td>
+                <td class="cell {{#if @last}} lastRow {{/if}}"> {{system.doors.value}} / {{system.doors.max}}</td>
+                <td class="cell {{#if @last}} lastRow {{/if}}"> {{system.penalty}}</td>
+                <td class="cell edit-delete {{#if @last}} lastRow {{/if}}">
+                  <span class="button stoneButton item-edit" data-item-id="{{item.id}}" title="{{ localize 'MTA.EditItem' }}"><i class="fas fa-edit"></i></span>
+                  <span class="button stoneButton item-delete" data-item-id="{{item.id}}" title="{{ localize 'MTA.DeleteItem' }}"><i class="fas fa-times-circle"></i></span>
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+        <div class="item-stat-block">
+          <div class="form-line">
+            <label> {{localize "MTA.Notes"}} </label>
+            <textarea name="system.notes" placeholder="Notes">{{system.notes}}</textarea>
+          </div>
+          <div class="form-line">
+            <label> {{localize "MTA.usesDreadPowers"}} </label>
+            <label class="checkBox">
+              <input data-dtype="Boolean" name="system.usesDreadPowers" type="checkbox" {{checked system.usesDreadPowers}}>
+              <span></span>
+            </label>
+          </div>
+          <div class="form-line">
+            <label class="wide"> {{localize "MTA.Description"}} </label>
+            <div class="wide editor-container">
+              {{editor (enrichHTML system.description actor) target="system.description" button=true owner=owner editable=editable}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      {{!-- Mage Persona Tab --}}
+      <div class="tab magePersona" data-tab="magePersona">
+        <div class="item-stat-block">
+          <div class="form-line">
+            <label>{{localize "MTA.RealName"}}</label> <input name="system.shadowName" type="text" value="{{system.shadowName}}" />
+          </div>
+          <div class="form-line">
+            <label>{{localize "MTA.Path"}}</label> <input name="system.path" type="text" value="{{system.path}}" data-koptions="Acanthus/Mastigos/Moros/Obrimos/Thyrsus"/>
+          </div>
+          <div class="form-line">
+            <label>{{localize "MTA.Order"}}</label> <input name="system.order" type="text" value="{{system.order}}" data-koptions="Adamantine Arrow/Guardians of the Veil/Mysterium/Silver Ladder/Free Council/Apostate/Nameless/--Seers of the Throne--/Hegemony/Panopticon/Paternoster/Praetorian/"/>
+          </div>
+          <div class="form-line">
+            <label>{{localize "MTA.Legacy"}}</label> <input name="system.legacy" type="text" value="{{system.legacy}}" />
+          </div>
+          <div class="form-line">
+            <label>{{localize "MTA.Obsessions"}}</label>
+            <textarea name="system.obsessions" placeholder="Obsessions">{{system.obsessions}}</textarea>
+          </div>
+          <div class="form-line">
+            <label>{{localize "MTA.Nimbus"}}</label>
+            <textarea name="system.nimbus" placeholder="Nimbus">{{system.nimbus}}</textarea>
+          </div>
+        </div>
+      </div>
+      
+      {{!-- Vampire Persona Tab --}}
+      <div class="tab vampirePersona" data-tab="vampirePersona">
+        <div class="item-stat-block">
+          <div class="form-line">
+            <label>{{localize "MTA.Clan"}}</label> <input name="system.clan" type="text" value="{{system.clan}}" data-koptions="Daeva/Gangrel/Mekhet/Nosferatu/Ventrue"/>
+          </div>
+          <div class="form-line">
+            <label>{{localize "MTA.Bloodline"}}</label> <input name="system.bloodline" type="text" value="{{system.bloodline}}" data-koptions="--Daeva--/Anvari/Children of Judas/Duchagne/Gulikan/Kallisti/Malintzin/Mortifiers of the Flesh/Nelapsi/Spina/The Asnâm/The Carnival/Toreador/Xiao/Zelani/--Gangrel--/Anavashra/Annunaku/Anubi/Barjot/Bohagande/Bruja/Carnon/Childer of the Morrigan/Dead Wolves/Matasuntha/Moroi/Nepheshim/Oberlochs/Taifa/The Mara/Vedma/--Mekhet--/Agonistes/Alucinor/Khaibit/Kuufukuji/Libitinarius/Lynx/Mnemosyne/Morbus/Norvegi/Osites/Players/Qedeshah/Sangiovanni/Tismanu/--Nosferatu--/Acteius/Azerkatil/Baddacelli/Burakumin/Calacas/Galloi/Gethsemani/Noctuku/Rakshasa/Yagnatia/--Ventrue--/Architects of the Monolith/Beni/Bron/Cassian/Deucalion/Dragolescu/Gorgons/Icarian/Licinii/Macellarius/Malkovian/Malocusians/Melissidae/Murrahin/Nahualli/Rötgrafen/Sotoha">
+          </div>
+          <div class="form-line">
+            <label>{{localize "MTA.Covenant"}}</label> <input name="system.covenant" type="text" value="{{system.covenant}}" />
+          </div>
+          <div class="form-line">
+            <label>{{localize "MTA.Rank"}}</label> <input name="system.vamp_rank" type="text" value="{{system.vamp_rank}}" />
+          </div>
+          <div class="form-line">
+            <label>{{localize "MTA.AgeAsVampire"}}</label> <input name="system.vampireAge" type="number" data-dtype="Number" value="{{system.vampireAge}}" />
+          </div>
+          <div class="form-line">
+            <label>{{localize "MTA.Banes"}}</label>
+            <textarea name="system.banes" placeholder="Banes">{{system.banes}}</textarea>
+          </div>
+          <div class="form-line">
+            <label class="wide">{{localize "MTA.Touchstones"}}</label>
+            {{#each system.touchstones_vampire as |touchstone key|}}
+              <label class="{{#if (isActiveVampTouchstone key ../system.vampire_traits.humanity.final)}} activeTouchstone {{/if}}"> {{convertVampTouchstone key}} </label> <input name="system.touchstones_vampire.{{key}}" type="text" value="{{touchstone}}" />
+            {{/each}}
+          </div> 
+        </div>
+        {{!-- Vinculae --}}
+        <table class="item-table">
+          <tr class="item-row header">
+            <th class="cell header first"> 
+              <span class="collapsible button fas fa-minus-square"> </span>
+              <span class="sortable button" data-type="vinculum">{{localize "MTA.Vinculae"}}<i class="fas fa-sort"></i> </span>
+            </th>
+            {{#each inventory.vinculum.dataset}}
+              <th class="cell header"> {{this}} </th>
+            {{/each}}
+            <th class="cell header button item-create" data-type="vinculum">{{ localize "MTA.ButtonAdd" }}</th>
+          </tr>
+          {{#each inventory.vinculum.items as |item iid|}}
+            <tr class="item-row item" data-item-id="{{item.id}}">
+              <td class="cell item-name first {{#if @last}} lastRow {{/if}}" data-item-id="{{item.id}}">
+                  <div class="item-name-wrapper"> 
+                    <div class="item-image" style="background-image: url({{item.img}})"></div>
+                    <span> {{item.name}} </span>
+                  </div>
+                </td>
+              <td class="cell {{#if @last}} lastRow {{/if}}"> {{system.stage}}</td>
+              <td class="cell edit-delete {{#if @last}} lastRow {{/if}}">
+                <span class="button stoneButton item-edit" data-item-id="{{item.id}}" title="{{ localize 'MTA.EditItem' }}"><i class="fas fa-edit"></i></span>
+                <span class="button stoneButton item-delete" data-item-id="{{item.id}}" title="{{ localize 'MTA.DeleteItem' }}"><i class="fas fa-times-circle"></i></span>
+              </td>
+            </tr>
+          {{/each}}
+        </table>
+      </div>
+      
+      {{!-- Changeling Persona Tab --}}
+      <div class="tab changelingPersona" data-tab="changelingPersona">
+        <div class="item-stat-block"> 
+          <div class="form-line">
+            <label>{{localize "MTA.Seeming"}}</label> <input name="system.seeming" type="text" value="{{system.seeming}}" data-koptions="Beast/Darkling/Elemental/Fairest/Ogre/Wizened"/>
+          </div>
+          <div class="form-line">
+            <label>{{localize "MTA.Kith"}}</label> <input name="system.kith" type="text" value="{{system.kith}}" data-koptions="Artist/Bright One/Chatelaine/Gristlegrinder/Helldiver/Hunterheart/Leechfinger/Mirrorskin/Nightsinger/Notary/Playmate/Snowskin"/>
+          </div>
+          <div class="form-line">
+            <label>{{localize "MTA.Court"}}</label> <input name="system.court" type="text" value="{{system.court}}" data-koptions="Spring/Summer/Autumn/Winter"/>
+          </div>
+          <div class="form-line">
+            <label class="wide">{{localize "MTA.Touchstones"}}</label>
+            {{#each system.touchstones_changeling as |touchstone key|}}
+              <label class="{{#if (isActiveTouchstoneChangeling key ../system.attributes_social.composure.value)}} activeTouchstone {{/if}}"> {{key}} </label> <input name="system.touchstones_changeling.{{key}}" type="text" value="{{touchstone}}" />
+            {{/each}}
+          </div> 
+          <div class="form-line">
+            <label>{{localize "MTA.Frailties"}}</label>
+            <textarea name="system.frailties" placeholder="Frailties">{{system.frailties}}</textarea>
+          </div>
+          <div class="form-line">
+            <label>{{localize "MTA.Mien"}}</label>
+            <textarea name="system.mienDescription" placeholder="Mien description">{{system.mienDescription}}</textarea>
+          </div>
+          <div class="form-line">
+            <label>{{localize "MTA.SeemingBlessing"}}</label>
+            <textarea name="system.seemingBlessing" placeholder="Seeming Blessing">{{system.seemingBlessing}}</textarea>
+          </div>
+          <div class="form-line">
+            <label>{{localize "MTA.SeemingCurse"}}</label>
+            <textarea name="system.seemingCurse" placeholder="Seeming Curse">{{system.seemingCurse}}</textarea>
+          </div>
+          <div class="form-line">
+            <label>{{localize "MTA.KithBlessing"}}</label>
+            <textarea name="system.kithBlessing" placeholder="Kith Blessing">{{system.kithBlessing}}</textarea>
+          </div>
+        </div>
+      </div>
+      
+      {{!-- Werewolf Persona Tab --}}
+      <div class="tab werewolfPersona" data-tab="werewolfPersona">
+        <div class="item-stat-block"> 
+          <div class="form-line">
+            <label>{{localize "MTA.Auspice"}}</label> 
+            <input name="system.auspice" type="text" value="{{system.auspice}}" data-koptions="Cahalith/Elodoth/Irraka/Ithaeur/Rahu"/>
+          </div>
+          <div class="form-line">
+            <label>{{localize "MTA.Tribe"}}</label> 
+            <input name="system.tribe" type="text" value="{{system.tribe}}" data-koptions="Blood Talons/Bone Shadows/Hunters in Darkness/Iron Masters/Storm Lords/Ghost Wolves/--Pure Tribes--/Fire-Touched/Ivory Claws/Predator Kings/Bale Hounds"/>
+          </div>
+          <div class="form-line">
+            <label>{{localize "MTA.Lodge"}}</label> 
+            <input name="system.lodge" type="text" value="{{system.lodge}}" data-koptions="Lodge of the Einherjar/Lodge of the Hundred Days/Lodge of the Hook Hand/Lodge of the Shield/Lodge of the Roman Ritual/The Eaters of the Dead/Lodge of the Chronicle/Lodge of Gargoyles"/>
+          </div>
+          <div class="form-line">
+            <label>{{localize "MTA.FleshTouchstone"}}</label> 
+            <input name="system.touchstone_flesh" type="text" value="{{system.touchstone_flesh}}"/>
+          </div>
+          <div class="form-line">
+            <label>{{localize "MTA.SpiritTouchstone"}}</label> 
+            <input name="system.touchstone_spirit" type="text" value="{{system.touchstone_spirit}}"/>
+          </div>
+          <div class="form-line">
+            <label>{{localize "MTA.KuruthTriggers"}}</label>
+            <textarea name="system.kuruthTriggers" placeholder="Kuruth Triggers (Passive, Common, Specific)">{{system.kuruthTriggers}}</textarea>
+          </div>
+          <div class="form-line">
+            <label>{{localize "MTA.HuntersAspect"}}</label>
+            <textarea name="system.hunterAspect" placeholder="Hunter's Aspect">{{system.hunterAspect}}</textarea>
+          </div>
+          <div class="form-line">
+            <label>{{localize "MTA.AuspiceBenefit"}}</label>
+            <textarea name="system.auspiceBenefit" placeholder="Auspice Benefit">{{system.auspiceBenefit}}</textarea>
+          </div>
+        </div>
+      </div>
+
+      {{!-- Demon Persona Tab --}}
+      <div class="tab demonPersona" data-tab="demonPersona">
+        <div class="item-stat-block">
+          <div class="form-line">
+            <label>{{localize "MTA.Incarnation"}}</label> <input name="system.incarnation" type="text" value="{{system.incarnation}}" data-koptions="Destroyer/Messenger/Psychopomp/Guardian"/>
+          </div>
+          <div class="form-line">
+            <label>{{localize "MTA.Agenda"}}</label> <input name="system.agenda" type="text" value="{{system.agenda}}" data-koptions="Inquisitor/Integrator/Saboteur/Tempter"/>
+          </div>
+          <div class="form-line">
+            <label>{{localize "MTA.Catalyst"}}</label>
+            <textarea name="system.catalyst" placeholder="Catalyst">{{system.catalyst}}</textarea>
+          </div>
+          
+        </div>
+        <table class="item-table">
+          <thead>
+            <tr class="item-row header">
+              <th class="cell header first"> 
+                <span class="collapsible button fas fa-minus-square"> </span>
+                <span class="sortable button" data-type="cover">{{localize "MTA.Covers"}}<i class="fas fa-sort"></i> </span>
+              </th>
+              {{#each inventory.cover.dataset}}
+                <th class="cell header"> {{this}} </th>
+              {{/each}}
+              <th class="cell header"> </th>
+              <th class="cell header button item-create" data-type="cover">{{ localize "MTA.ButtonAdd" }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each inventory.cover.items as |item iid|}}
+              <tr class="item-row item" data-item-id="{{item.id}}">
+                <td class="cell item-name first {{#if @last}} lastRow {{/if}}" data-item-id="{{item.id}}">
+                  <div class="item-name-wrapper">
+                    <div class="item-image" style="background-image: url({{item.img}})"></div>
+                    <span> {{item.name}} </span>
+                  </div>
+                </td>
+                <td class="cell {{#if @last}} lastRow {{/if}}">{{system.rating}}</td>
+                <td class="cell {{#if @last}} lastRow {{/if}}">{{system.beats}}</td>
+                <td class="equipped cell {{#if @last}} lastRow {{/if}}">
+                  <label class="coverActive checkBox">
+                    <input data-dtype="Boolean" data-item-id="{{item.id}}" type="checkbox" {{checked system.isActive}}>
+                    <span></span>
+                  </label>
+                </td>
+                <td class="cell {{#if @last}} lastRow {{/if}}"> 
+                  <i class="favicon {{#if system.isFavorite}} fas {{else}} far {{/if}} fa-star" title="Favorite" data-item-id="{{item.id}}"></i>
+                </td>
+                <td class="cell edit-delete {{#if @last}} lastRow {{/if}}">
+                  <span class="button stoneButton item-edit" data-item-id="{{item.id}}" title="{{ localize 'MTA.EditItem' }}"><i class="fas fa-edit"></i></span>
+                  <span class="button stoneButton item-delete" data-item-id="{{item.id}}" title="{{ localize 'MTA.DeleteItem' }}"><i class="fas fa-times-circle"></i></span>
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+        <table class="item-table">
+          <thead>
+            <tr class="item-row header">
+              <th class="cell header first"> 
+                <span class="collapsible button fas fa-minus-square"> </span>
+                <span class="sortable button" data-type="glitch">{{localize "MTA.Glitches"}}<i class="fas fa-sort"></i> </span>
+              </th>
+              {{#each inventory.glitch.dataset}}
+                <th class="cell header"> {{this}} </th>
+              {{/each}}
+              <th class="cell header button item-create" data-type="glitch">{{ localize "MTA.ButtonAdd" }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each inventory.glitch.items as |item iid|}}
+              <tr class="item-row item" data-item-id="{{item.id}}">
+                <td class="cell item-name first {{#if @last}} lastRow {{/if}}" data-item-id="{{item.id}}">
+                  <div class="item-name-wrapper">
+                    <div class="item-image" style="background-image: url({{item.img}})"></div>
+                    <span> {{item.name}} </span>
+                  </div>
+                </td>
+                <td class="cell {{#if @last}} lastRow {{/if}}">{{system.category}}</td>
+                <td class="cell {{#if @last}} lastRow {{/if}}">{{system.class}}</td>
+                <td class="cell {{#if @last}} lastRow {{/if}}">{{system.variation}}</td>
+                <td class="cell edit-delete {{#if @last}} lastRow {{/if}}">
+                  <span class="button stoneButton item-edit" data-item-id="{{item.id}}" title="{{ localize 'MTA.EditItem' }}"><i class="fas fa-edit"></i></span>
+                  <span class="button stoneButton item-delete" data-item-id="{{item.id}}" title="{{ localize 'MTA.DeleteItem' }}"><i class="fas fa-times-circle"></i></span>
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+        <table class="item-table">
+          <thead>
+            <tr class="item-row header">
+              <th class="cell header first"> 
+                <span class="collapsible button fas fa-minus-square"> </span>
+                <span class="sortable button" data-type="pact">{{localize "MTA.Pacts"}}<i class="fas fa-sort"></i> </span>
+              </th>
+              {{#each inventory.pact.dataset}}
+                <th class="cell header"> {{this}} </th>
+              {{/each}}
+              <th class="cell header button item-create" data-type="pact">{{ localize "MTA.ButtonAdd" }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each inventory.pact.items as |item iid|}}
+              <tr class="item-row item" data-item-id="{{item.id}}">
+                <td class="cell item-name first {{#if @last}} lastRow {{/if}}" data-item-id="{{item.id}}">
+                  <div class="item-name-wrapper">
+                    <div class="item-image" style="background-image: url({{item.img}})"></div>
+                    <span> {{item.name}} </span>
+                  </div>
+                </td>
+                <td class="cell {{#if @last}} lastRow {{/if}}">{{system.demon_aspectPoints}}</td>
+                <td class="cell {{#if @last}} lastRow {{/if}}">{{system.human_aspectPoints}}</td>
+                <td class="cell {{#if @last}} lastRow {{/if}}">{{system.duration}}</td>
+                <td class="cell edit-delete {{#if @last}} lastRow {{/if}}">
+                  <span class="button stoneButton item-edit" data-item-id="{{item.id}}" title="{{ localize 'MTA.EditItem' }}"><i class="fas fa-edit"></i></span>
+                  <span class="button stoneButton item-delete" data-item-id="{{item.id}}" title="{{ localize 'MTA.DeleteItem' }}"><i class="fas fa-times-circle"></i></span>
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+
+      {{!-- Hunter Persona Tab --}}
+      <div class="tab hunterPersona" data-tab="hunterPersona">
+        <div class="item-stat-block"> 
+          <div class="form-line">
+            <label>{{localize "MTA.HunterCell"}}</label> 
+            <input name="system.hunterCell" type="text" value="{{system.hunterCell}}"/>
+          </div>
+          <div class="form-line">
+            <label>{{localize "MTA.HunterCompact"}}</label> 
+            <input name="system.hunterCompact" type="text" value="{{system.hunterCompact}}" data-koptions="The Long Night/The Loyalists of Thule/Network Zero/Nine Stars/Null Mysteriis/SWORN/The Union"/>
+          </div>
+          <div class="form-line">
+            <label>{{localize "MTA.HunterConspiracy"}}</label> 
+            <input name="system.hunterConspiracy" type="text" value="{{system.hunterConspiracy}}" data-koptions="Ascending Ones/The Cheiron Group/Council of Bones/The Lucifuge/Malleus Maleficarum/Task Force: VALKYRIE/VASCU"/>
+          </div>
+          <div class="form-line">
+            <label>{{localize "MTA.HunterTheCode"}}</label>
+            <textarea name="system.theCode" placeholder='{{localize "MTA.HunterTheCode"}}'>{{system.theCode}}</textarea>
+          </div>
+          <div class="form-line">
+            <label class="wide">{{localize "MTA.Touchstones"}}</label>
+            {{#each system.touchstones_hunter as |touchstone key|}}
+              <label class="{{#if (isActiveVampTouchstone key ../system.integrity)}} activeTouchstone {{/if}}"> {{convertVampTouchstone key}} </label> <input name="system.touchstones_hunter.{{key}}" type="text" value="{{touchstone}}" />
+            {{/each}}
+          </div> 
+        </div>
+      </div>
+      
+    </section>
+  </div>
+</form>

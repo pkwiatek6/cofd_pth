@@ -1,0 +1,48 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+  <header class="sheet-header flexrow">
+    <img class="profile" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+
+    <div class="header-details flexrow">
+      <h1 class="charname">
+        <input name="name" type="text" value="{{item.name}}" placeholder="Item Name" />
+      </h1>
+      <div class="item-subtitle">
+        <h4 class="item-type">{{localize "MTA.WerewolfForm"}}</h4>
+        <span class="item-status"></span>
+      </div>
+      <ul class="summary">
+        <li>
+          <label> Sub-name </label> <input name="system.subname" value="{{system.subname}}" type="text" />
+        </li>
+      </ul>
+    </div>
+  </header>
+  <div class="gold-border"> </div>
+
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="sheet-tabs tabs">
+    <a class="item" data-tab="effects">Effects</a>
+    <a class="item" data-tab="description">Description</a>
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+
+    {{!-- Description Tab --}}
+    <div class="tab" data-tab="description">
+      <div class="form-line">
+        <label>Short Description</label>
+        <textarea name="system.description_short" placeholder="Short Description">{{system.description_short}}</textarea>
+      </div>
+      <label>Full Description (shown as tooltip)</label>
+      {{editor enrichedDescription target="system.description" button=true owner=owner editable=editable}}
+    </div>
+
+    {{!-- Effects Tab --}}
+        <div class="tab" data-tab="effects">
+          <div class="item-stat-block">
+            {{{effectList this}}}
+          </div>
+        </div>
+  </section>
+</form>

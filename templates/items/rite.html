@@ -1,0 +1,70 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+    <header class="sheet-header flexrow">
+       <img class="profile" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+      
+        <div class="header-details flexrow">
+          <h1 class="charname">
+            <input name="name" type="text" value="{{item.name}}" placeholder="Item Name" />
+          </h1>
+          <div class="item-subtitle">
+            <h4 class="item-type">{{localize "MTA.Rite"}}</h4>
+            <span class="item-status"></span>
+          </div>
+          <ul class="summary">
+            <li> 
+              <label> Type </label> 
+              <select name="system.riteType">
+                {{#select system.riteType}}
+                {{#each config.rite_types}}
+                <option value="{{@key}}">{{this}}</option>
+                {{/each}}
+                {{/select}}
+              </select>
+            </li>
+            <li> 
+              <label> Level </label> <input name="system.level" type="number" data-dtype="Number" value="{{system.level}}" />
+            </li>
+            <li> 
+              <label> Target num. </label> <input name="system.targetNumber" type="number" data-dtype="Number" value="{{system.targetNumber}}" />
+            </li>
+          </ul>
+        </div>
+    </header>
+  <div class="gold-border"> </div>
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="sheet-tabs tabs">    
+      <a class="item" data-tab="traits">Traits</a>
+      <a class="item" data-tab="description">Description</a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+      
+      {{!-- Attributes Tab --}}
+        <div class="tab traits" data-tab="traits">
+          <div class="item-stat-block">
+            {{{effectList this}}}
+            {{{dicePoolList this}}}
+            <div class="form-line">
+              <select name="system.withstandType">
+                {{#select system.withstandType}}
+                {{#each config.rite_withstandTypes}}
+                <option value="{{this}}">{{this}}</option>
+                {{/each}}
+                {{/select}}
+              </select>
+              <input name="system.withstand" type="text" value="{{system.withstand}}" />
+            </div>
+            <div class="form-line">
+              <label> Sacrament </label> <input name="system.sacrament" type="text" value="{{system.sacrament}}" />
+            </div>
+          </div>
+        </div>
+      
+        {{!-- Description Tab --}}
+        <div class="tab" data-tab="description">
+            {{editor enrichedDescription target="system.description" button=true owner=owner editable=editable}}
+        </div>
+    </section>
+</form>

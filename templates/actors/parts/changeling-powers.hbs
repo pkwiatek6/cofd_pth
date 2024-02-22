@@ -1,0 +1,129 @@
+<div class="attributes-flexrow">
+
+
+
+  <div class="item-stat-block">
+    <div class="form-line">
+      <label>{{ localize "MTA.GoblinDebt" }}</label>
+      <div class="kMageTracker goblinDebt" data-type="goblinDebt" data-name="system.goblinDebt" data-states="max/value" data-max="{{system.goblinDebt.max}}" data-value="{{system.goblinDebt.value}}"></div>
+      <textarea class="wide" name="system.goblinDebtNotes" placeholder="Goblin debt">{{system.goblinDebtNotes}}</textarea>
+    </div>
+
+  </div>
+
+  <div class="flexcol">
+    <div class="flexrow">
+      {{{bigStatBox actor false "changeling_traits.wyrd"}}}
+
+      {{{bigStatBox actor false "changeling_traits.mantle"}}}
+
+      <div class="kInput statBox big">
+        <h4>{{localize "MTA.ChangelingGlamour"}}</h4>
+        <div class="gold-border"></div>
+        <div class="split">
+          <div class="niceNumber buttonsLeft">
+            <input name="system.glamour.value" type="number" value="{{system.glamour.value}}" data-dtype="Number">
+            <div class="numBtns">
+              <div class="plusBtn">+</div>
+              <div class="minusBtn">−</div>
+            </div>
+          </div>
+          <span class="delimiter"> / </span>
+          <div class="niceNumber">
+            <input name="system.glamour.max" type="number" value="{{system.glamour.max}}" data-dtype="Number">
+            <div class="numBtns">
+              <div class="plusBtn">+</div>
+              <div class="minusBtn">−</div>
+            </div>
+          </div>
+        </div>
+        <div class="description"> {{glamour_per_turn}} {{ localize "MTA.GlamourPerTurn" }} </div>
+      </div>
+    </div>
+    <div class="item-stat-block">
+      <div class="form-line">
+        <label class="margin">{{ localize "MTA.FavoredRegalia" }}</label> <input name="system.favoredRegalia1" type="text" value="{{system.favoredRegalia1}}" data-koptions="Crown/Jewels/Mirror/Shield/Steed/Sword"/>
+        <label> </label> <input name="system.favoredRegalia2" type="text" value="{{system.favoredRegalia2}}" data-koptions="Crown/Jewels/Mirror/Shield/Steed/Sword"/>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+<div class="items-block">
+  <div class="items-table">
+    {{!-- Contracts --}}
+    <table class="item-table">
+      <thead>
+        <tr class="item-row header">
+          <th class="cell header first"> 
+            <span class="collapsible button fas fa-minus-square"> </span>
+            <span class="sortable button" data-type="contract">{{localize "MTA.Contracts"}}<i class="fas fa-sort"></i> </span>
+          </th>
+          {{#each inventory.contract.dataset}}
+            <th class="cell header"> {{this}} </th>
+          {{/each}}
+          <th class="cell header"> </th>
+          <th class="cell header button item-create" data-type="contract">{{ localize "MTA.ButtonAdd" }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each inventory.contract.items as |item iid|}}
+          <tr class="item-row item" data-item-id="{{item._id}}">
+            <td class="cell item-name first {{#if @last}} lastRow {{/if}}" data-item-id="{{item._id}}">
+              <div class="item-name-wrapper">
+                <div class="item-image" style="background-image: url({{item.img}})"></div>
+                <span> {{item.name}} </span>
+              </div>
+            </td>
+            <td class="cell {{#if @last}} lastRow {{/if}}"> {{system.majorType}} {{#unless (isGoblinContract system.majorType)}} ({{system.subType}}, {{system.regalia}}) {{/unless}} </td>
+            <td class="cell {{#if @last}} lastRow {{/if}}"> {{#if system.costGlamour.value}} {{system.costGlamour.value}}G {{#if system.costGlamour.perTurn}} (turn) {{/if}} {{/if}} {{#if system.costWillpower.value}} {{system.costWillpower.value}}W {{#if system.costWillpower.perTurn}} (turn) {{/if}} {{/if}}</td>
+            <td class="cell {{#if @last}} lastRow {{/if}}"> {{system.action}} </td>
+            <td class="cell {{#if @last}} lastRow {{/if}}"> {{system.duration}}</td>
+            <td class="cell {{#if @last}} lastRow {{/if}}"> 
+              {{#if system.effects }}<i class="activeIcon {{#if system.effectsActive}} fas {{else}} far {{/if}} fa-dot-circle" title="Effects active" data-item-id="{{item._id}}"></i>{{/if}}
+              <i class="favicon {{#if system.isFavorite}} fas {{else}} far {{/if}} fa-star" title="Favorite" data-item-id="{{item._id}}"></i>
+            </td>
+            <td class="cell edit-delete {{#if @last}} lastRow {{/if}}">
+              <span class="button stoneButton item-edit" data-item-id="{{item._id}}" title="{{ localize 'MTA.EditItem' }}"><i class="fas fa-edit"></i></span>
+              <span class="button stoneButton item-delete" data-item-id="{{item._id}}" title="{{ localize 'MTA.DeleteItem' }}"><i class="fas fa-times-circle"></i></span>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{!-- Pledges --}}
+    <table class="item-table">
+      <thead>
+        <tr class="item-row header">
+          <th class="cell header first"> 
+            <span class="collapsible button fas fa-minus-square"> </span>
+            <span class="sortable button" data-type="pledge">{{localize "MTA.Pledges"}}<i class="fas fa-sort"></i> </span>
+          </th>
+          {{#each inventory.pledge.dataset}}
+            <th class="cell header"> {{this}} </th>
+          {{/each}}
+          <th class="cell header button item-create" data-type="pledge">{{ localize "MTA.ButtonAdd" }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each inventory.pledge.items as |item iid|}}
+          <tr class="item-row item" data-item-id="{{item._id}}">
+            <td class="cell item-name first {{#if @last}} lastRow {{/if}}" data-item-id="{{item._id}}">
+              <div class="item-name-wrapper">
+                <div class="item-image" style="background-image: url({{item.img}})"></div>
+                <span> {{item.name}} </span>
+              </div>
+            </td>
+            <td class="cell {{#if @last}} lastRow {{/if}}"> {{system.type}} </td>
+            <td class="cell edit-delete {{#if @last}} lastRow {{/if}}">
+              <span class="button stoneButton item-edit" data-item-id="{{item._id}}" title="{{ localize 'MTA.EditItem' }}"><i class="fas fa-edit"></i></span>
+              <span class="button stoneButton item-delete" data-item-id="{{item._id}}" title="{{ localize 'MTA.DeleteItem' }}"><i class="fas fa-times-circle"></i></span>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,1057 @@
+{
+  "Actor": {
+    "types": ["character", "ephemeral"],
+    "templates": {
+      "base": {
+        "health": {
+          "max": 5,
+          "lethal": 5,
+          "aggravated": 5,
+          "value": 5
+        },
+        "description": "",
+        "notes": "",
+        "derivedTraits": {
+          "size": {
+            "value": 0,
+            "mod": 0
+          },
+          "speed": {
+            "value": 0,
+            "mod": 0
+          },
+          "defense": {
+            "value": 0,
+            "mod": 0
+          },
+          "armor": {
+            "value": 0,
+            "mod": 0
+          },
+          "ballistic": {
+            "value": 0,
+            "mod": 0
+          },
+          "initiativeMod": {
+            "value": 0,
+            "mod": 0
+          },
+          "perception": {
+            "value": 0,
+            "mod": 0
+          },
+          "health": {
+            "value": 0,
+            "mod": 0
+          }
+        },
+        "isNameKnown": false,
+        "isTypeKnown": false,
+        "isDead": false
+      },
+      "common": {
+        "potency": 1,
+        "attributes_physical": {
+          "strength": {
+            "value": 1
+          },
+          "dexterity": {
+            "value": 1
+          },
+          "stamina": {
+            "value": 1
+          }
+        },
+        "attributes_social": {
+          "presence": {
+            "value": 1
+          },
+          "manipulation": {
+            "value": 1
+          },
+          "composure": {
+            "value": 1
+          }
+        },
+        "attributes_mental": {
+          "intelligence": {
+            "value": 1
+          },
+          "wits": {
+            "value": 1
+          },
+          "resolve": {
+            "value": 1
+          }
+        },
+        "skills_physical": {
+          "athletics": {
+            "value": 0,
+            "specialties": [],
+            "isRote": false
+          },
+          "brawl": {
+            "value": 0,
+            "specialties": [],
+            "isRote": false
+          },
+          "drive": {
+            "value": 0,
+            "specialties": [],
+            "isRote": false
+          },
+          "firearms": {
+            "value": 0,
+            "specialties": [],
+            "isRote": false
+          },
+          "larceny": {
+            "value": 0,
+            "specialties": [],
+            "isRote": false
+          },
+          "stealth": {
+            "value": 0,
+            "specialties": [],
+            "isRote": false
+          },
+          "survival": {
+            "value": 0,
+            "specialties": [],
+            "isRote": false
+          },
+          "weaponry": {
+            "value": 0,
+            "specialties": [],
+            "isRote": false
+          }
+        },
+        "skills_social": {
+          "animalKen": {
+            "value": 0,
+            "specialties": [],
+            "isRote": false
+          },
+          "empathy": {
+            "value": 0,
+            "specialties": [],
+            "isRote": false
+          },
+          "expression": {
+            "value": 0,
+            "specialties": [],
+            "isRote": false
+          },
+          "intimidation": {
+            "value": 0,
+            "specialties": [],
+            "isRote": false
+          },
+          "persuasion": {
+            "value": 0,
+            "specialties": [],
+            "isRote": false
+          },
+          "socialize": {
+            "value": 0,
+            "specialties": [],
+            "isRote": false
+          },
+          "streetwise": {
+            "value": 0,
+            "specialties": [],
+            "isRote": false
+          },
+          "subterfuge": {
+            "value": 0,
+            "specialties": [],
+            "isRote": false
+          }
+        },
+        "skills_mental": {
+          "academics": {
+            "value": 0,
+            "specialties": [],
+            "isRote": false
+          },
+          "computer": {
+            "value": 0,
+            "specialties": [],
+            "isRote": false
+          },
+          "crafts": {
+            "value": 0,
+            "specialties": [],
+            "isRote": false
+          },
+          "investigation": {
+            "value": 0,
+            "specialties": [],
+            "isRote": false
+          },
+          "medicine": {
+            "value": 0,
+            "specialties": [],
+            "isRote": false
+          },
+          "occult": {
+            "value": 0,
+            "specialties": [],
+            "isRote": false
+          },
+          "politics": {
+            "value": 0,
+            "specialties": [],
+            "isRote": false
+          },
+          "science": {
+            "value": 0,
+            "specialties": [],
+            "isRote": false
+          }
+        }
+      },
+      "human": {
+        "age": 0,
+        "sex": "",
+        "faction": "",
+        "virtue": "",
+        "vice": "",
+        "beats": 0,
+        "experience": 0,
+        "progress": [],
+        "willpower": {
+          "value": 0,
+          "max": 5
+        },
+        "aspirations": ""
+      },
+      "dreaming": {
+        "isDreaming": false,
+        "attributes_physical_dream": {
+          "power": {
+            "value": 0
+          }
+        },
+        "attributes_social_dream": {
+          "finesse": {
+            "value": 0
+          }
+        },
+        "attributes_mental_dream": {
+          "resistance": {
+            "value": 0
+          }
+        },
+        "dream_health": {
+          "max": 5,
+          "lethal": 5,
+          "aggravated": 5,
+          "value": 5
+        }
+      },
+      "sleeper": {
+        "integrity": 7
+      },
+      "mage": {
+        "scelestiType": "Rabashak",
+        "storedParadox": 0,
+        "shadowName": "",
+        "mage_traits": {
+          "gnosis": {"value": 0},
+          "wisdom": {"value": 7},
+          "joining": {"value": 1}
+        },
+        "mana": {
+          "value": 0,
+          "max": 0
+        },
+        "arcaneBeats": 0,
+        "arcaneExperience": 0,
+        "obsessions": "",
+        "nimbus": "",
+        "path": "",
+        "order": "",
+        "legacy": "",
+        "arcana_gross": {
+          "forces": {
+            "value": 0,
+            "isInferior": false,
+            "isRuling": false
+          },
+          "life": {
+            "value": 0,
+            "isInferior": false,
+            "isRuling": false
+          },
+          "matter": {
+            "value": 0,
+            "isInferior": false,
+            "isRuling": false
+          },
+          "space": {
+            "value": 0,
+            "isInferior": false,
+            "isRuling": false
+          },
+          "time": {
+            "value": 0,
+            "isInferior": false,
+            "isRuling": false
+          }
+        },
+        "arcana_subtle": {
+          "death": {
+            "value": 0,
+            "isInferior": false,
+            "isRuling": false
+          },
+          "fate": {
+            "value": 0,
+            "isInferior": false,
+            "isRuling": false
+          },
+          "mind": {
+            "value": 0,
+            "isInferior": false,
+            "isRuling": false
+          },
+          "prime": {
+            "value": 0,
+            "isInferior": false,
+            "isRuling": false
+          },
+          "spirit": {
+            "value": 0,
+            "isInferior": false,
+            "isRuling": false
+          }
+        }
+      },
+      "vampire": {
+        "clan": "",
+        "bloodline": "",
+        "covenant": "",
+        "vampireAge": 0,
+        "vampire_traits": {
+          "bloodPotency": {"value": 0},
+          "humanity": {"value": 7}
+        },
+        "touchstones_vampire": {
+          "10": "",
+          "9": "",
+          "8": "",
+          "7": "",
+          "6": "",
+          "5": "",
+          "4": "",
+          "3": "",
+          "2": "",
+          "1": ""
+        },
+        "vitae": {
+          "value": 0,
+          "max": 0
+        },
+        "banes": "",
+        "disciplines_common": {
+          "celerity": {
+            "value": 0
+          },
+          "resilience": {
+            "value": 0
+          },
+          "vigor": {
+            "value": 0
+          },
+          "animalism": {
+            "value": 0
+          },
+          "obfuscate": {
+            "value": 0
+          },
+          "cruac": {
+            "value": 0
+          }
+        },
+        "disciplines_unique": {
+          "auspex": {
+            "value": 0
+          },
+          "dominate": {
+            "value": 0
+          },
+          "majesty": {
+            "value": 0
+          },
+          "nightmare": {
+            "value": 0
+          },
+          "protean": {
+            "value": 0
+          },
+          "thebanSorcery": {
+            "value": 0
+          }
+        },
+        "disciplines_own": {}
+      },
+      "changeling": {
+        "seeming": "",
+        "kith": "",
+        "court": "",
+        "touchstones_changeling": {
+          "2": "",
+          "1": ""
+        },
+        "glamour": {
+          "value": 10,
+          "max": 10
+        },
+        "clarity": {
+          "value": 2,
+          "max": 2,
+          "severe": 2
+        },
+        "goblinDebt": {
+          "value": 10,
+          "max": 10
+        },
+        "changeling_traits": {
+          "wyrd": {"value": 1},
+          "mantle": {"value": 1}
+        }
+      },
+      "werewolf": {
+        "auspice": "",
+        "tribe": "",
+        "werewolf_traits": {
+          "primalUrge": {"value": 1},
+          "harmony": {"value": 7}
+        },
+        "werewolf_renown": {
+          "purity": {
+            "value": 0
+          },
+          "glory": {
+            "value": 0
+          },
+          "honor": {
+            "value": 0
+          },
+          "wisdom": {
+            "value": 0
+          },
+          "cunning": {
+            "value": 0
+          }
+        },
+        "essence": {
+          "value": 0,
+          "max": 10
+        }
+      },
+      "demon": {
+        "incarnation": "",
+        "agenda": "",
+        "catalyst": "",
+        "aether": {
+          "value": 7,
+          "max": 10
+        },
+        "demon_traits": {
+          "primum": {"value": 1}
+        },
+        "cipher": "",
+        "cipherVisible": false,
+        "finalTruth": "",
+        "finalTruthVisible": false
+      },
+      "hunter": {
+        "cell": "",
+        "compact": "",
+        "conspiracy": "",
+        "theCode": "",
+        "hunter_traits": {
+          "advanced_armory": {
+            "value": 0
+          },
+          "benediction": {
+            "value": 0
+          },
+          "elixir": {
+            "value": 0
+          }
+        },
+        "touchstones_hunter": {
+          "10": "",
+          "9": "",
+          "8": "",
+          "7": "",
+          "6": "",
+          "5": "",
+          "4": "",
+          "3": "",
+          "2": "",
+          "1": ""
+        }
+      },
+      "princess":{
+	      "court" :"",
+	      "calling": "",
+	      "princess_traits":{
+		      "innerLight": {"value":1},
+		      "belief":{"value":7}
+        },
+        "princessInvocations_Common": {
+          "acqua": {
+            "value": 0
+          },
+          "aria": {
+            "value": 0
+          },
+          "fuoco": {
+            "value": 0
+          },
+          "legno": {
+            "value": 0
+          },
+          "terra": {
+            "value": 0
+          },
+          "lacrima": {
+            "value": 0
+          },
+          "tempesta": {
+            "value": 0
+          },
+          "specchio": {
+            "value": 0
+          }
+        },
+        "princessInvocations_Unique": {
+          "fulmine": {
+            "value": 0
+          },
+          "mettallo": {
+            "value": 0
+          },
+          "vuoto": {
+            "value": 0
+          },
+          "capriccio": {
+            "value": 0
+          },
+          "arrissire": {
+            "value": 0
+          }
+        },
+        "invocation_own": {},
+	      "wisps":{
+		      "value":0,
+		      "max":10
+	      }
+      }
+    },
+    "character": {
+      "templates": ["base", "common", "human", "sleeper", "mage", "vampire", "changeling", "werewolf", "dreaming", "demon", "hunter","princess"],
+      "characterType": "Mortal"
+    },
+    "ephemeral": {
+      "templates": ["base"],
+      "ephemeralType": "Spirit",
+      "rank": 1,
+      "rankName": "",
+      "bans": "",
+      "banes": "",
+      "aliases": "",
+      "trueName": "",
+      "virtue": "",
+      "vice": "",
+      "integrity": 0,
+      "specialTraits": "",
+      "aspirations": "",
+      "essenceSource": "",
+      "fetterName": "",
+      "essence": {
+        "value": 10,
+        "max": 10
+      },
+      "willpower": {
+        "value": 0,
+        "max": 5
+      },
+      "eph_physical": {
+        "power": {
+          "value": 1
+        }
+      },
+      "eph_social": {
+        "finesse": {
+          "value": 1
+        }
+      },
+      "eph_mental": {
+        "resistance": {
+          "value": 1
+        }
+      }
+    }
+  },
+  "Item": {
+    "types": ["equipment", "container", "service", "firearm", "melee", "armor", "ammo", "spell", "condition", "tilt", "merit", "activeSpell", "yantra", "attainment", "relationship", "vehicle", "influence", "devotion", "rite", "vinculum", "discipline_power", "contract", "pledge", "form", "facet", "werewolf_rite", "numen", "manifestation", "dreadPower", "embed", "interlock", "exploit", "cover", "glitch", "pact", "formAbility", "coil", "scale", "tactic", "advanced_armory", "virtuous_ritual", "castigation_rite", "elixir", "perispiritism_ritual", "teleinformatics", "thaumatech_implant","charm"],
+    "templates": {
+      "common": {
+        "description": "",
+        "availability": 1
+      },
+      "object": {
+        "equipped": false,
+        "isMagical": false,
+        "magicType": "",
+        "magicClass": "",
+        "mana": {
+          "value": 0,
+          "max": 0
+        }
+      },
+      "tool": {
+        "diceBonus": 0,
+        "size": 1
+      },
+      "combatEquipment": {
+        "strengthReq": 1,
+        "traits": []
+      },
+      "weapon": {
+        "damage": 0,
+        "initiativeMod": 0,
+        "penetration": 0
+      },
+      "basicSpell": {
+        "arcanum": "death",
+        "practice": "Compelling",
+        "primaryFactor": "Potency",
+        "withstand": "",
+        "level": 1,
+        "roteSkill": "",
+        "creator": "",
+        "description": "",
+        "isRote": false,
+        "isPraxis": false,
+        "isInured": false
+      },
+      "rollable": {
+        "dicePool": {
+          "value": 0,
+          "attributes": [],
+          "macro": "",
+          "comment": ""
+        }
+      },
+      "effect": {
+        "effects": [],
+        "effectsActive": false
+      }
+    },
+    "service": {
+      "templates": ["common"],
+      "label": "Service",
+      "diceBonus": 1,
+      "skill": ""
+    },
+    "equipment": {
+      "templates": ["rollable", "tool", "object", "common"],
+      "label": "Equipment",
+      "durability": 1,
+      "structure": 1,
+      "diceBonus": 1,
+      "effects": []
+    },
+    "melee": {
+      "templates": ["rollable", "weapon", "combatEquipment", "tool", "object", "common"],
+      "label": "Melee",
+      "weaponType": "Melee",
+      "effects": []
+    },
+    "firearm": {
+      "templates": ["rollable", "weapon", "combatEquipment", "tool", "object", "common"],
+      "label": "Firearm",
+      "ranges": {
+        "short": 20,
+        "medium": 40,
+        "long": 80
+      },
+      "capacity": 1,
+      "magazine": null,
+      "cartridge": "9mm",
+      "effects": []
+    },
+    "armor": {
+      "templates": ["rollable", "combatEquipment", "object", "common"],
+      "label": "Armor",
+      "rating": 1,
+      "ballistic": 0,
+      "defensePenalty": 0,
+      "speedPenalty": 0,
+      "coverage": {
+        "torso": true,
+        "arms": false,
+        "legs": false,
+        "head": false
+      },
+      "effects": []
+    },
+    "ammo": {
+      "templates": ["object", "common"],
+      "label": "Ammo",
+      "quantity": 1,
+      "cartridge": "9mm"
+    },
+    "spell": {
+      "templates": ["basicSpell"],
+      "label": "Spell"
+    },
+    "activeSpell": {
+      "templates": ["effect", "basicSpell"],
+      "potency": {
+        "value": 1,
+        "isAdvanced": false
+      },
+      "duration": {
+        "value": "1 turn",
+        "isAdvanced": false
+      },
+      "scale": {
+        "value": "1 Subject, Size 5, Arm's reach",
+        "isAdvanced": false
+      },
+      "casting_time": {
+        "value": "",
+        "isAdvanced": false
+      },
+      "range": {
+        "value": "Self/touch or Aimed",
+        "isAdvanced": false
+      },
+      "isRelinquished": false,
+      "isRelinquishedSafely": false,
+      "paradox": {
+        "previous_rolls": 0,
+        "sleeper_witnesses": "None",
+        "magical_tool_used": false,
+        "mana_spent": 0,
+        "value": 0
+      }
+    },
+    "condition": {
+      "templates": ["effect", "rollable"],
+      "description": "",
+      "isPersistent": false,
+      "isClarity": false,
+      "statusVisibility": "Owner"
+    },
+    "tilt": {
+      "templates": ["effect", "rollable"],
+      "label": "Tilt",
+      "description": "",
+      "isEnvironmental": false,
+      "statusVisibility": "All"
+    },
+    "merit": {
+      "templates": ["effect", "rollable"],
+      "label": "Merit",
+      "description": "",
+      "rating": 1
+    },
+    "dreadPower": {
+      "templates": ["effect", "rollable"],
+      "description": "",
+      "rating": 1
+    },
+    "numen": {
+      "templates": ["effect", "rollable", "weapon"],
+      "description": "",
+      "reaching": false,
+      "isWeapon": false
+    },
+    "yantra": {
+      "label": "Yantra",
+      "description": "",
+      "subtype": "",
+      "isDedicated": false,
+      "diceBonus": 1
+    },
+    "attainment": {
+      "templates": ["effect", "rollable"],
+      "label": "Attainment",
+      "description": "",
+      "level": 1,
+      "arcanum": "death",
+      "legacy": ""
+    },
+    "relationship": {
+      "label": "Relationship",
+      "description": "",
+      "impression": "Average",
+      "doors": {
+        "value": 0,
+        "max": 1
+      },
+      "penalty": 0
+    },
+    "vehicle": {
+      "templates": ["effect", "rollable", "common", "tool"],
+      "durability": 0,
+      "structure": 0,
+      "speed": 0,
+      "isMagical": false,
+      "magicType": "None",
+      "mana": {
+        "value": 0,
+        "max": 0
+      }
+    },
+    "influence": {
+      "templates": ["effect", "rollable"],
+      "label": "Sphere of Influence",
+      "description": "",
+      "rating": 1
+    },
+    "manifestation": {
+      "label": "Manifestation",
+      "description": ""
+    },
+    "devotion": {
+      "templates": ["rollable", "effect"],
+      "label": "Devotion",
+      "description": "",
+      "cost": {
+        "value": 0,
+        "perTurn": false
+      },
+      "action": "Instant",
+      "duration": ""
+    },
+    "rite": {
+      "templates": ["rollable", "effect"],
+      "label": "Rite",
+      "description": "",
+      "riteType": "Rite",
+      "level": 1,
+      "targetNumber": 5,
+      "withstandType": "Resisted by",
+      "withstand": "",
+      "sacrament": ""
+    },
+    "vinculum": {
+      "label": "Vinculum",
+      "description": "",
+      "stage": 1
+    },
+    "discipline_power": {
+      "templates": ["rollable", "effect"],
+      "description": "",
+      "cost": "",
+      "discipline": "Animalism",
+      "level": 1,
+      "action": "Instant",
+      "duration": ""
+    },
+    "container": {
+      "templates": ["tool", "object", "common"],
+      "label": "Container",
+      "durability": 1,
+      "structure": 1,
+      "contents": []
+    },
+    "contract": {
+      "templates": ["rollable", "effect"],
+      "label": "Contract",
+      "description": "",
+      "costGlamour": {
+        "value": 0,
+        "perTurn": false
+      },
+      "costWillpower": {
+        "value": 0,
+        "perTurn": false
+      },
+      "action": "",
+      "duration": "Scene",
+      "majorType": "Arcadian",
+      "subType": "Crown",
+      "regalia": "Common"
+    },
+    "pledge": {
+      "description": "",
+      "type": "Sealing"
+    },
+    "form": {
+      "templates": ["effect"],
+      "description": "",
+      "description_short": "",
+      "subname": ""
+    },
+    "facet": {
+      "templates": ["rollable", "effect"],
+      "description": "",
+      "cost": {
+        "value": 0,
+        "misc": ""
+      },
+      "action": "Instant",
+      "duration": "",
+      "giftType": "moon",
+      "level": 1,
+      "gift": ""
+    },
+    "werewolf_rite": {
+      "templates": ["rollable", "effect"],
+      "description": "",
+      "level": 1,
+      "riteType": "Wolf Rite",
+      "action": "Extended"
+    },
+    "charm": {
+      "templates": ["rollable", "effect"],
+      "description": "",
+      "cost": {
+        "value": 0,
+        "misc": ""
+      },
+      "charmType":"Appear",
+      "invocation":"Aria",
+      "action": "Instant",
+      "duration": "",
+      "level": 1
+    },
+    "embed": {
+      "templates": ["rollable", "effect"],
+      "category": "Mundane",
+      "action": "Instant",
+      "withstand": "",
+      "isKey": false,
+      "keyNumber": 1,
+      "description": ""
+    },
+    "interlock": {
+      "templates": ["rollable", "effect"],
+      "action": "Instant",
+      "cost": 0,
+      "withstand": "",
+      "keyNumber": 1,
+      "description": ""
+    },
+    "exploit": {
+      "templates": ["rollable", "effect"],
+      "action": "Instant",
+      "cost": 0,
+      "description": ""
+    },
+    "cover": {
+      "age": 0,
+      "notes": "",
+      "rating": 7,
+      "beats": 0,
+      "isActive": false,
+      "contents": [],
+      "description": ""
+    },
+    "glitch": {
+      "category": "Transient",
+      "duration": "One Scene|Hour",
+      "class": "Brand",
+      "variation": "Minor",
+      "description": ""
+    },
+    "pact": {
+      "demon_aspectPoints": 0,
+      "human_aspectPoints": 0,
+      "duration": "Day",
+      "description": ""
+    },
+    "formAbility": {
+      "templates": ["effect", "rollable", "weapon"],
+      "label": "Form Ability",
+      "description": "",
+      "isWeapon": false
+    },
+    "coil": {
+      "mystery": "",
+      "rating": 1,
+      "description": ""
+    },
+    "scale": {
+      "mystery": "",
+      "rating": 1,
+      "description": "",
+      "prerequisite": ""
+    },
+    "tactic": {
+      "favored": false,
+      "dicepools_primary": [],
+      "dicepools_secondary": [],
+      "description": ""
+    },
+    "advanced_armory": {
+      "templates": ["rollable", "effect"],
+      "loadout": "",
+      "loadout_current": "",
+      "action": "",
+      "duration": "",
+      "description": ""
+    },
+    "virtuous_ritual": {
+      "templates": ["rollable", "effect"],
+      "duration": "",
+      "description": "",
+      "dicePool": {
+        "value": 0,
+        "attributes": ["hunter_traits.benediction", "attributes_mental.intelligence", "skills_mental.occult"],
+        "extended": true,
+        "target_successes": 0
+      }
+    },
+    "castigation_rite": {
+      "templates": ["rollable", "effect"],
+      "cost": "",
+      "action": "",
+      "duration": "",
+      "description": ""
+    },
+    "elixir": {
+      "templates": ["rollable", "effect"],
+      "prepared": 0,
+      "cost": "",
+      "action": "",
+      "duration": "",
+      "description": "",
+      "dicePool": {
+        "value": 0,
+        "attributes": ["hunter_traits.elixir", "attributes_physical.stamina"]
+      }
+    },
+    "perispiritism_ritual": {
+      "templates": ["rollable", "effect"],
+      "cost": "",
+      "action": "",
+      "duration": "",
+      "description": ""
+    },
+    "teleinformatics": {
+      "templates": ["rollable", "effect"],
+      "cost": "",
+      "action": "",
+      "duration": "",
+      "description": ""
+    },
+    "thaumatech_implant": {
+      "templates": ["rollable", "effect"],
+      "cost": "",
+      "action": "",
+      "duration": "",
+      "description": ""
+    }
+  }
+}

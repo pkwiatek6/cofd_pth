@@ -1,0 +1,55 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+    <header class="sheet-header flexrow">
+       <img class="profile" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+      
+        <div class="header-details flexrow">
+          <h1 class="charname">
+            <input name="name" type="text" value="{{item.name}}" placeholder="Item Name" />
+          </h1>
+          <div class="item-subtitle">
+            <h4 class="item-type">{{localize "MTA.Interlock"}}</h4>
+            <span class="item-status"></span>
+          </div>
+          <ul class="summary">
+            <li> 
+              <label>Key number</label> <input name="system.keyNumber" type="number" data-dtype="Number" value="{{system.keyNumber}}" min=1 max=5/>
+            </li>
+          </ul>
+        </div>
+    </header>
+  <div class="gold-border"> </div>
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="sheet-tabs tabs" data-group="primary">    
+      <a class="item" data-tab="traits">Traits</a>
+      <a class="item" data-tab="description">Description</a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+
+        {{!-- Attributes Tab --}}
+        <div class="tab traits" data-group="primary" data-tab="traits">
+          <div class="item-stat-block">
+            {{{effectList this}}}
+            {{{dicePoolList this}}}
+            <div class="form-line">
+              <label>Action</label> 
+              <input name="system.action" type="text" value="{{system.action}}" data-koptions="{{#each config.actionTypes}}{{this}}/{{/each}}"/>
+            </div>
+            <div class="form-line">
+              <label>Withstand</label> 
+              <input name="system.withstand" type="text" value="{{system.withstand}}"/>
+            </div>
+            <div class="form-line">
+              <label>Aether cost</label> <input name="system.cost" type="number" data-dtype="Number" value="{{system.cost}}"/>
+            </div>
+          </div>
+        </div>
+      
+        {{!-- Description Tab --}}
+        <div class="tab" data-tab="description">
+            {{editor enrichedDescription target="system.description" button=true owner=owner editable=editable}}
+        </div>
+    </section>
+</form>

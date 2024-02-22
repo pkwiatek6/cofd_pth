@@ -1,0 +1,29 @@
+<form class="{{cssClass}}" autocomplete="off">
+
+  <div class="characterSheet limited-sheet">
+
+    {{!-- Sheet Header --}}
+    <div class="sheet-header stats">
+      <!-- Column #1-->
+      <div class="portrait">
+        <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}">
+      </div>
+
+      <!-- Column #2 -->
+      <div>
+        <!-- Row #1 -->
+        <h1 class="character-name">
+          <input type="text" name="name" value="{{actor.name}}" placeholder="Name"> 
+          <div class="character-type"> {{#if system.isTypeKnown}} {{#if (eq actor.type "ephemeral")}} {{system.ephemeralType}} {{else}} {{system.characterType}} {{/if}} {{/if}} </div>
+        </h1>
+      </div>
+    </div>
+
+    <!-- BODY -->
+    <section class="sheet-body">
+      <div class="tab description">
+        {{editor (enrichHTML system.description actor) target="system.description" button=true owner=owner editable=editable}}
+      </div>
+    </section>
+  </div>
+</form>

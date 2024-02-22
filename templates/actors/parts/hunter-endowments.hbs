@@ -1,0 +1,342 @@
+<div class="items-block">
+  <div class="items-table">
+    {{!-- Tactics --}}
+    <table class="item-table">
+      <thead>
+        <tr class="item-row header">
+          <th class="cell header first"> 
+            <span class="collapsible button fas fa-minus-square"> </span>
+            <span class="sortable button" data-type="tactic">{{localize "MTA.Tactics"}}<i class="fas fa-sort"></i> </span>
+          </th>
+          {{#each inventory.tactic.dataset}}
+            <th class="cell header"> {{this}} </th>
+          {{/each}}
+          <th class="cell header"> </th>
+          <th class="cell header button item-create" data-type="tactic">{{ localize "MTA.ButtonAdd" }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each inventory.tactic.items as |item iid|}}
+          <tr class="item-row item" data-item-id="{{item._id}}">
+            <td class="cell item-name first {{#if @last}} lastRow {{/if}}" data-item-id="{{item._id}}">
+              <div class="item-name-wrapper">
+                <div class="item-image" style="background-image: url({{item.img}})"></div>
+                <span> {{item.name}} </span>
+              </div>
+            </td>
+            <td class="cell {{#if @last}} lastRow {{/if}}">{{system.favored}}</td>
+            <td class="cell {{#if @last}} lastRow {{/if}}"> 
+              <i class="favicon {{#if system.isFavorite}} fas {{else}} far {{/if}} fa-star" title="Favorite" data-item-id="{{item._id}}"></i>
+            </td>
+            <td class="cell edit-delete {{#if @last}} lastRow {{/if}}">
+              <span class="button stoneButton item-edit" data-item-id="{{item._id}}" title="{{ localize 'MTA.EditItem' }}"><i class="fas fa-edit"></i></span>
+              <span class="button stoneButton item-delete" data-item-id="{{item._id}}" title="{{ localize 'MTA.DeleteItem' }}"><i class="fas fa-times-circle"></i></span>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+  <div class="item-stat-block">
+    <div class="form-line">
+      <label> {{localize "MTA.AdvancedArmory"}} <span class="attribute-mod {{#if system.hunter_traits.advanced_armory.isModified}}{{posneg system.hunter_traits.advanced_armory.final system.hunter_traits.advanced_armory.value}}{{/if}}">{{#if system.hunter_traits.advanced_armory.isModified}} ({{system.hunter_traits.advanced_armory.final}}){{/if}}</span></label> <input name="system.hunter_traits.advanced_armory.value" type="number" data-dtype="Number" value="{{system.hunter_traits.advanced_armory.value}}" />
+    </div>
+    <div class="form-line">
+      <label> {{localize "MTA.Benediction"}} <span class="attribute-mod {{#if system.hunter_traits.benediction.isModified}}{{posneg system.hunter_traits.benediction.final system.hunter_traits.benediction.value}}{{/if}}">{{#if system.hunter_traits.benediction.isModified}} ({{system.hunter_traits.benediction.final}}){{/if}}</span></label> <input name="system.hunter_traits.benediction.value" type="number" data-dtype="Number" value="{{system.hunter_traits.benediction.value}}" />
+      <label class="small">Effective rating: {{benediction_effective}}</label>
+    </div>
+    <div class="form-line">
+      <label> {{localize "MTA.Elixir"}} <span class="attribute-mod {{#if system.hunter_traits.elixir.isModified}}{{posneg system.hunter_traits.elixir.final system.hunter_traits.elixir.value}}{{/if}}">{{#if system.hunter_traits.elixir.isModified}} ({{system.hunter_traits.elixir.final}}){{/if}}</span></label> <input name="system.hunter_traits.elixir.value" type="number" data-dtype="Number" value="{{system.hunter_traits.elixir.value}}" />
+    </div>
+  </div>
+  <div class="items-table">
+    {{!-- Advanced Armory --}}
+    <table class="item-table">
+      <thead>
+        <tr class="item-row header">
+          <th class="cell header first"> 
+            <span class="collapsible button fas fa-minus-square"> </span>
+            <span class="sortable button" data-type="advanced_armory">{{localize "MTA.AdvancedArmory"}}<i class="fas fa-sort"></i> </span>
+          </th>
+          {{#each inventory.advanced_armory.dataset}}
+            <th class="cell header"> {{this}} </th>
+          {{/each}}
+          <th class="cell header"> </th>
+          <th class="cell header button item-create" data-type="advanced_armory">{{ localize "MTA.ButtonAdd" }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each inventory.advanced_armory.items as |item iid|}}
+          <tr class="item-row item" data-item-id="{{item._id}}">
+            <td class="cell item-name first {{#if @last}} lastRow {{/if}}" data-item-id="{{item._id}}">
+              <div class="item-name-wrapper">
+                <div class="item-image" style="background-image: url({{item.img}})"></div>
+                <span> {{item.name}} </span>
+              </div>
+            </td>
+            <td class="cell {{#if @last}} lastRow {{/if}}">{{system.loadout_current}} / {{system.loadout}}</td>
+            <td class="cell {{#if @last}} lastRow {{/if}}">{{system.action}}</td>
+            <td class="cell {{#if @last}} lastRow {{/if}}">{{system.duration}}</td>
+            <td class="cell {{#if @last}} lastRow {{/if}}"> 
+              {{#if system.effects }}<i class="activeIcon {{#if system.effectsActive}} fas {{else}} far {{/if}} fa-dot-circle" title="Effects active" data-item-id="{{item._id}}"></i>{{/if}}
+              <i class="favicon {{#if system.isFavorite}} fas {{else}} far {{/if}} fa-star" title="Favorite" data-item-id="{{item._id}}"></i>
+            </td>
+            <td class="cell edit-delete {{#if @last}} lastRow {{/if}}">
+              <span class="button stoneButton item-edit" data-item-id="{{item._id}}" title="{{ localize 'MTA.EditItem' }}"><i class="fas fa-edit"></i></span>
+              <span class="button stoneButton item-delete" data-item-id="{{item._id}}" title="{{ localize 'MTA.DeleteItem' }}"><i class="fas fa-times-circle"></i></span>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+  <div class="items-table">
+    {{!-- Virtuous Rituals (Benediction) --}}
+    <table class="item-table">
+      <thead>
+        <tr class="item-row header">
+          <th class="cell header first"> 
+            <span class="collapsible button fas fa-minus-square"> </span>
+            <span class="sortable button" data-type="virtuous_ritual">{{localize "MTA.VirtuousRituals"}}<i class="fas fa-sort"></i> </span>
+          </th>
+          {{#each inventory.virtuous_ritual.dataset}}
+            <th class="cell header"> {{this}} </th>
+          {{/each}}
+          <th class="cell header"> </th>
+          <th class="cell header button item-create" data-type="virtuous_ritual">{{ localize "MTA.ButtonAdd" }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each inventory.virtuous_ritual.items as |item iid|}}
+          <tr class="item-row item" data-item-id="{{item._id}}">
+            <td class="cell item-name first {{#if @last}} lastRow {{/if}}" data-item-id="{{item._id}}">
+              <div class="item-name-wrapper">
+                <div class="item-image" style="background-image: url({{item.img}})"></div>
+                <span> {{item.name}} </span>
+              </div>
+            </td>
+            <td class="cell {{#if @last}} lastRow {{/if}}">{{system.dicePool.target_successes}}</td>
+            <td class="cell {{#if @last}} lastRow {{/if}}">{{system.duration}}</td>
+            <td class="cell {{#if @last}} lastRow {{/if}}"> 
+              {{#if system.effects }}<i class="activeIcon {{#if system.effectsActive}} fas {{else}} far {{/if}} fa-dot-circle" title="Effects active" data-item-id="{{item._id}}"></i>{{/if}}
+              <i class="favicon {{#if system.isFavorite}} fas {{else}} far {{/if}} fa-star" title="Favorite" data-item-id="{{item._id}}"></i>
+            </td>
+            <td class="cell edit-delete {{#if @last}} lastRow {{/if}}">
+              <span class="button stoneButton item-edit" data-item-id="{{item._id}}" title="{{ localize 'MTA.EditItem' }}"><i class="fas fa-edit"></i></span>
+              <span class="button stoneButton item-delete" data-item-id="{{item._id}}" title="{{ localize 'MTA.DeleteItem' }}"><i class="fas fa-times-circle"></i></span>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+  <div class="items-table">
+    {{!-- Castigation rites --}}
+    <table class="item-table">
+      <thead>
+        <tr class="item-row header">
+          <th class="cell header first"> 
+            <span class="collapsible button fas fa-minus-square"> </span>
+            <span class="sortable button" data-type="castigation_rite">{{localize "MTA.CastigationRites"}}<i class="fas fa-sort"></i> </span>
+          </th>
+          {{#each inventory.castigation_rite.dataset}}
+            <th class="cell header"> {{this}} </th>
+          {{/each}}
+          <th class="cell header"> </th>
+          <th class="cell header button item-create" data-type="castigation_rite">{{ localize "MTA.ButtonAdd" }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each inventory.castigation_rite.items as |item iid|}}
+          <tr class="item-row item" data-item-id="{{item._id}}">
+            <td class="cell item-name first {{#if @last}} lastRow {{/if}}" data-item-id="{{item._id}}">
+              <div class="item-name-wrapper">
+                <div class="item-image" style="background-image: url({{item.img}})"></div>
+                <span> {{item.name}} </span>
+              </div>
+            </td>
+            <td class="cell {{#if @last}} lastRow {{/if}}">{{system.cost}}</td>
+            <td class="cell {{#if @last}} lastRow {{/if}}">{{system.action}}</td>
+            <td class="cell {{#if @last}} lastRow {{/if}}">{{system.duration}}</td>
+            <td class="cell {{#if @last}} lastRow {{/if}}"> 
+              {{#if system.effects }}<i class="activeIcon {{#if system.effectsActive}} fas {{else}} far {{/if}} fa-dot-circle" title="Effects active" data-item-id="{{item._id}}"></i>{{/if}}
+              <i class="favicon {{#if system.isFavorite}} fas {{else}} far {{/if}} fa-star" title="Favorite" data-item-id="{{item._id}}"></i>
+            </td>
+            <td class="cell edit-delete {{#if @last}} lastRow {{/if}}">
+              <span class="button stoneButton item-edit" data-item-id="{{item._id}}" title="{{ localize 'MTA.EditItem' }}"><i class="fas fa-edit"></i></span>
+              <span class="button stoneButton item-delete" data-item-id="{{item._id}}" title="{{ localize 'MTA.DeleteItem' }}"><i class="fas fa-times-circle"></i></span>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+  <div class="items-table">
+    {{!-- Elixir --}}
+    <table class="item-table">
+      <thead>
+        <tr class="item-row header">
+          <th class="cell header first"> 
+            <span class="collapsible button fas fa-minus-square"> </span>
+            <span class="sortable button" data-type="elixir">{{localize "MTA.Elixirs"}} ({{elixir_count}}/{{elixir_max}})<i class="fas fa-sort"></i> </span>
+          </th>
+          {{#each inventory.elixir.dataset}}
+            <th class="cell header"> {{this}} </th>
+          {{/each}}
+          <th class="cell header"> </th>
+          <th class="cell header button item-create" data-type="elixir">{{ localize "MTA.ButtonAdd" }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each inventory.elixir.items as |item iid|}}
+          <tr class="item-row item" data-item-id="{{item._id}}">
+            <td class="cell item-name first {{#if @last}} lastRow {{/if}}" data-item-id="{{item._id}}">
+              <div class="item-name-wrapper">
+                <div class="item-image" style="background-image: url({{item.img}})"></div>
+                <span> {{item.name}} </span>
+              </div>
+            </td>
+            <td class="cell {{#if @last}} lastRow {{/if}}">{{system.prepared}}</td>
+            <td class="cell {{#if @last}} lastRow {{/if}}">{{system.cost}}</td>
+            <td class="cell {{#if @last}} lastRow {{/if}}">{{system.action}}</td>
+            <td class="cell {{#if @last}} lastRow {{/if}}">{{system.duration}}</td>
+            <td class="cell {{#if @last}} lastRow {{/if}}"> 
+              {{#if system.effects }}<i class="activeIcon {{#if system.effectsActive}} fas {{else}} far {{/if}} fa-dot-circle" title="Effects active" data-item-id="{{item._id}}"></i>{{/if}}
+              <i class="favicon {{#if system.isFavorite}} fas {{else}} far {{/if}} fa-star" title="Favorite" data-item-id="{{item._id}}"></i>
+            </td>
+            <td class="cell edit-delete {{#if @last}} lastRow {{/if}}">
+              <span class="button stoneButton item-edit" data-item-id="{{item._id}}" title="{{ localize 'MTA.EditItem' }}"><i class="fas fa-edit"></i></span>
+              <span class="button stoneButton item-delete" data-item-id="{{item._id}}" title="{{ localize 'MTA.DeleteItem' }}"><i class="fas fa-times-circle"></i></span>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+  <div class="items-table">
+    {{!-- Perispiritism Rituals --}}
+    <table class="item-table">
+      <thead>
+        <tr class="item-row header">
+          <th class="cell header first"> 
+            <span class="collapsible button fas fa-minus-square"> </span>
+            <span class="sortable button" data-type="perispiritism_ritual">{{localize "MTA.Perispiritism_rituals"}}<i class="fas fa-sort"></i> </span>
+          </th>
+          {{#each inventory.perispiritism_ritual.dataset}}
+            <th class="cell header"> {{this}} </th>
+          {{/each}}
+          <th class="cell header"> </th>
+          <th class="cell header button item-create" data-type="perispiritism_ritual">{{ localize "MTA.ButtonAdd" }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each inventory.perispiritism_ritual.items as |item iid|}}
+          <tr class="item-row item" data-item-id="{{item._id}}">
+            <td class="cell item-name first {{#if @last}} lastRow {{/if}}" data-item-id="{{item._id}}">
+              <div class="item-name-wrapper">
+                <div class="item-image" style="background-image: url({{item.img}})"></div>
+                <span> {{item.name}} </span>
+              </div>
+            </td>
+            <td class="cell {{#if @last}} lastRow {{/if}}">{{system.cost}}</td>
+            <td class="cell {{#if @last}} lastRow {{/if}}">{{system.action}}</td>
+            <td class="cell {{#if @last}} lastRow {{/if}}">{{system.duration}}</td>
+            <td class="cell {{#if @last}} lastRow {{/if}}"> 
+              {{#if system.effects }}<i class="activeIcon {{#if system.effectsActive}} fas {{else}} far {{/if}} fa-dot-circle" title="Effects active" data-item-id="{{item._id}}"></i>{{/if}}
+              <i class="favicon {{#if system.isFavorite}} fas {{else}} far {{/if}} fa-star" title="Favorite" data-item-id="{{item._id}}"></i>
+            </td>
+            <td class="cell edit-delete {{#if @last}} lastRow {{/if}}">
+              <span class="button stoneButton item-edit" data-item-id="{{item._id}}" title="{{ localize 'MTA.EditItem' }}"><i class="fas fa-edit"></i></span>
+              <span class="button stoneButton item-delete" data-item-id="{{item._id}}" title="{{ localize 'MTA.DeleteItem' }}"><i class="fas fa-times-circle"></i></span>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+  <div class="items-table">
+    {{!-- Teleinformatics --}}
+    <table class="item-table">
+      <thead>
+        <tr class="item-row header">
+          <th class="cell header first"> 
+            <span class="collapsible button fas fa-minus-square"> </span>
+            <span class="sortable button" data-type="teleinformatics">{{localize "MTA.Teleinformatics"}}<i class="fas fa-sort"></i> </span>
+          </th>
+          {{#each inventory.teleinformatics.dataset}}
+            <th class="cell header"> {{this}} </th>
+          {{/each}}
+          <th class="cell header"> </th>
+          <th class="cell header button item-create" data-type="teleinformatics">{{ localize "MTA.ButtonAdd" }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each inventory.teleinformatics.items as |item iid|}}
+          <tr class="item-row item" data-item-id="{{item._id}}">
+            <td class="cell item-name first {{#if @last}} lastRow {{/if}}" data-item-id="{{item._id}}">
+              <div class="item-name-wrapper">
+                <div class="item-image" style="background-image: url({{item.img}})"></div>
+                <span> {{item.name}} </span>
+              </div>
+            </td>
+            <td class="cell {{#if @last}} lastRow {{/if}}">{{system.cost}}</td>
+            <td class="cell {{#if @last}} lastRow {{/if}}">{{system.action}}</td>
+            <td class="cell {{#if @last}} lastRow {{/if}}">{{system.duration}}</td>
+            <td class="cell {{#if @last}} lastRow {{/if}}"> 
+              {{#if system.effects }}<i class="activeIcon {{#if system.effectsActive}} fas {{else}} far {{/if}} fa-dot-circle" title="Effects active" data-item-id="{{item._id}}"></i>{{/if}}
+              <i class="favicon {{#if system.isFavorite}} fas {{else}} far {{/if}} fa-star" title="Favorite" data-item-id="{{item._id}}"></i>
+            </td>
+            <td class="cell edit-delete {{#if @last}} lastRow {{/if}}">
+              <span class="button stoneButton item-edit" data-item-id="{{item._id}}" title="{{ localize 'MTA.EditItem' }}"><i class="fas fa-edit"></i></span>
+              <span class="button stoneButton item-delete" data-item-id="{{item._id}}" title="{{ localize 'MTA.DeleteItem' }}"><i class="fas fa-times-circle"></i></span>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+  <div class="items-table">
+    {{!-- Thaumatech Implants --}}
+    <table class="item-table">
+      <thead>
+        <tr class="item-row header">
+          <th class="cell header first"> 
+            <span class="collapsible button fas fa-minus-square"> </span>
+            <span class="sortable button" data-type="thaumatech_implant">{{localize "MTA.Thaumatech_implants"}} ({{thaumatech_count}}/{{thaumatech_max}})<i class="fas fa-sort"></i> </span>
+          </th>
+          {{#each inventory.thaumatech_implant.dataset}}
+            <th class="cell header"> {{this}} </th>
+          {{/each}}
+          <th class="cell header"> </th>
+          <th class="cell header button item-create" data-type="thaumatech_implant">{{ localize "MTA.ButtonAdd" }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each inventory.thaumatech_implant.items as |item iid|}}
+          <tr class="item-row item" data-item-id="{{item._id}}">
+            <td class="cell item-name first {{#if @last}} lastRow {{/if}}" data-item-id="{{item._id}}">
+              <div class="item-name-wrapper">
+                <div class="item-image" style="background-image: url({{item.img}})"></div>
+                <span> {{item.name}} </span>
+              </div>
+            </td>
+            <td class="cell {{#if @last}} lastRow {{/if}}">{{system.cost}}</td>
+            <td class="cell {{#if @last}} lastRow {{/if}}">{{system.action}}</td>
+            <td class="cell {{#if @last}} lastRow {{/if}}">{{system.duration}}</td>
+            <td class="cell {{#if @last}} lastRow {{/if}}"> 
+              {{#if system.effects }}<i class="activeIcon {{#if system.effectsActive}} fas {{else}} far {{/if}} fa-dot-circle" title="Effects active" data-item-id="{{item._id}}"></i>{{/if}}
+              <i class="favicon {{#if system.isFavorite}} fas {{else}} far {{/if}} fa-star" title="Favorite" data-item-id="{{item._id}}"></i>
+            </td>
+            <td class="cell edit-delete {{#if @last}} lastRow {{/if}}">
+              <span class="button stoneButton item-edit" data-item-id="{{item._id}}" title="{{ localize 'MTA.EditItem' }}"><i class="fas fa-edit"></i></span>
+              <span class="button stoneButton item-delete" data-item-id="{{item._id}}" title="{{ localize 'MTA.DeleteItem' }}"><i class="fas fa-times-circle"></i></span>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+
+  
+  
+</div>

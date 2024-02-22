@@ -1,0 +1,309 @@
+<div class="attributes-flexrow">
+
+  {{#if (eqAny system.characterType "Mage" "Scelesti")}}
+  <ol class="attributes-list">
+    <li class="attributes-header flexrow">
+      <span class="attribute-key">{{ localize "MTA.Arcanum" }}</span>
+      <span class="attribute-valueHeader">{{ localize "MTA.Value" }}</span>
+    </li>
+    {{#each config.arcana_gross as |cvalue ckey|}}
+      {{{rollableInput ../actor "arcana_gross" ckey}}}
+    {{/each}}
+  </ol>
+
+  <ol class="attributes-list">
+    <li class="attributes-header flexrow">
+      <span class="attribute-key">{{ localize "MTA.Arcanum" }}</span>
+      <span class="attribute-valueHeader">{{ localize "MTA.Value" }}</span>
+    </li>
+    {{#each config.arcana_subtle as |cvalue ckey|}}
+      {{{rollableInput ../actor "arcana_subtle" ckey}}}
+    {{/each}}
+  </ol>
+  {{else}}
+  <div class="flex-col proximi">
+    <div class="item-stat-block">
+      <div class="form-line proximi">
+        <label>{{ localize "MTA.RulingArcana" }}</label> 
+        <select class="margin" name="system.proximiRulingArcanum1">
+          {{#select system.proximiRulingArcanum1}}
+          {{#each config.arcana as |cvalue ckey|}}
+          <option value="{{ckey}}">{{cvalue}}</option>
+          {{/each}}
+          {{/select}}
+        </select>
+        <label> </label>
+        <select class="margin" name="system.proximiRulingArcanum2">
+          {{#select system.proximiRulingArcanum2}}
+          {{#each config.arcana as |cvalue ckey|}}
+          <option value="{{ckey}}">{{cvalue}}</option>
+          {{/each}}
+          {{/select}}
+        </select>
+        <label>{{ localize "MTA.ExtraArcanum" }}</label>
+        <select name="system.proximiExtraArcanum">
+          {{#select system.proximiExtraArcanum}}
+          {{#each config.arcana as |cvalue ckey|}}
+          <option value="{{ckey}}">{{cvalue}}</option>
+          {{/each}}
+          {{/select}}
+        </select>
+      </div>
+    </div>
+  </div>
+  {{/if}}
+  {{#if (eq system.characterType "Proximi")}}
+  <div class="flex-col proximi">
+    <div class="item-stat-block">
+      <div class="form-line">
+        <label>{{ localize "MTA.ParentPath" }}</label> <input name="system.proximiParentPath" type="text" value="{{system.proximiParentPath}}" data-koptions="Acanthus/Mastigos/Moros/Obrimos/Thyrsus"/>
+      </div>
+      <div class="gold-border thin"></div>
+      <div class="form-line proximi">
+        <label>{{ localize "MTA.Dynasty" }}</label> <input name="system.proximiDynasty" type="text" value="{{system.proximiDynasty}}" />
+      </div>
+    </div>
+  </div>
+  {{/if}}
+
+  <div class="flex-col {{#unless (eq system.characterType 'Mage')}} proximi {{/unless}}">
+    {{#if (eqAny system.characterType "Mage" "Scelesti")}}
+    {{{bigStatBox actor false "mage_traits.gnosis"}}}
+    {{/if}}
+
+    <div class="kInput statBox big">
+      <h4>
+        <div class="button charMacroButton calculate resource tooltip">
+          <span class="tooltip-text">{{localize "MTA.TooltipCalcMaxMana"}}</span>
+          <img src="systems/mta/icons/gui/calculate.svg" alt="Calculate max. mana.">
+        </div>
+        {{localize "MTA.MageMana"}}
+      </h4>
+      <div class="gold-border"></div>
+      <div class="split">
+        <div class="niceNumber buttonsLeft">
+          <input name="system.mana.value" type="number" value="{{system.mana.value}}" data-dtype="Number">
+          <div class="numBtns">
+            <div class="plusBtn">+</div>
+            <div class="minusBtn">−</div>
+          </div>
+        </div>
+        <span class="delimiter"> / </span>
+        <div class="niceNumber">
+          <input name="system.mana.max" type="number" value="{{system.mana.max}}" data-dtype="Number">
+          <div class="numBtns">
+            <div class="plusBtn">+</div>
+            <div class="minusBtn">−</div>
+          </div>
+        </div>
+      </div>
+      <div class="description"> {{mana_per_turn}} {{localize "MTA.ManaPerTurn"}}</div>
+    </div>
+
+
+  </div>
+</div>
+{{#if (eq system.characterType "Scelesti")}}
+  {{#if (scelestiRankHigherThan system.scelestiRank "Nasnas")}}
+    <div class="item-stat-block"> 
+      <div class="form-line stored-paradox scelesti">
+        <label> {{localize "MTA.StoredParadox"}} </label> 
+        <input name="system.storedParadox" type="number" data-dtype="Number" value="{{system.storedParadox}}" />
+        <label> out of {{system.mage_traits.joining.final}}</label>
+      </div>
+    </div>
+  {{/if}}
+{{/if}}
+<div class="items-block">
+  <div class="items-table">
+    {{#if (eqAny system.characterType "Mage" "Scelesti")}}
+    {{!-- Yantras --}}
+    <table class="item-table">
+      <thead>
+        <tr class="item-row header">
+          <th class="cell header first"> 
+            <span class="collapsible button fas fa-minus-square"> </span>
+            <span class="sortable button" data-type="yantra">{{localize "MTA.Yantras"}}<i class="fas fa-sort"></i> </span>
+          </th>
+          {{#each inventory.yantra.dataset}}
+            <th class="cell header"> {{this}} </th>
+          {{/each}}
+          <th class="cell header button item-create" data-type="yantra">{{ localize "MTA.ButtonAdd" }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each inventory.yantra.items as |item iid|}}
+          <tr class="item-row item" data-item-id="{{item._id}}">
+            <td class="cell item-name first {{#if @last}} lastRow {{/if}}" data-item-id="{{item._id}}">
+              <div class="item-name-wrapper">
+                <div class="item-image" style="background-image: url({{item.img}})"></div> <span> {{item.name}} </span>
+              </div>
+            </td>
+            <td class="cell {{#if @last}} lastRow {{/if}}"> {{system.diceBonus}}</td>
+            <td class="cell {{#if @last}} lastRow {{/if}}"> {{system.subtype}} </td>
+            <td class="cell edit-delete {{#if @last}} lastRow {{/if}}">
+              <span class="button stoneButton item-edit" data-item-id="{{item._id}}" title="{{ localize 'MTA.EditItem' }}"><i class="fas fa-edit"></i></span>
+              <span class="button stoneButton item-delete" data-item-id="{{item._id}}" title="{{ localize 'MTA.DeleteItem' }}"><i class="fas fa-times-circle"></i></span>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{!-- Attainments --}}
+    <table class="item-table">
+      <thead>
+        <tr class="item-row header">
+          <th class="cell header first"> 
+            <span class="collapsible button fas fa-minus-square"> </span>
+            <span class="sortable button" data-type="attainment">{{localize "MTA.Attainments"}}<i class="fas fa-sort"></i> </span>
+          </th>
+          {{#each inventory.attainment.dataset}}
+            <th class="cell header"> {{this}} </th>
+          {{/each}}
+          <th class="cell header"> </th>
+          <th class="cell header button item-create" data-type="attainment">{{ localize "MTA.ButtonAdd" }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each inventory.attainment.items as |item iid|}}
+          <tr class="item-row item" data-item-id="{{item._id}}">
+            <td class="cell item-name first {{#if @last}} lastRow {{/if}} {{#if system.legacy}} magic-item {{/if}}" data-item-id="{{item._id}}">
+              <div class="item-name-wrapper">
+                <div class="item-image" style="background-image: url({{item.img}})"></div> <span> {{item.name}} </span>
+              </div>
+            </td>
+            <td class="cell {{#if @last}} lastRow {{/if}}"> {{translate system.arcanum}}</td>
+            <td class="cell {{#if @last}} lastRow {{/if}}"> {{system.level}} </td>
+            <td class="cell {{#if @last}} lastRow {{/if}}"> {{system.legacy}}</td>
+            <td class="cell {{#if @last}} lastRow {{/if}}"> 
+              {{#if system.effects }}<i class="activeIcon {{#if system.effectsActive}} fas {{else}} far {{/if}} fa-dot-circle" title="Effects active" data-item-id="{{item._id}}"></i>{{/if}}
+              <i class="favicon {{#if system.isFavorite}} fas {{else}} far {{/if}} fa-star" title="Favorite" data-item-id="{{item._id}}"></i>
+            </td>
+            <td class="cell edit-delete {{#if @last}} lastRow {{/if}}">
+              <span class="button stoneButton item-edit" data-item-id="{{item._id}}" title="{{ localize 'MTA.EditItem' }}"><i class="fas fa-edit"></i></span>
+              <span class="button stoneButton item-delete" data-item-id="{{item._id}}" title="{{ localize 'MTA.DeleteItem' }}"><i class="fas fa-times-circle"></i></span>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{/if}}
+
+    {{!-- Spells --}}
+    <table class="item-table">
+      <thead>
+        <tr class="item-row header">
+          <th class="cell header first"> 
+            <span class="collapsible button fas fa-minus-square"> </span>
+            <span class="sortable button" data-type="spell">{{#if (eqAny system.characterType "Mage" "Scelesti")}}{{ localize "MTA.Spells" }}{{else}}{{ localize "MTA.Blessings" }} ({{blessingLimit.value}} / {{blessingLimit.max}}){{/if}}<i class="fas fa-sort"></i> </span>
+          </th>
+          {{#each inventory.spell.dataset}}
+            <th class="cell header"> {{this}} </th>
+          {{/each}}
+          <th class="cell header spell-properties"> </th>
+          <th class="cell header"> </th>
+          <th class="cell header button item-create" data-type="spell">{{ localize "MTA.ButtonAdd" }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each inventory.spell.items as |item iid|}}
+          <tr class="item-row item" data-item-id="{{item._id}}">
+            <td class="cell item-name first {{#if @last}} lastRow {{/if}}" data-item-id="{{item._id}}">
+              <div class="item-name-wrapper">
+                <div class="item-image" style="background-image: url({{item.img}})"></div> 
+                <span> {{item.name}} </span>
+              </div>
+            </td>
+            <td class="cell {{#if @last}} lastRow {{/if}}"> {{translate system.arcanum}}</td>
+            <td class="cell {{#if @last}} lastRow {{/if}}"> {{system.level}} </td>
+            <td class="cell {{#if @last}} lastRow {{/if}}"> {{system.primaryFactor}} </td>
+            <td class="cell {{#if @last}} lastRow {{/if}}"> {{system.withstand}} </td>
+            <td class="cell {{#if @last}} lastRow {{/if}}"> {{system.roteSkill}} </td>
+            <td class="cell spell-properties {{#if @last}} lastRow {{/if}}">
+              <label class="checkBox checkButton">
+                <input class="spell-rote" data-item-id="{{item._id}}" data-dtype="Boolean" type="checkbox" {{checked system.isRote}}>
+                <span>{{localize "MTA.Rote"}}</span>
+              </label>
+              <label class="checkBox checkButton">
+                <input class="spell-praxis" data-item-id="{{item._id}}" data-dtype="Boolean" type="checkbox" {{checked system.isPraxis}}>
+                <span>{{localize "MTA.Praxis"}}</span>
+              </label>
+              <label class="checkBox checkButton">
+                <input class="spell-inured" data-item-id="{{item._id}}" data-dtype="Boolean" type="checkbox" {{checked system.isInured}}>
+                <span>{{localize "MTA.Inured"}}</span>
+              </label>
+              {{#if (eq ../system.characterType "Scelesti")}}
+                <label class="checkBox checkButton">
+                  <input class="spell-befouled" data-item-id="{{item._id}}" data-dtype="Boolean" type="checkbox" {{checked system.isBefouled}}>
+                  <span>{{localize "MTA.Befouled"}}</span>
+                </label>
+              {{/if}}
+            </td>
+            <td class="cell {{#if @last}} lastRow {{/if}}">
+              {{#if system.effects }}<i class="activeIcon {{#if system.effectsActive}} fas {{else}} far {{/if}} fa-dot-circle" title="Effects active" data-item-id="{{item._id}}"></i>{{/if}}
+              <i class="favicon {{#if system.isFavorite}} fas {{else}} far {{/if}} fa-star" title="Favorite" data-item-id="{{item._id}}"></i>
+            </td>
+            <td class="cell edit-delete {{#if @last}} lastRow {{/if}}">
+              <span class="button stoneButton item-edit" data-item-id="{{item._id}}" title="{{ localize 'MTA.EditItem' }}"><i class="fas fa-edit"></i></span>
+              <span class="button stoneButton item-delete" data-item-id="{{item._id}}" title="{{ localize 'MTA.DeleteItem' }}"><i class="fas fa-times-circle"></i></span>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+
+    {{!-- Active Spells --}}
+    <table class="item-table">
+      <thead>
+        <tr class="item-row header">
+          <th class="cell header first"> 
+            <span class="collapsible button fas fa-minus-square"> </span>
+            <span class="sortable button" data-type="activeSpell">{{localize "MTA.ActiveSpells"}} ({{activeSpells.value}} / {{activeSpells.max}})<i class="fas fa-sort"></i> </span>
+          </th>
+          {{#each inventory.activeSpell.dataset}}
+            <th class="cell header"> {{this}} </th>
+          {{/each}}
+          <th class="cell header equipped">Relinquished</th>
+          <th class="cell header"> </th>
+          <th class="cell header button item-create" data-type="activeSpell">{{ localize "MTA.ButtonAdd" }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each inventory.activeSpell.items as |item iid|}}
+          <tr class="item-row item" data-item-id="{{item._id}}">
+            <td class="cell item-name first {{#if @last}} lastRow {{/if}}" data-item-id="{{item._id}}">
+              <div class="item-name-wrapper">
+                <div class="item-image" style="background-image: url({{item.img}})"></div>
+                <span> {{item.name}} </span>
+              </div>
+            </td>
+            <td class="cell {{#if @last}} lastRow {{/if}}"> {{translate system.arcanum}}</td>
+            <td class="cell {{#if @last}} lastRow {{/if}}"> {{system.level}} </td>
+            <td class="cell {{#if @last}} lastRow {{/if}}"> {{system.potency.value}}</td>
+            <td class="cell {{#if @last}} lastRow {{/if}}"> {{system.duration.value}} </td>
+            <td class="cell {{#if @last}} lastRow {{/if}} tooltip"> {{scaleIndex system.scale.value}}
+              <span class="tooltip-text"> {{system.scale.value}} </span>
+            </td>
+            <td class="cell spell-properties {{#if @last}} lastRow {{/if}}">
+              <label class="checkBox checkButton">
+                <input class="relinquish unsafe" data-item-id="{{item._id}}" data-dtype="Boolean" type="checkbox" {{checked system.isRelinquished}}>
+                <span>{{localize "MTA.RelinquishUnsafe"}}</span>
+              </label>
+              <label class="checkBox checkButton">
+                <input class="relinquish safe" data-item-id="{{item._id}}" data-dtype="Boolean" type="checkbox" {{checked system.isRelinquishedSafely}}>
+                <span>{{localize "MTA.RelinquishSafe"}}</span>
+              </label>
+            </td>
+            <td class="cell {{#if @last}} lastRow {{/if}}">
+              {{#if system.effects }}<i class="activeIcon {{#if system.effectsActive}} fas {{else}} far {{/if}} fa-dot-circle" title="Effects active" data-item-id="{{item._id}}"></i>{{/if}}
+            </td>
+            <td class="cell edit-delete {{#if @last}} lastRow {{/if}}">
+              <span class="button stoneButton item-edit" data-item-id="{{item._id}}" title="{{ localize 'MTA.EditItem' }}"><i class="fas fa-edit"></i></span>
+              <span class="button stoneButton item-delete" data-item-id="{{item._id}}" title="{{ localize 'MTA.DeleteItem' }}"><i class="fas fa-times-circle"></i></span>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>

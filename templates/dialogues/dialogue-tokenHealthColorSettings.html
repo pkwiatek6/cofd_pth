@@ -1,0 +1,25 @@
+<form class="{{cssClass}} flexrow nowrap" autocomplete="off">
+    <div class="settings-list">
+        <div>Do not change colors too quickly, as they reload the scene and might cause issues (fixed by F5).</div>
+        <div class="form-group submenu">
+            <label>Color (healthy)</label>
+            <input type="color" value="{{color_healthy}}" name="color_healthy">
+            <div class="button reset-color" data-color="healthy">Reset</div>
+        </div>
+        <div class="form-group submenu">
+            <label>Color (bashing)</label>
+            <input type="color" value="{{color_bashing}}" name="color_bashing">
+            <div class="button reset-color" data-color="bashing">Reset</div>
+        </div>
+        <div class="form-group submenu">
+            <label>Color (lethal)</label>
+            <input type="color" value="{{color_lethal}}" name="color_lethal">
+            <div class="button reset-color" data-color="lethal">Reset</div>
+        </div>
+        <div class="form-group submenu">
+            <label>Color (aggravated)</label>
+            <input type="color" value="{{color_aggravated}}" name="color_aggravated">
+            <div class="button reset-color" data-color="aggravated">Reset</div>
+        </div>
+    </div>
+</form>
